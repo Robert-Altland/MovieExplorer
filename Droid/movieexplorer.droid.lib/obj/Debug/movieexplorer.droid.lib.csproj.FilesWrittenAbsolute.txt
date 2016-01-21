@@ -1,0 +1,14 @@
+/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.lib/obj/Debug/MonoAndroid,Version=v4.4.AssemblyAttribute.cs
+/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.lib/obj/Debug/com.interactiverobert.prototypes.movieexplorer.droid.lib.obj.Debug.__AndroidLibraryProjects__.zip
+/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.lib/bin/Debug/com.interactiverobert.prototypes.movieexplorer.droid.lib.dll.mdb
+/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.lib/bin/Debug/com.interactiverobert.prototypes.movieexplorer.droid.lib.dll
+/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.lib/bin/Debug/com.interactiverobert.prototypes.movieexplorer.droid.lib.apk
+/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.lib/obj/Debug/android/bin/com.interactiverobert.prototypes.movieexplorer.droid.lib.apk
+/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.lib/obj/Debug/res/values/strings.xml
+/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.lib/obj/Debug/R.cs.flag
+/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.lib/bin/Debug/com.interactiverobert.prototypes.movieexplorer.droid.lib-Signed.apk
+/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.lib/obj/Debug/uploadflags.txt
+/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.lib/obj/Debug/com.interactiverobert.prototypes.movieexplorer.droid.lib.dll
+/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.lib/obj/Debug/com.interactiverobert.prototypes.movieexplorer.droid.lib.dll.mdb
+/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.lib/bin/Debug/Shared.dll
+/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.lib/bin/Debug/Shared.dll.mdb
