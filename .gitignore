@@ -1,0 +1,19 @@
+# OS X
+.DS_Store
+.DS_Store?
+._*
+
+
+# Android built files
+*.apk
+*.ap_
+
+# Xamarin build files
+**/bin/**
+**/obj/**
+
+*.userprefs
+
+
+/Components/*
+!/Components/Lib
