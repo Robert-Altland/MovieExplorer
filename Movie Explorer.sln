@@ -11,9 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieexplorer.apple.lib", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Droid", "Droid", "{1C0DBCD3-9273-4D7C-B75D-2FD085086D44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieexplorer.droid.lib", "Droid\movieexplorer.droid.lib\movieexplorer.droid.lib.csproj", "{8FC1DA45-4B50-4181-A3E3-2659258D0144}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieexplorer.droid.lib", "Droid\Lib\movieexplorer.droid.lib.csproj", "{8FC1DA45-4B50-4181-A3E3-2659258D0144}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieexplorer.droid.app", "Droid\movieexplorer.droid.app\movieexplorer.droid.app.csproj", "{9F7E24FC-348E-4ECA-9C74-2100E94313A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieexplorer.droid.app", "Droid\App\movieexplorer.droid.app.csproj", "{9F7E24FC-348E-4ECA-9C74-2100E94313A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

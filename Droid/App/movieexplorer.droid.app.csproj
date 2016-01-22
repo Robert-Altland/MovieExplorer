@@ -83,7 +83,7 @@
       <Project>{740D4B6D-DFAC-432A-AE95-987AC915444C}</Project>
       <Name>movieexplorer.shared</Name>
     </ProjectReference>
-    <ProjectReference Include="..\movieexplorer.droid.lib\movieexplorer.droid.lib.csproj">
+    <ProjectReference Include="..\Lib\movieexplorer.droid.lib.csproj">
       <Project>{8FC1DA45-4B50-4181-A3E3-2659258D0144}</Project>
       <Name>movieexplorer.droid.lib</Name>
     </ProjectReference>
