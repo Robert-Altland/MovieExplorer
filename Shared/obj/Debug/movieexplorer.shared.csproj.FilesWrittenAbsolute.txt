@@ -1,5 +1,0 @@
-/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Shared/obj/Debug/.NETPortable,Version=v4.5,Profile=Profile78.AssemblyAttribute.cs
-/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Shared/bin/Debug/Shared.dll.mdb
-/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Shared/bin/Debug/Shared.dll
-/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Shared/obj/Debug/Shared.dll
-/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Shared/obj/Debug/Shared.dll.mdb

@@ -57,6 +57,10 @@
 /Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.app/obj/Debug/assemblies/System.Xml.XmlSerializer.dll
 /Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.app/obj/Debug/assemblies/System.Runtime.Serialization.dll
 /Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.app/obj/Debug/assemblies/System.ServiceModel.Internals.dll
+/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.app/obj/Debug/assemblies/System.Net.Http.dll
+/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.app/obj/Debug/assemblies/Newtonsoft.Json.dll
+/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.app/obj/Debug/assemblies/Microsoft.CSharp.dll
+/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.app/obj/Debug/assemblies/Mono.CSharp.dll
 /Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.app/obj/Debug/assemblies/System.ComponentModel.DataAnnotations.dll
 /Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.app/obj/Debug/assemblies/System.Numerics.dll
 /Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Droid/movieexplorer.droid.app/obj/Debug/assemblies/System.ComponentModel.Composition.dll

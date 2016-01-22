@@ -1,8 +1,0 @@
-/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Apple/Lib/obj/Debug/Xamarin.iOS,Version=v1.0.AssemblyAttribute.cs
-/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Apple/Lib/obj/Debug/optimized/
-/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Apple/Lib/bin/Debug/MovieExplorerLibrary.dll.mdb
-/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Apple/Lib/bin/Debug/MovieExplorerLibrary.dll
-/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Apple/Lib/obj/Debug/MovieExplorerLibrary.dll
-/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Apple/Lib/obj/Debug/MovieExplorerLibrary.dll.mdb
-/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Apple/Lib/bin/Debug/Shared.dll
-/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Apple/Lib/bin/Debug/Shared.dll.mdb
