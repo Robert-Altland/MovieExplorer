@@ -113,25 +113,26 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="Views\List\MovieTableViewCell.cs" />
-    <Compile Include="Views\List\MovieTableViewCell.designer.cs">
+    <Compile Include="Screens\List\MovieTableViewCell.cs" />
+    <Compile Include="Screens\List\MovieTableViewCell.designer.cs">
       <DependentUpon>MovieTableViewCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\List\MovieTableViewController.cs" />
-    <Compile Include="Views\List\MovieTableViewController.designer.cs">
+    <Compile Include="Screens\List\MovieTableViewController.cs" />
+    <Compile Include="Screens\List\MovieTableViewController.designer.cs">
       <DependentUpon>MovieTableViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Detail\MovieDetailViewController.cs" />
-    <Compile Include="Views\Detail\MovieDetailViewController.designer.cs">
+    <Compile Include="Screens\Detail\MovieDetailViewController.cs" />
+    <Compile Include="Screens\Detail\MovieDetailViewController.designer.cs">
       <DependentUpon>MovieDetailViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Screens\List\MovieTableViewSource.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <ItemGroup>
-    <Folder Include="Views\" />
-    <Folder Include="Views\List\" />
-    <Folder Include="Views\Detail\" />
+    <Folder Include="Screens\" />
+    <Folder Include="Screens\List\" />
+    <Folder Include="Screens\Detail\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Icon.png" />
