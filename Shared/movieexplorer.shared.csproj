@@ -32,8 +32,11 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Api.cs" />
-    <Compile Include="DataContracts\MovieDiscoverResponse.cs" />
-    <Compile Include="DataContracts\Movie.cs" />
+    <Compile Include="Contracts\IHttpClientFactory.cs" />
+    <Compile Include="Entities\Movie.cs" />
+    <Compile Include="Entities\MovieDiscoverResponse.cs" />
+    <Compile Include="Http\HttpClientFactory.cs" />
+    <Compile Include="Dependency\DependencyManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -55,6 +58,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DataContracts\" />
+    <Folder Include="Dependency\" />
   </ItemGroup>
 </Project>

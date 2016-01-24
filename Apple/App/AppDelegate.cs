@@ -1,5 +1,6 @@
 ﻿using Foundation;
 using UIKit;
+using com.interactiverobert.prototypes.movieexplorer.shared;
 
 namespace com.interactiverobert.prototypes.movieexplorer.apple
 {
@@ -19,6 +20,8 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		{
 			// Override point for customization after application launch.
 			// If not required for your application you can safely delete this method
+
+			DependencyManager.RegisterHttpClientFactory (new HttpClientFactory ());
 
 			return true;
 		}

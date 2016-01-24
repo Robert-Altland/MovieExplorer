@@ -10,16 +10,15 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Newtonsoft.Json;
 using com.interactiverobert.prototypes.movieexplorer.shared;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 {
-	[Activity ()]			
-	public class MovieDetailActivity : Activity
+	[Activity (MainLauncher = true)]			
+	public class SplashActivity : Activity
 	{
-		internal Movie Data { get; private set; }
-
 		protected override void OnCreate (Bundle savedInstanceState) {
 			base.OnCreate (savedInstanceState);
 
@@ -27,12 +26,22 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 			this.RequestWindowFeature (WindowFeatures.NoTitle);
 
 			// Set our view from the "main" layout resource
-			this.SetContentView (Resource.Layout.movie_detail);
+			this.SetContentView (Resource.Layout.splash);
 
-			// Create your application here
-			var item = this.Intent.Extras.GetString ("Data");
-			this.Data = JsonConvert.DeserializeObject<Movie> (item);
-			this.FindViewById<TextView> (Resource.Id.movie_detail_txtTitle).Text = this.Data.Title;
+			this.startup ();
+		}
+
+		private void startup () {
+			this.simulateStartupDelay ();
+		}
+
+		private void simulateStartupDelay () {
+			Task.Factory.StartNew (() => {
+				Thread.Sleep ((int)TimeSpan.FromSeconds (3).TotalMilliseconds);
+				this.RunOnUiThread(() => {
+					this.StartActivity (typeof (MovieListActivity));
+				});
+			});
 		}
 	}
 }

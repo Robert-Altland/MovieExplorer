@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 {
-	[Activity (Label = "Movie Explorer", MainLauncher = true, Icon = "@mipmap/icon")]
+	[Activity ()]
 	public class MovieListActivity : Activity
 	{
 		private ListView movieList;
@@ -24,8 +24,8 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 			// Set our view from the "main" layout resource
 			this.SetContentView (Resource.Layout.movie_list);
 
-			Api.GetMoviesCompleted += this.getMoviesCompleted;
-			Api.GetMoviesAsync ();
+			Api.Current.GetMoviesCompleted += this.getMoviesCompleted;
+			Api.Current.GetMoviesAsync ();
 
 			// Get our button from the layout resource,
 			// and attach an event to it
@@ -35,7 +35,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 		protected override void OnDestroy () {
 			base.OnDestroy ();
 
-			Api.GetMoviesCompleted -= this.getMoviesCompleted;
+			Api.Current.GetMoviesCompleted -= this.getMoviesCompleted;
 		}
 			
 		private void getMoviesCompleted (object sender, MovieDiscoverResponse e) {

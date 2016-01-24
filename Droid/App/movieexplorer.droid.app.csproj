@@ -63,6 +63,8 @@
     <Compile Include="Screens\List\MovieListAdapter.cs" />
     <Compile Include="Screens\Detail\MovieDetailActivity.cs" />
     <Compile Include="Screens\List\MovieListActivity.cs" />
+    <Compile Include="Screens\SplashActivity.cs" />
+    <Compile Include="Application.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -80,6 +82,8 @@
     <AndroidResource Include="Resources\layout\movie_list.axml" />
     <AndroidResource Include="Resources\layout\movie_list_item.axml" />
     <AndroidResource Include="Resources\layout\movie_detail.axml" />
+    <AndroidResource Include="Resources\layout\splash.axml" />
+    <AndroidResource Include="Resources\drawable\splash.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

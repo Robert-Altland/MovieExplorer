@@ -1405,8 +1405,11 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 			// aapt resource value: 0x7f020043
 			public const int abc_textfield_search_material = 2130837571;
 			
+			// aapt resource value: 0x7f020045
+			public const int notification_template_icon_bg = 2130837573;
+			
 			// aapt resource value: 0x7f020044
-			public const int notification_template_icon_bg = 2130837572;
+			public const int splash = 2130837572;
 			
 			static Drawable()
 			{
@@ -1540,6 +1543,9 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 			
 			// aapt resource value: 0x7f0c0026
 			public const int image = 2131492902;
+			
+			// aapt resource value: 0x7f0c0061
+			public const int imgLogo = 2131492961;
 			
 			// aapt resource value: 0x7f0c005f
 			public const int info = 2131492959;
@@ -1871,7 +1877,10 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 			public const int select_dialog_singlechoice_material = 2130968614;
 			
 			// aapt resource value: 0x7f040027
-			public const int support_simple_spinner_dropdown_item = 2130968615;
+			public const int splash = 2130968615;
+			
+			// aapt resource value: 0x7f040028
+			public const int support_simple_spinner_dropdown_item = 2130968616;
 			
 			static Layout()
 			{

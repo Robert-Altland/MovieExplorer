@@ -24,14 +24,14 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		public override void ViewWillAppear (bool animated) {
 			base.ViewWillAppear (animated);
 
-			Api.GetMoviesCompleted += this.getMoviesCompleted;
-			Api.GetMoviesAsync ();
+			Api.Current.GetMoviesCompleted += this.getMoviesCompleted;
+			Api.Current.GetMoviesAsync ();
 		}
 
 		public override void ViewWillDisappear (bool animated) {
 			base.ViewWillDisappear (animated);
 
-			Api.GetMoviesCompleted -= this.getMoviesCompleted;
+			Api.Current.GetMoviesCompleted -= this.getMoviesCompleted;
 		}
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender) {
