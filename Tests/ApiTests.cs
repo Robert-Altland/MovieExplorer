@@ -28,6 +28,7 @@ namespace movieexplorer.tests
 		[ExpectedException(typeof(TypeInitializationException))]
 		public void GetMoviesAsync_InvalidApiKey()
 		{
+			DependencyManager.RegisterHttpClientFactory(new HttpClientFactory());
 			Api.Current.GetMoviesCompleted += getMoviesCompleted;
 			Api.Current.GetMoviesAsync().Wait();
 			Assert.IsTrue(this.getMoviesCompletedHasBeenCalled, "Api.Current.GetMoviesAsync did not complete.");
