@@ -32,8 +32,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 
 		public async Task GetMoviesAsync () {
 			var client = this.httpClientFactory.Create ();
-			client.BaseAddress = new Uri("http://api.themoviedb.org/3/");
-			var response = await client.GetAsync ("discover/movie?api_key=727d8ece7a1e09019fa1ffdb43d7577b");
+			var response = await client.GetAsync (String.Format(StringResources.GetMoviesUriFormatString, StringResources.ApiKey));
 			var json = await response.Content.ReadAsStringAsync ();
 			var result = JsonConvert.DeserializeObject<MovieDiscoverResponse> (json);
 			this.OnGetMoviesCompleted (result);

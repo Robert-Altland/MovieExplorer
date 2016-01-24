@@ -1,4 +1,4 @@
-﻿<Properties StartupItem="Droid/App/movieexplorer.droid.app.csproj" RefactoringSettings.EnableRefactorings="True">
+﻿<Properties StartupItem="Apple/App/movieexplorer.apple.app.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone6s.9.2" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Droid/App/Screens/Detail/MovieDetailActivity.cs">
     <Files>
