@@ -16,7 +16,7 @@ using System.Threading;
 
 namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 {
-	[Activity (MainLauncher = true)]			
+	[Activity (MainLauncher = true, NoHistory = true)]			
 	public class SplashActivity : Activity
 	{
 		protected override void OnCreate (Bundle savedInstanceState) {
