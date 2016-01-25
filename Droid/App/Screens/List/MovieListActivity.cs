@@ -25,7 +25,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 			this.SetContentView (Resource.Layout.movie_list);
 
 			Api.Current.GetMoviesCompleted += this.getMoviesCompleted;
-			Api.Current.GetMoviesAsync ();
+			Api.Current.GetTopRatedMovies ();
 
 			// Get our button from the layout resource,
 			// and attach an event to it
@@ -38,7 +38,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 			Api.Current.GetMoviesCompleted -= this.getMoviesCompleted;
 		}
 			
-		private void getMoviesCompleted (object sender, MovieDiscoverResponse e) {
+		private void getMoviesCompleted (object sender, GetMoviesResponse e) {
 			if (this.movieList.Adapter == null) {
 				this.movieListAdapter = new MovieListAdapter (this, e.Results);	
 				this.movieList.Adapter = this.movieListAdapter;

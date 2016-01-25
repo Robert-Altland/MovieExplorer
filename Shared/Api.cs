@@ -12,7 +12,10 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 	{
 		private IHttpClientFactory httpClientFactory;
 		private ConfigurationResponse configuration;
-		private MovieDiscoverResponse movies;
+		private GetMoviesResponse topRatedMovies;
+		private GetMoviesResponse popularMovies;
+		private GetMoviesResponse nowPlayingMovies;
+		private GetMoviesResponse upcomingMovies;
 
 		private static Api current;
         public static Api Current
@@ -32,42 +35,79 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 			this.httpClientFactory = DependencyManager.HttpClientFactory;
 		}
 
-		public async Task GetMoviesAsync () {
-			if (this.movies != null) {
-				this.OnGetMoviesCompleted (this.movies);
+		public async void GetTopRatedMoviesAsync (Action<GetMoviesResponse> completionAction) {
+			if (this.topRatedMovies != null) {
+				if (completionAction != null)
+					completionAction.Invoke (this.topRatedMovies);
 			} else {
 				var client = this.httpClientFactory.Create ();
-				var response = await client.GetAsync (String.Format (StringResources.GetMoviesUriFormatString, StringResources.ApiKey));
+				var response = await client.GetAsync (String.Format (StringResources.GetTopRatedMoviesUriFormatString, StringResources.ApiKey));
 				var json = await response.Content.ReadAsStringAsync ();
-				var result = JsonConvert.DeserializeObject<MovieDiscoverResponse> (json);
-				this.movies = result;
-				this.OnGetMoviesCompleted (result);
+				var result = JsonConvert.DeserializeObject<GetMoviesResponse> (json);
+				this.topRatedMovies = result;
+				if (completionAction != null)
+					completionAction.Invoke (this.topRatedMovies);
 			}
 		}
 
-		public async Task GetConfigurationAsync () {
+		public async void GetPopularMoviesAsync (Action<GetMoviesResponse> completionAction) {
+			if (this.popularMovies != null) {
+				if (completionAction != null)
+					completionAction.Invoke (this.popularMovies);
+			} else {
+				var client = this.httpClientFactory.Create ();
+				var response = await client.GetAsync (String.Format (StringResources.GetPopularMoviesUriFormatString, StringResources.ApiKey));
+				var json = await response.Content.ReadAsStringAsync ();
+				var result = JsonConvert.DeserializeObject<GetMoviesResponse> (json);
+				this.popularMovies = result;
+				if (completionAction != null)
+					completionAction.Invoke (this.popularMovies);
+			}
+		}
+
+		public async void GetNowPlayingMoviesAsync (Action<GetMoviesResponse> completionAction) {
+			if (this.nowPlayingMovies != null) {
+				if (completionAction != null)
+					completionAction.Invoke (this.nowPlayingMovies);
+			} else {
+				var client = this.httpClientFactory.Create ();
+				var response = await client.GetAsync (String.Format (StringResources.GetNowPlayingMoviesUriFormatString, StringResources.ApiKey));
+				var json = await response.Content.ReadAsStringAsync ();
+				var result = JsonConvert.DeserializeObject<GetMoviesResponse> (json);
+				this.nowPlayingMovies = result;
+				if (completionAction != null)
+					completionAction.Invoke (this.nowPlayingMovies);
+			}
+		}
+
+		public async void GetUpcomingMoviesAsync (Action<GetMoviesResponse> completionAction) {
+			if (this.upcomingMovies != null) {
+				if (completionAction != null)
+					completionAction.Invoke (this.upcomingMovies);
+			} else {
+				var client = this.httpClientFactory.Create ();
+				var response = await client.GetAsync (String.Format (StringResources.GetUpcomingMoviesUriFormatString, StringResources.ApiKey));
+				var json = await response.Content.ReadAsStringAsync ();
+				var result = JsonConvert.DeserializeObject<GetMoviesResponse> (json);
+				this.upcomingMovies = result;
+				if (completionAction != null)
+					completionAction.Invoke (this.upcomingMovies);
+			}
+		}
+
+		public async void GetConfigurationAsync (Action<ConfigurationResponse> completionAction) {
 			if (this.configuration != null) {
-				this.OnGetConfigurationCompleted (this.configuration);
+				if (completionAction != null)
+					completionAction.Invoke (this.configuration);
 			} else {
 				var client = this.httpClientFactory.Create ();
 				var response = await client.GetAsync (String.Format (StringResources.GetConfigurationUriFormatString, StringResources.ApiKey));
 				var json = await response.Content.ReadAsStringAsync ();
 				var result = JsonConvert.DeserializeObject<ConfigurationResponse> (json);
 				this.configuration = result;
-				this.OnGetConfigurationCompleted (result);
+				if (completionAction != null)
+					completionAction.Invoke (this.configuration);
 			}
-		}
-
-		public event EventHandler<MovieDiscoverResponse> GetMoviesCompleted;
-		protected void OnGetMoviesCompleted (MovieDiscoverResponse response) {
-			if (this.GetMoviesCompleted != null)
-				this.GetMoviesCompleted (null, response);
-		}
-
-		public event EventHandler<ConfigurationResponse> GetConfigurationCompleted;
-		protected void OnGetConfigurationCompleted (ConfigurationResponse response) {
-			if (this.GetConfigurationCompleted != null)
-				this.GetConfigurationCompleted (null, response);
 		}
 	}
 }

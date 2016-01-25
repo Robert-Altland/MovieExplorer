@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace com.interactiverobert.prototypes.movieexplorer.shared
 {
-	public class MovieDiscoverResponse
+	public class GetMoviesResponse
 	{
 		[JsonProperty ("page")]
 		public int Page { get; set; }
@@ -18,7 +18,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 		[JsonProperty ("results")]
 		public List<Movie> Results { get; set; }
 
-		public MovieDiscoverResponse ()
+		public GetMoviesResponse ()
 		{
 		}
 	}

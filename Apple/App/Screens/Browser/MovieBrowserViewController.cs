@@ -12,6 +12,11 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 	public partial class MovieBrowserViewController : UIViewController
 	{
 		private MovieCategoryTableViewSource tableViewSource;
+		private GetMoviesResponse topRatedMovies;
+		private GetMoviesResponse popularMovies;
+		private GetMoviesResponse nowPlayingMovies;
+		private GetMoviesResponse upcomingMovies;
+		private List<Movie> favorites;
 		private ConfigurationResponse configuration;
 		private Movie selectedMovie;
 
@@ -29,22 +34,41 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		public override void ViewWillAppear (bool animated) {
 			base.ViewWillAppear (animated);
 
-			Api.Current.GetConfigurationCompleted += this.getConfigurationCompleted;
-			Api.Current.GetMoviesCompleted += this.getMoviesCompleted;
-			Data.Current.GetFavoritesCompleted += this.getFavoritesCompleted;
-
 			if (this.tableViewSource != null)
 				this.tableViewSource.MovieSelected += this.tableViewSource_MovieSelected;
 
-			Api.Current.GetConfigurationAsync ();
+			Api.Current.GetConfigurationAsync ((config) => {
+				this.configuration = config;
+				Api.Current.GetTopRatedMoviesAsync ((topRated) => {
+					this.topRatedMovies = topRated;
+					Api.Current.GetPopularMoviesAsync(popular => {
+						this.popularMovies = popular;
+						Api.Current.GetNowPlayingMoviesAsync(nowPlaying => {
+							this.nowPlayingMovies = nowPlaying;
+							Api.Current.GetUpcomingMoviesAsync(upcoming => {
+								this.upcomingMovies = upcoming;
+								Data.Current.GetFavoritesAsync (faves => {
+									this.favorites = faves;
+									var data = this.aggregateResults ();
+									if (this.tableViewSource == null) {
+										this.tableViewSource = new MovieCategoryTableViewSource (this, this.configuration, data);
+										this.tableViewSource.MovieSelected += this.tableViewSource_MovieSelected;
+										this.tblMovieCategories.Source = this.tableViewSource;
+										this.tblMovieCategories.ReloadData ();
+									} else {
+										this.tableViewSource.Reload (data);
+										this.tblMovieCategories.ReloadData ();
+									}
+								});
+							});
+						});
+					});
+				});
+			});
 		}
 
 		public override void ViewWillDisappear (bool animated) {
 			base.ViewWillDisappear (animated);
-
-			Api.Current.GetConfigurationCompleted -= this.getConfigurationCompleted;
-			Api.Current.GetMoviesCompleted -= this.getMoviesCompleted;
-			Data.Current.GetFavoritesCompleted -= this.getFavoritesCompleted;
 
 			if (this.tableViewSource != null)
 				this.tableViewSource.MovieSelected -= this.tableViewSource_MovieSelected;
@@ -59,37 +83,16 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		}
 
 
-
-		private void getConfigurationCompleted (object sender, ConfigurationResponse e) {
-			this.configuration = e;
-			Api.Current.GetMoviesAsync ();
-		}
-
-		private List<MovieCategory> categorizeResults (MovieDiscoverResponse e, List<Movie> list)  {
+		private List<MovieCategory> aggregateResults ()  {
 			var result = new List<MovieCategory> ();
-			result.Add (new MovieCategory ("All Movies", e.Results));
-			result.Add (new MovieCategory ("Your Favorites", list));
+			result.Add (new MovieCategory ("Your Favorites", this.favorites));
+			result.Add (new MovieCategory ("Top Rated", this.topRatedMovies.Results)); 
+			result.Add (new MovieCategory ("Popular", this.popularMovies.Results));
+			result.Add (new MovieCategory ("Now Playing", this.nowPlayingMovies.Results));
+			result.Add (new MovieCategory ("Upcoming", this.upcomingMovies.Results));
 			return result;
 		}
-
-		private MovieDiscoverResponse movieDiscoverResponse;
-		private void getMoviesCompleted (object sender, MovieDiscoverResponse e) {
-			this.movieDiscoverResponse = e;
-			Data.Current.GetFavoritesAsync ();
-		}
-
-		private void getFavoritesCompleted (object sender, List<Movie> e) {
-			var data = this.categorizeResults (this.movieDiscoverResponse, e);
-			if (this.tableViewSource == null) {
-				this.tableViewSource = new MovieCategoryTableViewSource (this, this.configuration, data);
-				this.tableViewSource.MovieSelected += this.tableViewSource_MovieSelected;
-				this.tblMovieCategories.Source = this.tableViewSource;
-				this.tblMovieCategories.ReloadData ();
-			} else {
-				this.tableViewSource.Reload (data);
-				this.tblMovieCategories.ReloadData ();
-			}
-		}
+			
 
 		private void tableViewSource_MovieSelected (object sender, Movie e) {
 			this.selectedMovie = e;

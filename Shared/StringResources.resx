@@ -120,8 +120,17 @@
   <data name="ApiKey" xml:space="preserve">
     <value>727d8ece7a1e09019fa1ffdb43d7577b</value>
   </data>
-  <data name="GetMoviesUriFormatString" xml:space="preserve">
-    <value>discover/movie?api_key={0}</value>
+  <data name="GetTopRatedMoviesUriFormatString" xml:space="preserve">
+    <value>movie/top_rated?api_key={0}</value>
+  </data>
+  <data name="GetPopularMoviesUriFormatString" xml:space="preserve">
+    <value>movie/popular?api_key={0}</value>
+  </data>
+  <data name="GetNowPlayingMoviesUriFormatString" xml:space="preserve">
+    <value>movie/now_playing?api_key={0}</value>
+  </data>
+  <data name="GetUpcomingMoviesUriFormatString" xml:space="preserve">
+    <value>movie/upcoming?api_key={0}</value>
   </data>
   <data name="GetConfigurationUriFormatString" xml:space="preserve">
     <value>configuration?api_key={0}</value>

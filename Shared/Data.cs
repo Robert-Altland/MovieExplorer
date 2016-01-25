@@ -37,16 +37,9 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 			this.favorites.Remove (movie);
 		}
 
-		public Task GetFavoritesAsync () {
-			this.OnGetFavoritesCompleted (this.favorites);
-			return Task.FromResult (true);
-		}
-
-		public event EventHandler<List<Movie>> GetFavoritesCompleted;
-		protected void OnGetFavoritesCompleted (List<Movie> response) {
-			if (this.GetFavoritesCompleted != null)
-				this.GetFavoritesCompleted (null, response);
+		public void GetFavoritesAsync (Action<List<Movie>> completionHandler) {
+			if (completionHandler != null)
+				completionHandler.Invoke (this.favorites);
 		}
 	}
 }
-

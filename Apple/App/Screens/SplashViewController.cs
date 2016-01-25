@@ -35,14 +35,11 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		public override void ViewDidAppear (bool animated) {
 			base.ViewDidAppear (animated);
 
-			Api.Current.GetConfigurationCompleted += this.getConfigurationCompleted;
 			this.startup ();
 		}
 
 		public override void ViewWillDisappear (bool animated) {
 			base.ViewWillDisappear (animated);
-
-			Api.Current.GetConfigurationCompleted -= this.getConfigurationCompleted;
 		}
 
 		public override void DidReceiveMemoryWarning () {
@@ -59,11 +56,9 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		}
 
 		private void startup () {
-			Api.Current.GetConfigurationAsync ();
-		}
-			
-		private void getConfigurationCompleted (object sender, ConfigurationResponse e) {
-			this.PerformSegue ("ShowMovieList", this);
+			Api.Current.GetConfigurationAsync (e => {
+				this.InvokeOnMainThread(() => this.PerformSegue ("ShowMovieList", this));
+			});
 		}
 	}
 }

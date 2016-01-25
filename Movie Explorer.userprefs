@@ -2,18 +2,27 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone6s.9.2" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Apple/App/Screens/Detail/MovieDetailViewController.cs">
     <Files>
-      <File FileName="Apple/App/Screens/Detail/MovieDetailViewController.cs" Line="117" Column="18" />
+      <File FileName="Apple/App/Screens/Detail/MovieDetailViewController.cs" Line="100" Column="1" />
+      <File FileName="Apple/Lib/ImageManipulation.cs" Line="19" Column="49" />
+      <File FileName="Shared/Data.cs" Line="45" Column="2" />
+      <File FileName="Apple/App/Screens/Browser/MovieBrowserViewController.cs" Line="88" Column="41" />
+      <File FileName="Shared/Api.cs" Line="101" Column="6" />
+      <File FileName="Apple/App/Screens/SplashViewController.cs" Line="60" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Movie Explorer" expanded="True">
             <Node name="Apple" expanded="True">
-              <Node name="movieexplorer.apple.app" expanded="True" selected="True">
+              <Node name="movieexplorer.apple.app" expanded="True">
                 <Node name="Screens" expanded="True">
-                  <Node name="Detail" expanded="True" />
+                  <Node name="Browser" expanded="True" />
+                  <Node name="Detail" expanded="True">
+                    <Node name="MovieDetailViewController.cs" selected="True" />
+                  </Node>
                 </Node>
               </Node>
+              <Node name="movieexplorer.apple.lib" expanded="True" />
             </Node>
             <Node name="movieexplorer.shared" expanded="True" />
           </Node>

@@ -53,9 +53,27 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared {
             }
         }
         
-        internal static string GetMoviesUriFormatString {
+        internal static string GetTopRatedMoviesUriFormatString {
             get {
-                return ResourceManager.GetString("GetMoviesUriFormatString", resourceCulture);
+                return ResourceManager.GetString("GetTopRatedMoviesUriFormatString", resourceCulture);
+            }
+        }
+        
+        internal static string GetPopularMoviesUriFormatString {
+            get {
+                return ResourceManager.GetString("GetPopularMoviesUriFormatString", resourceCulture);
+            }
+        }
+        
+        internal static string GetNowPlayingMoviesUriFormatString {
+            get {
+                return ResourceManager.GetString("GetNowPlayingMoviesUriFormatString", resourceCulture);
+            }
+        }
+        
+        internal static string GetUpcomingMoviesUriFormatString {
+            get {
+                return ResourceManager.GetString("GetUpcomingMoviesUriFormatString", resourceCulture);
             }
         }
         
