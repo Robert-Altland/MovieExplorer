@@ -9,17 +9,20 @@ using System.CodeDom.Compiler;
 
 namespace com.interactiverobert.prototypes.movieexplorer.apple
 {
-	[Register ("MovieTableViewCell")]
-	partial class MovieTableViewCell
+	[Register ("MovieBrowserViewController")]
+	partial class MovieBrowserViewController
 	{
 		[Outlet]
-		UIKit.UILabel lblTitle { get; set; }
+		UIKit.UITableView tblMovieCategories { get; set; }
+
+		[Action ("btnSearch_Click:")]
+		partial void btnSearch_Click (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (lblTitle != null) {
-				lblTitle.Dispose ();
-				lblTitle = null;
+			if (tblMovieCategories != null) {
+				tblMovieCategories.Dispose ();
+				tblMovieCategories = null;
 			}
 		}
 	}

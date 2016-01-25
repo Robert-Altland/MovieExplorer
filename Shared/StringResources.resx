@@ -123,4 +123,7 @@
   <data name="GetMoviesUriFormatString" xml:space="preserve">
     <value>discover/movie?api_key={0}</value>
   </data>
+  <data name="GetConfigurationUriFormatString" xml:space="preserve">
+    <value>configuration?api_key={0}</value>
+  </data>
 </root>

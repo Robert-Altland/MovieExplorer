@@ -40,6 +40,10 @@
     <Compile Include="StringResources.Designer.cs">
       <DependentUpon>StringResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Entities\ConfigurationResponse.cs" />
+    <Compile Include="Entities\ImageConfiguration.cs" />
+    <Compile Include="Entities\MovieCategory.cs" />
+    <Compile Include="Data.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

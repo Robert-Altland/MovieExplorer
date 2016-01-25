@@ -1,33 +1,26 @@
 ﻿<Properties StartupItem="Apple/App/movieexplorer.apple.app.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone6s.9.2" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Droid/App/Screens/Detail/MovieDetailActivity.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Apple/App/Screens/Detail/MovieDetailViewController.cs">
     <Files>
-      <File FileName="Droid/App/Screens/SplashActivity.cs" Line="35" Column="4" />
-      <File FileName="Droid/App/Screens/Detail/MovieDetailActivity.cs" Line="26" Column="19" />
+      <File FileName="Apple/App/Screens/Detail/MovieDetailViewController.cs" Line="117" Column="18" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Movie Explorer" expanded="True">
-            <Node name="Apple" expanded="True" />
-            <Node name="Droid" expanded="True">
-              <Node name="movieexplorer.droid.app" expanded="True">
-                <Node name="Assets" expanded="True" />
-                <Node name="Properties" expanded="True" />
-                <Node name="Resources" expanded="True">
-                  <Node name="drawable" expanded="True" />
-                  <Node name="mipmap-hdpi" expanded="True" />
-                </Node>
+            <Node name="Apple" expanded="True">
+              <Node name="movieexplorer.apple.app" expanded="True" selected="True">
                 <Node name="Screens" expanded="True">
-                  <Node name="Detail" expanded="True">
-                    <Node name="MovieDetailActivity.cs" selected="True" />
-                  </Node>
-                  <Node name="List" expanded="True" />
+                  <Node name="Detail" expanded="True" />
                 </Node>
               </Node>
             </Node>
+            <Node name="movieexplorer.shared" expanded="True" />
           </Node>
         </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
@@ -36,6 +29,7 @@
       <Breakpoint file="/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Shared/Http/Api.cs" line="22" column="1" />
       <Breakpoint file="/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Shared/Http/Api.cs" line="24" column="1" />
       <Breakpoint file="/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Shared/Http/Api.cs" line="33" column="1" />
+      <Breakpoint file="/Users/Robert/Documents/Clients/interactiveRobert/MovieExplorer/Apple/App/Screens/SplashViewController.cs" line="18" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

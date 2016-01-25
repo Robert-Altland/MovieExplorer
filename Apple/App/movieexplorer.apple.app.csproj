@@ -27,6 +27,7 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchProfiling>true</MtouchProfiling>
     <AssemblyName>com.interactiverobert.prototypes.movieexplorer.apple</AssemblyName>
+    <MtouchExtraArgs>-gcc_flags "-force_load /Applications/Reveal.app/Contents/SharedSupport/iOS-Libraries/Reveal.framework/Versions/A/Reveal -ObjC -framework QuartzCore -framework CFNetwork"</MtouchExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>full</DebugType>
@@ -87,6 +88,7 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.8.0.2\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="MonoTouch.Dialog-1" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
@@ -113,26 +115,35 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="Screens\List\MovieTableViewCell.cs" />
-    <Compile Include="Screens\List\MovieTableViewCell.designer.cs">
-      <DependentUpon>MovieTableViewCell.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Screens\List\MovieTableViewController.cs" />
-    <Compile Include="Screens\List\MovieTableViewController.designer.cs">
-      <DependentUpon>MovieTableViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Screens\Detail\MovieDetailViewController.cs" />
     <Compile Include="Screens\Detail\MovieDetailViewController.designer.cs">
       <DependentUpon>MovieDetailViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Screens\List\MovieTableViewSource.cs" />
+    <Compile Include="Screens\SplashViewController.cs" />
+    <Compile Include="Screens\SplashViewController.designer.cs">
+      <DependentUpon>SplashViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Browser\MovieCollectionViewCell.cs" />
+    <Compile Include="Screens\Browser\MovieCollectionViewCell.designer.cs">
+      <DependentUpon>MovieCollectionViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Browser\MovieBrowserViewController.cs" />
+    <Compile Include="Screens\Browser\MovieBrowserViewController.designer.cs">
+      <DependentUpon>MovieBrowserViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Browser\MovieCategoryTableViewCell.cs" />
+    <Compile Include="Screens\Browser\MovieCategoryTableViewCell.designer.cs">
+      <DependentUpon>MovieCategoryTableViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Browser\MovieCategoryTableViewSource.cs" />
+    <Compile Include="Screens\Browser\MovieCollectionViewSource.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <ItemGroup>
     <Folder Include="Screens\" />
-    <Folder Include="Screens\List\" />
     <Folder Include="Screens\Detail\" />
+    <Folder Include="Screens\Browser\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Icon.png" />

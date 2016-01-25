@@ -9,17 +9,25 @@ using System.CodeDom.Compiler;
 
 namespace com.interactiverobert.prototypes.movieexplorer.apple
 {
-	[Register ("MovieTableViewController")]
-	partial class MovieTableViewController
+	[Register ("MovieCategoryTableViewCell")]
+	partial class MovieCategoryTableViewCell
 	{
 		[Outlet]
-		UIKit.UITableView tblMovies { get; set; }
+		UIKit.UICollectionView cvMovies { get; set; }
+
+		[Outlet]
+		UIKit.UILabel lblCategoryName { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (tblMovies != null) {
-				tblMovies.Dispose ();
-				tblMovies = null;
+			if (lblCategoryName != null) {
+				lblCategoryName.Dispose ();
+				lblCategoryName = null;
+			}
+
+			if (cvMovies != null) {
+				cvMovies.Dispose ();
+				cvMovies = null;
 			}
 		}
 	}
