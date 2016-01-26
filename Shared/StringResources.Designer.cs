@@ -82,5 +82,17 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared {
                 return ResourceManager.GetString("GetConfigurationUriFormatString", resourceCulture);
             }
         }
+        
+        internal static string GetVidesoForMovieUriFormatString {
+            get {
+                return ResourceManager.GetString("GetVidesoForMovieUriFormatString", resourceCulture);
+            }
+        }
+        
+        internal static string GetSimilarForMovieUriFormatString {
+            get {
+                return ResourceManager.GetString("GetSimilarForMovieUriFormatString", resourceCulture);
+            }
+        }
     }
 }

@@ -13,7 +13,13 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 	partial class MovieDetailViewController
 	{
 		[Outlet]
+		UIKit.UIButton btnPlay { get; set; }
+
+		[Outlet]
 		UIKit.UIButton btnToggleSave { get; set; }
+
+		[Outlet]
+		UIKit.UICollectionView cvSimilarMovies { get; set; }
 
 		[Outlet]
 		UIKit.UIImageView imgBackground { get; set; }
@@ -22,31 +28,44 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		UIKit.UIImageView imgPoster { get; set; }
 
 		[Outlet]
-		UIKit.UILabel lblOverview { get; set; }
-
-		[Outlet]
-		UIKit.UILabel lblPopularity { get; set; }
-
-		[Outlet]
 		UIKit.UILabel lblReleaseDate { get; set; }
 
 		[Outlet]
 		UIKit.UILabel lblTitle { get; set; }
 
 		[Outlet]
-		UIKit.UILabel lblVoteAverage { get; set; }
+		UIKit.UILabel lblVoteCount { get; set; }
 
 		[Outlet]
-		UIKit.UILabel lblVoteCount { get; set; }
+		UIKit.UITextView tvOverview { get; set; }
+
+		[Outlet]
+		UIKit.UIView vwSimilarMovies { get; set; }
+
+		[Outlet]
+		UIKit.UIView vwVoteAverageContainer { get; set; }
 
 		[Action ("btnClose_Click:")]
 		partial void btnClose_Click (Foundation.NSObject sender);
+
+		[Action ("btnPlay_Click:")]
+		partial void btnPlay_Click (Foundation.NSObject sender);
 
 		[Action ("btnToggleSave_Click:")]
 		partial void btnToggleSave_Click (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnPlay != null) {
+				btnPlay.Dispose ();
+				btnPlay = null;
+			}
+
+			if (btnToggleSave != null) {
+				btnToggleSave.Dispose ();
+				btnToggleSave = null;
+			}
+
 			if (imgBackground != null) {
 				imgBackground.Dispose ();
 				imgBackground = null;
@@ -57,14 +76,9 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 				imgPoster = null;
 			}
 
-			if (lblOverview != null) {
-				lblOverview.Dispose ();
-				lblOverview = null;
-			}
-
-			if (lblPopularity != null) {
-				lblPopularity.Dispose ();
-				lblPopularity = null;
+			if (tvOverview != null) {
+				tvOverview.Dispose ();
+				tvOverview = null;
 			}
 
 			if (lblReleaseDate != null) {
@@ -77,19 +91,24 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 				lblTitle = null;
 			}
 
-			if (lblVoteAverage != null) {
-				lblVoteAverage.Dispose ();
-				lblVoteAverage = null;
-			}
-
 			if (lblVoteCount != null) {
 				lblVoteCount.Dispose ();
 				lblVoteCount = null;
 			}
 
-			if (btnToggleSave != null) {
-				btnToggleSave.Dispose ();
-				btnToggleSave = null;
+			if (vwVoteAverageContainer != null) {
+				vwVoteAverageContainer.Dispose ();
+				vwVoteAverageContainer = null;
+			}
+
+			if (cvSimilarMovies != null) {
+				cvSimilarMovies.Dispose ();
+				cvSimilarMovies = null;
+			}
+
+			if (vwSimilarMovies != null) {
+				vwSimilarMovies.Dispose ();
+				vwSimilarMovies = null;
 			}
 		}
 	}

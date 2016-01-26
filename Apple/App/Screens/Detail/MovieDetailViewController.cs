@@ -1,23 +1,36 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Threading;
+using System.Collections.Generic;
+using System.Drawing;
 
 using Foundation;
 using CoreImage;
 using CoreGraphics;
 using MonoTouch.Dialog.Utilities;
 using UIKit;
+using PatridgeDev;
 
 using com.interactiverobert.prototypes.movieexplorer.shared;
-using System.Threading.Tasks;
-using System.Threading;
 using com.interactiverobert.prototypes.movieexplorer.apple.lib;
-using System.Collections.Generic;
+using com.interactiverobert.prototypes.movieexplorer.apple.lib.Imaging;
 
 namespace com.interactiverobert.prototypes.movieexplorer.apple
 {
 	public partial class MovieDetailViewController : UIViewController, IImageUpdated
 	{
+		#region Shared members
 		private static Dictionary<int, UIImage> backgroundImages = new Dictionary<int, UIImage>();
+		#endregion
+
+		#region Private fields
+		private PDRatingView ratingView;
+		private bool shouldStopPulseBackground;
+		private List<Video> videos;
+		private List<Movie> similarMovies;
+		private MovieCollectionViewSource collectionViewSource;
+		#endregion
 
 		#region Public properties
 		public Movie MovieDetail { get; set; }
@@ -39,19 +52,79 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		public override void ViewWillAppear (bool animated) {
 			base.ViewWillAppear (animated);
 
+			this.updateLayout ();
+		}
+
+		public override void ViewWillDisappear (bool animated) {
+			base.ViewWillDisappear (animated);
+
+			if (this.collectionViewSource != null)
+				this.collectionViewSource.MovieSelected -= this.collectionViewSource_MovieSelected;
+		}
+		#endregion
+
+		#region IImageUpdated implementation
+		public void UpdatedImage (Uri uri) {
+			if (this.MovieDetail != null && this.Configuration != null) {
+				var posterUri = new Uri (String.Concat (this.Configuration.Images.BaseUrl, this.Configuration.Images.PosterSizes[1], this.MovieDetail.PosterPath));
+				var backgroundUri = new Uri (String.Concat (this.Configuration.Images.BaseUrl, this.Configuration.Images.BackdropSizes[0], this.MovieDetail.BackdropPath));
+				if (String.Compare (posterUri.AbsoluteUri.ToLower (), uri.AbsoluteUri.ToLower ()) == 0) {
+					this.updateImageViewImage (uri, this.imgPoster, false, false);
+				}
+				if (String.Compare (backgroundUri.AbsoluteUri.ToLower (), uri.AbsoluteUri.ToLower ()) == 0) {
+					this.updateImageViewImage (uri, this.imgBackground, true, true);
+				}
+			}
+		}
+		#endregion
+
+		#region Private methods
+		private void updateLayout () {
+			this.btnPlay.Alpha = 0;
+			this.vwSimilarMovies.Alpha = 0;
 			if (this.MovieDetail != null) {
-				// TODO:
-				// movie/this.MovieDetail.Id/videos
-				// movie/this.MovieDetail.Id/similar
-				// movie/this.MovieDetail.Id/reviews
-				// movie/this.MovieDetail.Id/credits
+				Api.Current.GetVideosForMovieAsync (this.MovieDetail.Id, videoResponse => {
+					if (videoResponse == null || videoResponse.Results == null)
+						return;
+
+					this.videos = videoResponse.Results;
+					if (videoResponse.Results.Count > 0)
+						UIView.Animate(0.3f, () => this.btnPlay.Alpha = 1.0f);
+					else
+						UIView.Animate(0.3f, () => this.btnPlay.Alpha = 0.0f);
+				});
+				Api.Current.GetSimilarForMovieAsync (this.MovieDetail.Id, similarMoviesResponse => {
+					if (similarMoviesResponse == null || similarMoviesResponse.Results == null)
+						return;
+
+					this.similarMovies = similarMoviesResponse.Results;
+					if (similarMoviesResponse.Results.Count == 0)
+						UIView.Animate(0.3f, () => this.vwSimilarMovies.Alpha = 0.0f);
+					else {
+						if (this.collectionViewSource == null) {
+							this.collectionViewSource = new MovieCollectionViewSource (this.similarMovies, this.Configuration);
+							this.collectionViewSource.MovieSelected += this.collectionViewSource_MovieSelected;
+							this.cvSimilarMovies.Source = this.collectionViewSource;
+							this.cvSimilarMovies.ReloadData ();
+						} else {
+							this.collectionViewSource.Reload (this.similarMovies);
+							this.cvSimilarMovies.ReloadData ();
+						}
+						UIView.Animate(0.3f, () => this.vwSimilarMovies.Alpha = 1.0f);
+					}
+
+				});
 
 				this.lblTitle.Text = this.MovieDetail.Title;
-				this.lblReleaseDate.Text = this.MovieDetail.ReleaseDate.ToShortDateString ();
-				this.lblPopularity.Text = this.MovieDetail.Popularity.ToString ();
-				this.lblVoteAverage.Text = this.MovieDetail.VoteAverage.ToString ();
-				this.lblVoteCount.Text = this.MovieDetail.VoteCount.ToString ();
-				this.lblOverview.Text = this.MovieDetail.Overview;
+				this.lblReleaseDate.Text = String.Format ("Release Date: {0}", this.MovieDetail.ReleaseDate.ToShortDateString ());
+
+				var ratingConfig = new RatingConfig(UIImage.FromBundle("star_empty"), UIImage.FromBundle("star_filled"), UIImage.FromBundle("star_filled"));
+				var averageRating = (decimal)this.MovieDetail.VoteAverage / 2;
+				this.ratingView = new PDRatingView (new CGRect(0f, 0f, this.vwVoteAverageContainer.Frame.Width, this.vwVoteAverageContainer.Frame.Height), ratingConfig, averageRating);
+				this.vwVoteAverageContainer.Add(this.ratingView);
+
+				this.lblVoteCount.Text = String.Format ("(from {0} votes)", this.MovieDetail.VoteCount.ToString ());
+				this.tvOverview.Text = this.MovieDetail.Overview;
 
 				var posterUri = new Uri (String.Concat (this.Configuration.Images.BaseUrl, this.Configuration.Images.PosterSizes[1], this.MovieDetail.PosterPath));
 				this.imgPoster.Image = ImageLoader.DefaultRequestImage (posterUri, this);
@@ -80,7 +153,12 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 				this.updateSaveButtonState ();
 			}
 		}
-		#endregion
+
+		private void playFirstVideo () {
+			if (this.videos != null && this.videos.Count > 0) {
+
+			}
+		}
 
 		private double nextDouble(Random rng, double min, double max) {
 			return min + (rng.NextDouble() * (max - min));
@@ -91,32 +169,21 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 			var alpha = this.nextDouble (randomAlpha, 0.2, 0.5);
 			this.pulseBackground ((float)alpha, this.pulseBackground);
 		}
+
 		private void pulseBackground (float alpha, Action completionAction) {
 			var randomDuration = new Random();
 			var duration = randomDuration.Next (2, 5);
 			this.InvokeOnMainThread (() => 
 				UIView.Animate (duration, () => this.imgBackground.Alpha = alpha, () => {
-				if (completionAction != null)
-					completionAction.Invoke ();
-			}));
+					if (completionAction != null && !this.shouldStopPulseBackground)
+						completionAction.Invoke ();
+				}));
 		}
 
-		#region IImageUpdated implementation
-		public void UpdatedImage (Uri uri) {
-			if (this.MovieDetail != null && this.Configuration != null) {
-				var posterUri = new Uri (String.Concat (this.Configuration.Images.BaseUrl, this.Configuration.Images.PosterSizes[1], this.MovieDetail.PosterPath));
-				var backgroundUri = new Uri (String.Concat (this.Configuration.Images.BaseUrl, this.Configuration.Images.BackdropSizes[0], this.MovieDetail.BackdropPath));
-				if (String.Compare (posterUri.AbsoluteUri.ToLower (), uri.AbsoluteUri.ToLower ()) == 0) {
-					this.updateImageViewImage (uri, this.imgPoster, false, false);
-				}
-				if (String.Compare (backgroundUri.AbsoluteUri.ToLower (), uri.AbsoluteUri.ToLower ()) == 0) {
-					this.updateImageViewImage (uri, this.imgBackground, true, true);
-				}
-			}
+		private void stopPulseBackground () {
+			this.shouldStopPulseBackground = true;
 		}
-		#endregion
 
-		#region Private methods
 		private CGSize squareSize (CGSize size) {
 			return new CGSize(size.Width > size.Height ? size.Width : size.Height, size.Width > size.Height ? size.Width : size.Height);
 		}
@@ -140,6 +207,16 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		#endregion
 
 		#region Event handlers
+		private void collectionViewSource_MovieSelected (object sender, Movie e) {
+			if (this.collectionViewSource != null) {
+				this.collectionViewSource.MovieSelected -= this.collectionViewSource_MovieSelected;
+				this.collectionViewSource = null;
+			}
+			this.stopPulseBackground ();
+			this.MovieDetail = e;
+			this.updateLayout ();
+		}
+
 		partial void btnToggleSave_Click (NSObject sender) {
 			if (Data.Current.IsInFavorites (this.MovieDetail))
 				Data.Current.RemoveFromFavorites (this.MovieDetail);
@@ -152,8 +229,10 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		partial void btnClose_Click (NSObject sender) {
 			this.NavigationController.PopViewController (true);
 		}
+
+		partial void btnPlay_Click (NSObject sender) {
+			this.playFirstVideo ();
+		}
 		#endregion
 	}
-
-
 }

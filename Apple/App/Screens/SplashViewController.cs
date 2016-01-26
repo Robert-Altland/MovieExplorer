@@ -1,9 +1,10 @@
 ﻿using System;
-
-using UIKit;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Collections.Generic;
+
+using UIKit;
+
 using com.interactiverobert.prototypes.movieexplorer.apple.lib;
 using com.interactiverobert.prototypes.movieexplorer.shared;
 
@@ -11,20 +12,13 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 {
 	public partial class SplashViewController : UIViewController
 	{
-
-		private CrossFadeTransitionAnimator animator;
-
-		public IUIViewControllerAnimatedTransitioning GetAnimationControllerForPresentedController (UIViewController presented, UIViewController presenting, UIViewController source) {
-			this.animator = new CrossFadeTransitionAnimator ();
-			return this.animator;
-		}
-
-
-
+		#region Constructor
 		public SplashViewController (IntPtr handle) : base (handle) {
 
 		}
+		#endregion
 
+		#region View lifecycle
 		public override void ViewDidLoad () {
 			base.ViewDidLoad ();
 
@@ -41,12 +35,9 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		public override void ViewWillDisappear (bool animated) {
 			base.ViewWillDisappear (animated);
 		}
-
-		public override void DidReceiveMemoryWarning () {
-			base.DidReceiveMemoryWarning ();
-			// Release any cached data, images, etc that aren't in use.
-		}
+		#endregion
 			
+		#region Navigation
 		public override void PerformSegue (string identifier, Foundation.NSObject sender) {
 			base.PerformSegue (identifier, sender);
 
@@ -54,11 +45,14 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 			navigationList.RemoveAt (0);
 			this.NavigationController.ViewControllers = navigationList.ToArray();
 		}
+		#endregion
 
+		#region Private methods
 		private void startup () {
 			Api.Current.GetConfigurationAsync (e => {
 				this.InvokeOnMainThread(() => this.PerformSegue ("ShowMovieList", this));
 			});
 		}
+		#endregion
 	}
 }

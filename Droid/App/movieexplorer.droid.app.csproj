@@ -60,11 +60,12 @@
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Screens\List\MovieListAdapter.cs" />
     <Compile Include="Screens\Detail\MovieDetailActivity.cs" />
-    <Compile Include="Screens\List\MovieListActivity.cs" />
     <Compile Include="Screens\SplashActivity.cs" />
     <Compile Include="Application.cs" />
+    <Compile Include="Screens\Browser\MovieBrowseActivity.cs" />
+    <Compile Include="Screens\Browser\MovieCategoryAdapter.cs" />
+    <Compile Include="Screens\Browser\MovieListAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -79,17 +80,18 @@
     <AndroidResource Include="Resources\mipmap-xhdpi\Icon.png" />
     <AndroidResource Include="Resources\mipmap-xxhdpi\Icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\Icon.png" />
-    <AndroidResource Include="Resources\layout\movie_list.axml" />
     <AndroidResource Include="Resources\layout\movie_list_item.axml" />
     <AndroidResource Include="Resources\layout\movie_detail.axml" />
     <AndroidResource Include="Resources\layout\splash.axml" />
     <AndroidResource Include="Resources\drawable\splash.png" />
+    <AndroidResource Include="Resources\layout\movie_browse.axml" />
+    <AndroidResource Include="Resources\layout\movie_category_item.axml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
     <Folder Include="Screens\" />
-    <Folder Include="Screens\List\" />
     <Folder Include="Screens\Detail\" />
+    <Folder Include="Screens\Browser\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ItemGroup>

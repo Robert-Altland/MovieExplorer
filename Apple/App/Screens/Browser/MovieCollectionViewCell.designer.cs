@@ -17,6 +17,12 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 
 		[Outlet]
 		UIKit.UIView vwFavoriteIndicator { get; set; }
+
+		[Outlet]
+		UIKit.UIView vwHighlight { get; set; }
+
+		[Outlet]
+		UIKit.UIView vwSelected { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -28,6 +34,16 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 			if (vwFavoriteIndicator != null) {
 				vwFavoriteIndicator.Dispose ();
 				vwFavoriteIndicator = null;
+			}
+
+			if (vwHighlight != null) {
+				vwHighlight.Dispose ();
+				vwHighlight = null;
+			}
+
+			if (vwSelected != null) {
+				vwSelected.Dispose ();
+				vwSelected = null;
 			}
 		}
 	}

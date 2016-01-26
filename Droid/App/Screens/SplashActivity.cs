@@ -39,7 +39,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 			Task.Factory.StartNew (() => {
 				Thread.Sleep ((int)TimeSpan.FromSeconds (3).TotalMilliseconds);
 				this.RunOnUiThread(() => {
-					this.StartActivity (typeof (MovieListActivity));
+					this.StartActivity (typeof (MovieBrowseActivity));
 				});
 			});
 		}

@@ -89,9 +89,6 @@
       <HintPath>..\..\packages\Newtonsoft.Json.8.0.2\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="MonoTouch.Dialog-1" />
-    <Reference Include="PDRating">
-      <HintPath>..\..\Components\pdreview-2.0.2\lib\ios-unified\PDRating.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json">
@@ -172,20 +169,6 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Icon.png" />
-    <BundleResource Include="Resources\btnSearch_Highlighted%403x.png" />
-    <BundleResource Include="Resources\btnSearch%403x.png" />
-    <BundleResource Include="Resources\btnSearch%402x.png" />
-    <BundleResource Include="Resources\btnSearch_Highlighted%402x.png" />
-    <BundleResource Include="Resources\btnSearch_Highlighted.png" />
-    <BundleResource Include="Resources\btnSearch.png" />
-    <BundleResource Include="Resources\btnClose%403x.png" />
-    <BundleResource Include="Resources\btnClose_Highlighted%403x.png" />
-    <BundleResource Include="Resources\btnClose%402x.png" />
-    <BundleResource Include="Resources\btnClose_Highlighted%402x.png" />
-    <BundleResource Include="Resources\btnClose_Highlighted.png" />
-    <BundleResource Include="Resources\btnClose.png" />
-    <BundleResource Include="Resources\star_empty.png" />
-    <BundleResource Include="Resources\star_filled.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib\movieexplorer.apple.lib.csproj">
@@ -196,11 +179,5 @@
       <Project>{740D4B6D-DFAC-432A-AE95-987AC915444C}</Project>
       <Name>movieexplorer.shared</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <XamarinComponentReference Include="pdreview">
-      <Version>2.0.2</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
   </ItemGroup>
 </Project>

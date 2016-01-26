@@ -18,8 +18,8 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 		[JsonProperty ("results")]
 		public List<Movie> Results { get; set; }
 
-		public GetMoviesResponse ()
-		{
+		public GetMoviesResponse () {
+			
 		}
 	}
 }

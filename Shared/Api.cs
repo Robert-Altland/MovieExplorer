@@ -109,5 +109,48 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 					completionAction.Invoke (this.configuration);
 			}
 		}
+
+		public async void GetVideosForMovieAsync (int movieId, Action<GetVideosForMovieResponse> completionAction) {
+			var client = this.httpClientFactory.Create ();
+			var response = await client.GetAsync (String.Format (StringResources.GetVidesoForMovieUriFormatString, movieId, StringResources.ApiKey));
+			var json = await response.Content.ReadAsStringAsync ();
+			var result = JsonConvert.DeserializeObject<GetVideosForMovieResponse> (json);
+			if (completionAction != null)
+				completionAction.Invoke (result);
+		}
+
+		public async void GetSimilarForMovieAsync (int movieId, Action<GetMoviesResponse> completionAction) {
+			var client = this.httpClientFactory.Create ();
+			var response = await client.GetAsync (String.Format (StringResources.GetSimilarForMovieUriFormatString, movieId, StringResources.ApiKey));
+			var json = await response.Content.ReadAsStringAsync ();
+			var result = JsonConvert.DeserializeObject<GetMoviesResponse> (json);
+			if (completionAction != null)
+				completionAction.Invoke (result);
+		}
+
+		public async void GetMoviesByCategoryAsync (Action<List<MovieCategory>> completionAction) {
+			Api.Current.GetTopRatedMoviesAsync ((topRated) => {
+				this.topRatedMovies = topRated;
+				Api.Current.GetPopularMoviesAsync(popular => {
+					this.popularMovies = popular;
+					Api.Current.GetNowPlayingMoviesAsync(nowPlaying => {
+						this.nowPlayingMovies = nowPlaying;
+						Api.Current.GetUpcomingMoviesAsync(upcoming => {
+							this.upcomingMovies = upcoming;
+							Data.Current.GetFavoritesAsync (faves => {
+								var result = new List<MovieCategory> ();
+								result.Add (new MovieCategory ("Top Rated", this.topRatedMovies.Results)); 
+								result.Add (new MovieCategory ("Popular", this.popularMovies.Results));
+								result.Add (new MovieCategory ("Now Playing", this.nowPlayingMovies.Results));
+								result.Add (new MovieCategory ("Upcoming", this.upcomingMovies.Results));
+								result.Add (new MovieCategory ("Your Favorites", faves));
+								if (completionAction != null)
+									completionAction.Invoke (result);
+							});
+						});
+					});
+				});
+			});
+		}
 	}
 }

@@ -135,4 +135,10 @@
   <data name="GetConfigurationUriFormatString" xml:space="preserve">
     <value>configuration?api_key={0}</value>
   </data>
+  <data name="GetVidesoForMovieUriFormatString" xml:space="preserve">
+  	<value>movie/{0}/videos?api_key={1}</value>
+  </data>
+  <data name="GetSimilarForMovieUriFormatString" xml:space="preserve">
+  	<value>movie/{0}/similar?api_key={1}</value>
+  </data>
 </root>
