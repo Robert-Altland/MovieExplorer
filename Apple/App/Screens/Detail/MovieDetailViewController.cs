@@ -88,7 +88,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 						return;
 
 					this.videos = videoResponse.Results;
-					if (videoResponse.Results.Count > 0)
+					if (videoResponse.Results.Count > 0 && videoResponse.Results[0].Site.ToLower () == "youtube")
 						UIView.Animate(0.3f, () => this.btnPlay.Alpha = 1.0f);
 					else
 						UIView.Animate(0.3f, () => this.btnPlay.Alpha = 0.0f);
@@ -156,7 +156,10 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 
 		private void playFirstVideo () {
 			if (this.videos != null && this.videos.Count > 0) {
-
+				if (this.videos [0].Site.ToLower () == "youtube") {
+					var uri = Api.Current.GetOpenInYoutubeUri (this.videos [0].Key);
+					UIApplication.SharedApplication.OpenUrl (new NSUrl (uri));
+				}
 			}
 		}
 

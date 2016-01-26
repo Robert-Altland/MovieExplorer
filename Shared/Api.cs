@@ -152,5 +152,9 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 				});
 			});
 		}
+
+		public string GetOpenInYoutubeUri (string key) {
+			return String.Format (StringResources.OpenInYouTubeFormatString, key);
+		}
 	}
 }

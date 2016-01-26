@@ -141,4 +141,7 @@
   <data name="GetSimilarForMovieUriFormatString" xml:space="preserve">
   	<value>movie/{0}/similar?api_key={1}</value>
   </data>
+  <data name="OpenInYouTubeFormatString" xml:space="preserve">
+  	<value>https://www.youtube.com/watch?v={0}</value>
+  </data>
 </root>

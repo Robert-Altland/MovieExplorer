@@ -94,5 +94,11 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared {
                 return ResourceManager.GetString("GetSimilarForMovieUriFormatString", resourceCulture);
             }
         }
+        
+        internal static string OpenInYouTubeFormatString {
+            get {
+                return ResourceManager.GetString("OpenInYouTubeFormatString", resourceCulture);
+            }
+        }
     }
 }
