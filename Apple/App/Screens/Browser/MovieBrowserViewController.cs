@@ -35,30 +35,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		public override void ViewWillAppear (bool animated) {
 			base.ViewWillAppear (animated);
 
-			if (this.tableViewSource != null)
-				this.tableViewSource.MovieSelected += this.tableViewSource_MovieSelected;
-
-			if (this.favoritesChangedNotification == null) {
-				this.favoritesChangedNotification = NSNotificationCenter.DefaultCenter.AddObserver (new NSString ("FavoriteListChanged"), (notification) => {
-					this.tblMovieCategories.ReloadData();
-				});
-			}
-
-			Api.Current.GetConfigurationAsync (config => {
-				this.configuration = config;
-				Api.Current.GetMoviesByCategoryAsync (response => {
-					this.data = response;
-					if (this.tableViewSource == null) {
-						this.tableViewSource = new MovieCategoryTableViewSource (this.configuration, this.data);
-						this.tableViewSource.MovieSelected += this.tableViewSource_MovieSelected;
-						this.tblMovieCategories.Source = this.tableViewSource;
-						this.tblMovieCategories.ReloadData ();
-					} else {
-						this.tableViewSource.Reload (this.data);
-						this.tblMovieCategories.ReloadData ();
-					}
-				});
-			});
+			this.willAppear ();
 		}
 
 		public override void ViewWillDisappear (bool animated) {
@@ -70,6 +47,31 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 			if (this.favoritesChangedNotification != null) {
 				NSNotificationCenter.DefaultCenter.RemoveObserver (this.favoritesChangedNotification);
 				this.favoritesChangedNotification = null;
+			}
+		}
+		#endregion
+
+		#region Private methods
+		private async void willAppear() {
+			if (this.tableViewSource != null)
+				this.tableViewSource.MovieSelected += this.tableViewSource_MovieSelected;
+
+			if (this.favoritesChangedNotification == null) {
+				this.favoritesChangedNotification = NSNotificationCenter.DefaultCenter.AddObserver (new NSString ("FavoriteListChanged"), (notification) => {
+					this.tblMovieCategories.ReloadData();
+				});
+			}
+
+			this.configuration = await Data.Current.GetConfigurationAsync ();
+			this.data = await Data.Current.GetMoviesByCategoryAsync ();
+			if (this.tableViewSource == null) {
+				this.tableViewSource = new MovieCategoryTableViewSource (this.configuration, this.data);
+				this.tableViewSource.MovieSelected += this.tableViewSource_MovieSelected;
+				this.tblMovieCategories.Source = this.tableViewSource;
+				this.tblMovieCategories.ReloadData ();
+			} else {
+				this.tableViewSource.Reload (this.data);
+				this.tblMovieCategories.ReloadData ();
 			}
 		}
 		#endregion

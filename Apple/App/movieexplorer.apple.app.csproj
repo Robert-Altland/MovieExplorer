@@ -186,6 +186,12 @@
     <BundleResource Include="Resources\btnClose.png" />
     <BundleResource Include="Resources\star_empty.png" />
     <BundleResource Include="Resources\star_filled.png" />
+    <BundleResource Include="Resources\btnBack%403x.png" />
+    <BundleResource Include="Resources\btnBack.png" />
+    <BundleResource Include="Resources\btnBack%402x.png" />
+    <BundleResource Include="Resources\btnBack_Highlighted%403x.png" />
+    <BundleResource Include="Resources\btnBack_Highlighted%402x.png" />
+    <BundleResource Include="Resources\btnBack_Highlighted.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib\movieexplorer.apple.lib.csproj">

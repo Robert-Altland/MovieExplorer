@@ -1,8 +1,8 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 using Android.App;
 using Android.Content;
@@ -10,17 +10,18 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Newtonsoft.Json;
-using com.interactiverobert.prototypes.movieexplorer.shared;
 using Android.Views.Animations;
 using Android.Support.V7.Widget;
+
 using UrlImageViewHelper;
+using com.interactiverobert.prototypes.movieexplorer.shared;
 
 namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 {
 	[Activity ()]			
 	public class MovieDetailActivity : Activity
 	{
+		#region Private fields
 		private List<Video> videos = new List<Video> ();
 		private List<Movie> similarMovies = new List<Movie>();
 		private ConfigurationResponse configuration;
@@ -38,13 +39,11 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 		private RecyclerView movieList;
 		private LinearLayoutManager movieLayoutManager;
 		private MovieRecyclerViewAdapter movieAdapter;
+		#endregion
 
-
+		#region Activity overrides
 		protected override void OnCreate (Bundle savedInstanceState) {
 			base.OnCreate (savedInstanceState);
-
-			// remove title
-			this.RequestWindowFeature (WindowFeatures.NoTitle);
 
 			// Set our view from the "main" layout resource
 			this.SetContentView (Resource.Layout.movie_detail);
@@ -74,26 +73,25 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 
 			this.updateLayout ();
 		}
+		#endregion
 
-
+		#region Private methods
 		private void playFirstVideo () {
 			if (this.videos != null && this.videos.Count > 0) {
 				if (this.videos [0].Site.ToLower () == "youtube") {
-					var uri = Api.Current.GetOpenInYoutubeUri (this.videos [0].Key);
+					var uri = Data.Current.GetOpenInYoutubeUri (this.videos [0].Key);
 					this.StartActivity (new Intent(Intent.ActionView, Android.Net.Uri.Parse (uri)));
 				}
 			}
    		}
 
-		private void updateLayout () {
+		private async void updateLayout () {
 			this.btnPlay.Alpha = 0;
 			this.vwSimilarMovies.Alpha = 0;
 
 			if (this.movieDetail != null) {
-				Api.Current.GetVideosForMovieAsync (this.movieDetail.Id, videoResponse => {
-					if (videoResponse == null || videoResponse.Results == null)
-						return;
-
+				var videoResponse = await Data.Current.GetVideosForMovieAsync (this.movieDetail.Id);
+				if (videoResponse != null && videoResponse.Results != null) {
 					this.videos = videoResponse.Results;
 					if (videoResponse.Results.Count > 0 && videoResponse.Results [0].Site.ToLower () == "youtube")
 						this.btnPlay.Alpha = 1;
@@ -101,11 +99,9 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 					else
 						this.btnPlay.Alpha = 0;
 //						this.btnPlay.StartAnimation (new AlphaAnimation (this.btnPlay.Alpha, 0.0f) { Duration = 300, FillAfter = true });
-				});
-				Api.Current.GetSimilarForMovieAsync (this.movieDetail.Id, similarMoviesResponse => {
-					if (similarMoviesResponse == null || similarMoviesResponse.Results == null)
-						return;
-
+				}
+				var similarMoviesResponse = await Data.Current.GetSimilarForMovieAsync (this.movieDetail.Id);
+				if (similarMoviesResponse != null && similarMoviesResponse.Results != null) {
 					this.similarMovies = similarMoviesResponse.Results;
 					if (similarMoviesResponse.Results.Count == 0)
 						this.vwSimilarMovies.Alpha = 0;
@@ -120,7 +116,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 						this.vwSimilarMovies.Alpha = 1;
 //						this.vwSimilarMovies.StartAnimation (new AlphaAnimation (this.vwSimilarMovies.Alpha, 1.0f) { Duration = 300, FillAfter = true });
 					}
-				});
+				}
 
 				this.txtTitle.Text = this.movieDetail.Title;
 				this.txtReleaseDate.Text = String.Format ("Release Date: {0}", this.movieDetail.ReleaseDate.ToShortDateString ());
@@ -130,27 +126,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 				this.txtOverview.Text = this.movieDetail.Overview;
 				this.imgPoster.SetUrlDrawable (String.Concat (this.configuration.Images.BaseUrl, this.configuration.Images.PosterSizes [1], this.movieDetail.PosterPath));
 
-//				ImageView cachedImage;
-//				this.imgBackground.Alpha = 0;
-//				if (MovieDetailViewController.backgroundImages.TryGetValue (this.MovieDetail.Id, out cachedImage)) {
-//					this.imgBackground.Image = cachedImage;
-//					this.pulseBackground (0.3f, this.pulseBackground);
-//				} else {
-//					Task.Factory.StartNew (() => {
-//						var backgroundUri = new Uri (String.Concat (this.Configuration.Images.BaseUrl, this.Configuration.Images.BackdropSizes [0], this.MovieDetail.BackdropPath));
-//						Thread.Sleep (TimeSpan.FromMilliseconds (500));
-//						this.InvokeOnMainThread (() => {
-//							var image = ImageManipulation.ScaleAndBlurImage (this.squareSize (this.imgBackground.Frame.Size), ImageLoader.DefaultRequestImage (backgroundUri, this));
-//							if (MovieDetailViewController.backgroundImages.ContainsKey (this.MovieDetail.Id)) 
-//								MovieDetailViewController.backgroundImages[this.MovieDetail.Id] = image;
-//							else 
-//								MovieDetailViewController.backgroundImages.Add (this.MovieDetail.Id, image);
-//							this.imgBackground.Image = image;
-//							this.pulseBackground (0.3f, this.pulseBackground);
-//						});
-//					});
-//				}
-
+				this.startPulseBackground ();
 				this.updateSaveButtonState ();
 			}
 		}
@@ -161,9 +137,33 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 			else
 				this.btnFavorite.Text = "Save to Favorites";
 		}
+			
+		private void startPulseBackground () {
+//			UIImage cachedImage;
+//			this.imgBackground.Alpha = 0;
+//			if (MovieDetailViewController.backgroundImages.TryGetValue (this.MovieDetail.Id, out cachedImage)) {
+//				this.imgBackground.Image = cachedImage;
+//				this.pulseBackground (0.3f, this.pulseBackground);
+//			}
+//			else {
+//				Task.Factory.StartNew (() =>  {
+//					var backgroundUri = new Uri (String.Concat (this.Configuration.Images.BaseUrl, this.Configuration.Images.BackdropSizes [0], this.MovieDetail.BackdropPath));
+//					Thread.Sleep (TimeSpan.FromMilliseconds (500));
+//					this.InvokeOnMainThread (() =>  {
+//						var image = ImageManipulation.ScaleAndBlurImage (this.squareSize (this.imgBackground.Frame.Size), ImageLoader.DefaultRequestImage (backgroundUri, this));
+//						if (MovieDetailViewController.backgroundImages.ContainsKey (this.MovieDetail.Id))
+//							MovieDetailViewController.backgroundImages [this.MovieDetail.Id] = image;
+//						else
+//							MovieDetailViewController.backgroundImages.Add (this.MovieDetail.Id, image);
+//						this.imgBackground.Image = image;
+//						this.pulseBackground (0.3f, this.pulseBackground);
+//					});
+//				});
+//			}
+		}
+		#endregion
 
-
-
+		#region Event handlers
 		private void btnPlay_Click (object sender, EventArgs e) {
 			this.playFirstVideo ();
 		}
@@ -176,5 +176,6 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 
 			this.btnFavorite.Text = Data.Current.IsInFavorites (this.movieDetail) ? "Remove from Favorites" : "Add to Favorites";
 		}
+		#endregion
 	}
 }

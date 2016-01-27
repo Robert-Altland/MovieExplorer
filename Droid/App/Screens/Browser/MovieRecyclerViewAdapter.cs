@@ -1,31 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 using Android.Widget;
 using Android.App;
 using Android.Views;
 using Android.Support.V7.Widget;
+using Android.Content;
+using Android.Views.Animations;
 
 using com.interactiverobert.prototypes.movieexplorer.shared;
 using UrlImageViewHelper;
-using Android.Content;
-using Newtonsoft.Json;
-using Android.Views.Animations;
 
 namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 {
 	public class MovieRecyclerViewAdapter : RecyclerView.Adapter
 	{
+		#region Private fields
 		private ConfigurationResponse configuration;
 		private List<Movie> movies;
 		private Activity context;
+		#endregion
 
+		#region Constructor
 		public MovieRecyclerViewAdapter(Activity context, List<Movie> items, ConfigurationResponse configuration) : base() {
 			this.context = context;
 			this.configuration = configuration;
 			this.movies = items;
 		}
+		#endregion
 
+		#region RecyclerView.Adapter overrides
 		public override int ItemCount {	
 			get { return this.movies.Count; }
 		}
@@ -46,7 +51,15 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 			viewHolder.PosterImage.LongClick += ImgBtn_LongClick;
 			viewHolder.FavoriteIndicator.Visibility = Data.Current.IsInFavorites (thisMovie) ? ViewStates.Visible : ViewStates.Gone;
 		}
+		#endregion
 
+		#region Public methods
+		public void Reload (List<Movie> movies) {
+			this.movies = movies;
+		}
+		#endregion
+
+		#region Event handlers
 		private void ImgBtn_LongClick (object sender, View.LongClickEventArgs e) {
 			var typedSender = sender as ImageView;
 			var viewHolder = typedSender.Tag as MovieViewHolder;
@@ -80,9 +93,6 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 
 			viewHolder.SelectedIndicator.StartAnimation (new AlphaAnimation (viewHolder.SelectedIndicator.Alpha, 0f) { Duration = 300, FillAfter = true });
 		}
-
-		public void Reload (List<Movie> movies) {
-			this.movies = movies;
-		}
+		#endregion
 	}
 }

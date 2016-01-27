@@ -13,6 +13,9 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 	partial class MovieDetailViewController
 	{
 		[Outlet]
+		UIKit.UIButton btnBack { get; set; }
+
+		[Outlet]
 		UIKit.UIButton btnPlay { get; set; }
 
 		[Outlet]
@@ -45,6 +48,9 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		[Outlet]
 		UIKit.UIView vwVoteAverageContainer { get; set; }
 
+		[Action ("btnBack_Click:")]
+		partial void btnBack_Click (Foundation.NSObject sender);
+
 		[Action ("btnClose_Click:")]
 		partial void btnClose_Click (Foundation.NSObject sender);
 
@@ -66,6 +72,16 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 				btnToggleSave = null;
 			}
 
+			if (btnBack != null) {
+				btnBack.Dispose ();
+				btnBack = null;
+			}
+
+			if (cvSimilarMovies != null) {
+				cvSimilarMovies.Dispose ();
+				cvSimilarMovies = null;
+			}
+
 			if (imgBackground != null) {
 				imgBackground.Dispose ();
 				imgBackground = null;
@@ -74,11 +90,6 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 			if (imgPoster != null) {
 				imgPoster.Dispose ();
 				imgPoster = null;
-			}
-
-			if (tvOverview != null) {
-				tvOverview.Dispose ();
-				tvOverview = null;
 			}
 
 			if (lblReleaseDate != null) {
@@ -96,19 +107,19 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 				lblVoteCount = null;
 			}
 
-			if (vwVoteAverageContainer != null) {
-				vwVoteAverageContainer.Dispose ();
-				vwVoteAverageContainer = null;
-			}
-
-			if (cvSimilarMovies != null) {
-				cvSimilarMovies.Dispose ();
-				cvSimilarMovies = null;
+			if (tvOverview != null) {
+				tvOverview.Dispose ();
+				tvOverview = null;
 			}
 
 			if (vwSimilarMovies != null) {
 				vwSimilarMovies.Dispose ();
 				vwSimilarMovies = null;
+			}
+
+			if (vwVoteAverageContainer != null) {
+				vwVoteAverageContainer.Dispose ();
+				vwVoteAverageContainer = null;
 			}
 		}
 	}

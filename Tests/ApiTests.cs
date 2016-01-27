@@ -1,51 +1,43 @@
 ﻿using System;
-using System.Threading;
-using com.interactiverobert.prototypes.movieexplorer.shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using com.interactiverobert.prototypes.movieexplorer.shared;
 
 namespace movieexplorer.tests
 {
 	[TestClass]
-	public class ApiTests
+	public class DataTests
 	{
-		private bool getMoviesCompletedHasBeenCalled;
-
 		[TestCleanup]
 		public void Teardown()
 		{
-			Api.Current = null;
+			Data.Current = null;
 		}
 
 		[TestMethod]
 		[ExpectedException (typeof(TypeInitializationException))]
-		public void GetMoviesAsync_NoHttpClientFactoryRegistered()
+		public void GetTopRatedMoviesAsync_NoHttpClientFactoryRegistered()
 		{
-			Api.Current.GetMoviesCompleted += getMoviesCompleted;
-			Api.Current.GetMoviesAsync().Wait();
+			var result = Data.Current.GetTopRatedMoviesAsync().Result;
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(TypeInitializationException))]
-		public void GetMoviesAsync_InvalidApiKey()
+		public void GetTopRatedMoviesAsync_InvalidApiKey()
 		{
 			DependencyManager.RegisterHttpClientFactory(new HttpClientFactory());
-			Api.Current.GetMoviesCompleted += getMoviesCompleted;
-			Api.Current.GetMoviesAsync().Wait();
-			Assert.IsTrue(this.getMoviesCompletedHasBeenCalled, "Api.Current.GetMoviesAsync did not complete.");
+			var result = Data.Current.GetTopRatedMoviesAsync().Result;
+			Assert.IsNotNull(result);
+			Assert.IsTrue(result.TotalPages > 0);
 		}
 
 		[TestMethod]
-		public void GetMoviesAsync_Test()
+		public void GetTopRatedMoviesAsync_Test()
 		{
 			DependencyManager.RegisterHttpClientFactory(new HttpClientFactory());
-			Api.Current.GetMoviesCompleted += getMoviesCompleted;
-			Api.Current.GetMoviesAsync().Wait();
-			Assert.IsTrue(this.getMoviesCompletedHasBeenCalled, "Api.Current.GetMoviesAsync did not complete.");
-		}
-
-		private void getMoviesCompleted(object sender, MovieDiscoverResponse e)
-		{
-			this.getMoviesCompletedHasBeenCalled = true;
+			var result = Data.Current.GetTopRatedMoviesAsync().Result;
+			Assert.IsNotNull(result);
+			Assert.IsTrue(result.TotalPages > 0);
 		}
 	}
 }

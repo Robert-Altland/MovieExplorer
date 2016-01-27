@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieexplorer.droid.lib", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieexplorer.droid.app", "Droid\App\movieexplorer.droid.app.csproj", "{9F7E24FC-348E-4ECA-9C74-2100E94313A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDroid.UrlImageViewHelper", "Droid\MonoDroid.UrlImageViewHelper-master\MonoDroid.UrlImageViewHelper.csproj", "{57444E6A-23D9-443A-BA83-040CB9561E66}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|iPhoneSimulator = Debug|iPhoneSimulator
@@ -33,14 +31,6 @@ Global
 		{278E8448-C433-41E3-9080-38256039770F}.Release|iPhone.Build.0 = Release|Any CPU
 		{278E8448-C433-41E3-9080-38256039770F}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{278E8448-C433-41E3-9080-38256039770F}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{57444E6A-23D9-443A-BA83-040CB9561E66}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{57444E6A-23D9-443A-BA83-040CB9561E66}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{57444E6A-23D9-443A-BA83-040CB9561E66}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{57444E6A-23D9-443A-BA83-040CB9561E66}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{57444E6A-23D9-443A-BA83-040CB9561E66}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{57444E6A-23D9-443A-BA83-040CB9561E66}.Release|iPhone.Build.0 = Release|Any CPU
-		{57444E6A-23D9-443A-BA83-040CB9561E66}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{57444E6A-23D9-443A-BA83-040CB9561E66}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{740D4B6D-DFAC-432A-AE95-987AC915444C}.Debug|iPhone.ActiveCfg = Debug|Any CPU
 		{740D4B6D-DFAC-432A-AE95-987AC915444C}.Debug|iPhone.Build.0 = Debug|Any CPU
 		{740D4B6D-DFAC-432A-AE95-987AC915444C}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
@@ -79,7 +69,6 @@ Global
 		{278E8448-C433-41E3-9080-38256039770F} = {D653C2F8-2F74-420C-BF63-31C50DFC5A59}
 		{8FC1DA45-4B50-4181-A3E3-2659258D0144} = {1C0DBCD3-9273-4D7C-B75D-2FD085086D44}
 		{9F7E24FC-348E-4ECA-9C74-2100E94313A6} = {1C0DBCD3-9273-4D7C-B75D-2FD085086D44}
-		{57444E6A-23D9-443A-BA83-040CB9561E66} = {1C0DBCD3-9273-4D7C-B75D-2FD085086D44}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0

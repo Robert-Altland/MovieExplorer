@@ -46,7 +46,16 @@
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ImageManager.cs" />
+    <Compile Include="Imaging\ImageManager.cs" />
+    <Compile Include="Imaging\DownloaderAsyncTask.cs" />
+    <Compile Include="Imaging\ExtensionMethods.cs" />
+    <Compile Include="Imaging\Hashset.cs" />
+    <Compile Include="Imaging\LRUCache.cs" />
+    <Compile Include="Imaging\SoftReference.cs" />
+    <Compile Include="Imaging\SoftReferenceHashTable.cs" />
+    <Compile Include="Imaging\UrlImageCache.cs" />
+    <Compile Include="Imaging\UrlImageViewCallback.cs" />
+    <Compile Include="Imaging\UrlImageViewHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -62,5 +71,8 @@
       <Project>{740D4B6D-DFAC-432A-AE95-987AC915444C}</Project>
       <Name>movieexplorer.shared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Imaging\" />
   </ItemGroup>
 </Project>

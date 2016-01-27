@@ -48,10 +48,9 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		#endregion
 
 		#region Private methods
-		private void startup () {
-			Api.Current.GetConfigurationAsync (e => {
-				this.InvokeOnMainThread(() => this.PerformSegue ("ShowMovieList", this));
-			});
+		private async void startup () {
+			await Data.Current.GetConfigurationAsync ();
+			this.PerformSegue ("ShowMovieList", this);
 		}
 		#endregion
 	}

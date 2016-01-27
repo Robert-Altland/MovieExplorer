@@ -82,24 +82,20 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		#endregion
 
 		#region Private methods
-		private void updateLayout () {
+		private async void updateLayout () {
 			this.btnPlay.Alpha = 0;
 			this.vwSimilarMovies.Alpha = 0;
 			if (this.MovieDetail != null) {
-				Api.Current.GetVideosForMovieAsync (this.MovieDetail.Id, videoResponse => {
-					if (videoResponse == null || videoResponse.Results == null)
-						return;
-
+				var videoResponse = await Data.Current.GetVideosForMovieAsync (this.MovieDetail.Id);
+				if (videoResponse != null && videoResponse.Results != null) {
 					this.videos = videoResponse.Results;
-					if (videoResponse.Results.Count > 0 && videoResponse.Results[0].Site.ToLower () == "youtube")
-						UIView.Animate(0.3f, () => this.btnPlay.Alpha = 1.0f);
+					if (videoResponse.Results.Count > 0 && videoResponse.Results [0].Site.ToLower () == "youtube")
+						UIView.Animate (0.3f, () => this.btnPlay.Alpha = 1.0f);
 					else
-						UIView.Animate(0.3f, () => this.btnPlay.Alpha = 0.0f);
-				});
-				Api.Current.GetSimilarForMovieAsync (this.MovieDetail.Id, similarMoviesResponse => {
-					if (similarMoviesResponse == null || similarMoviesResponse.Results == null)
-						return;
-
+						UIView.Animate (0.3f, () => this.btnPlay.Alpha = 0.0f);
+				}
+				var similarMoviesResponse = await Data.Current.GetSimilarForMovieAsync (this.MovieDetail.Id);
+				if (similarMoviesResponse != null && similarMoviesResponse.Results != null) {
 					this.similarMovies = similarMoviesResponse.Results;
 					if (similarMoviesResponse.Results.Count == 0)
 						UIView.Animate(0.3f, () => this.vwSimilarMovies.Alpha = 0.0f);
@@ -115,8 +111,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 						}
 						UIView.Animate(0.3f, () => this.vwSimilarMovies.Alpha = 1.0f);
 					}
-
-				});
+				}
 
 				this.lblTitle.Text = this.MovieDetail.Title;
 				this.lblReleaseDate.Text = String.Format ("Release Date: {0}", this.MovieDetail.ReleaseDate.ToShortDateString ());
@@ -132,27 +127,9 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 				var posterUri = new Uri (String.Concat (this.Configuration.Images.BaseUrl, this.Configuration.Images.PosterSizes[1], this.MovieDetail.PosterPath));
 				this.imgPoster.Image = ImageLoader.DefaultRequestImage (posterUri, this);
 
-				UIImage cachedImage;
-				this.imgBackground.Alpha = 0;
-				if (MovieDetailViewController.backgroundImages.TryGetValue (this.MovieDetail.Id, out cachedImage)) {
-					this.imgBackground.Image = cachedImage;
-					this.pulseBackground (0.3f, this.pulseBackground);
-				} else {
-					Task.Factory.StartNew (() => {
-						var backgroundUri = new Uri (String.Concat (this.Configuration.Images.BaseUrl, this.Configuration.Images.BackdropSizes [0], this.MovieDetail.BackdropPath));
-						Thread.Sleep (TimeSpan.FromMilliseconds (500));
-						this.InvokeOnMainThread (() => {
-							var image = ImageManipulation.ScaleAndBlurImage (this.squareSize (this.imgBackground.Frame.Size), ImageLoader.DefaultRequestImage (backgroundUri, this));
-							if (MovieDetailViewController.backgroundImages.ContainsKey (this.MovieDetail.Id)) 
-								MovieDetailViewController.backgroundImages[this.MovieDetail.Id] = image;
-							else 
-								MovieDetailViewController.backgroundImages.Add (this.MovieDetail.Id, image);
-							this.imgBackground.Image = image;
-							this.pulseBackground (0.3f, this.pulseBackground);
-						});
-					});
-				}
+				this.btnBack.Hidden = this.NavigationController.ViewControllers.Length < 3;
 
+				this.startPulseBackground ();
 				this.updateSaveButtonState ();
 			}
 		}
@@ -160,7 +137,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		private void playFirstVideo () {
 			if (this.videos != null && this.videos.Count > 0) {
 				if (this.videos [0].Site.ToLower () == "youtube") {
-					var uri = Api.Current.GetOpenInYoutubeUri (this.videos [0].Key);
+					var uri = Data.Current.GetOpenInYoutubeUri (this.videos [0].Key);
 					UIApplication.SharedApplication.OpenUrl (new NSUrl (uri));
 				}
 			}
@@ -168,6 +145,30 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 
 		private double nextDouble(Random rng, double min, double max) {
 			return min + (rng.NextDouble() * (max - min));
+		}
+			
+		private void startPulseBackground () {
+			UIImage cachedImage;
+			this.imgBackground.Alpha = 0;
+			if (MovieDetailViewController.backgroundImages.TryGetValue (this.MovieDetail.Id, out cachedImage)) {
+				this.imgBackground.Image = cachedImage;
+				this.pulseBackground (0.3f, this.pulseBackground);
+			}
+			else {
+				Task.Factory.StartNew (() =>  {
+					var backgroundUri = new Uri (String.Concat (this.Configuration.Images.BaseUrl, this.Configuration.Images.BackdropSizes [0], this.MovieDetail.BackdropPath));
+					Thread.Sleep (TimeSpan.FromMilliseconds (500));
+					this.InvokeOnMainThread (() =>  {
+						var image = ImageManipulation.ScaleAndBlurImage (this.squareSize (this.imgBackground.Frame.Size), ImageLoader.DefaultRequestImage (backgroundUri, this));
+						if (MovieDetailViewController.backgroundImages.ContainsKey (this.MovieDetail.Id))
+							MovieDetailViewController.backgroundImages [this.MovieDetail.Id] = image;
+						else
+							MovieDetailViewController.backgroundImages.Add (this.MovieDetail.Id, image);
+						this.imgBackground.Image = image;
+						this.pulseBackground (0.3f, this.pulseBackground);
+					});
+				});
+			}
 		}
 
 		private void pulseBackground () {
@@ -231,6 +232,10 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		}
 
 		partial void btnClose_Click (NSObject sender) {
+			this.NavigationController.PopToRootViewController (true);
+		}
+
+		partial void btnBack_Click (NSObject sender) {
 			this.NavigationController.PopViewController (true);
 		}
 

@@ -109,9 +109,5 @@
       <Project>{8FC1DA45-4B50-4181-A3E3-2659258D0144}</Project>
       <Name>movieexplorer.droid.lib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MonoDroid.UrlImageViewHelper-master\MonoDroid.UrlImageViewHelper.csproj">
-      <Project>{57444E6A-23D9-443A-BA83-040CB9561E66}</Project>
-      <Name>MonoDroid.UrlImageViewHelper</Name>
-    </ProjectReference>
   </ItemGroup>
 </Project>
