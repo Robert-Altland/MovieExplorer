@@ -56,6 +56,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.8.0.2\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.RecyclerView">
+      <HintPath>..\..\packages\Xamarin.Android.Support.v7.RecyclerView.23.1.1.0\lib\MonoAndroid403\Xamarin.Android.Support.v7.RecyclerView.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -64,8 +67,10 @@
     <Compile Include="Screens\SplashActivity.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Screens\Browser\MovieBrowseActivity.cs" />
-    <Compile Include="Screens\Browser\MovieCategoryAdapter.cs" />
-    <Compile Include="Screens\Browser\MovieListAdapter.cs" />
+    <Compile Include="Screens\Browser\MovieCategoryRecyclerViewAdapter.cs" />
+    <Compile Include="Screens\Browser\MovieCategoryViewHolder.cs" />
+    <Compile Include="Screens\Browser\MovieRecyclerViewAdapter.cs" />
+    <Compile Include="Screens\Browser\MovieViewHolder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -86,6 +91,7 @@
     <AndroidResource Include="Resources\drawable\splash.png" />
     <AndroidResource Include="Resources\layout\movie_browse.axml" />
     <AndroidResource Include="Resources\layout\movie_category_item.axml" />
+    <AndroidResource Include="Resources\drawable\DefaultUrlImage.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
@@ -102,6 +108,10 @@
     <ProjectReference Include="..\Lib\movieexplorer.droid.lib.csproj">
       <Project>{8FC1DA45-4B50-4181-A3E3-2659258D0144}</Project>
       <Name>movieexplorer.droid.lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MonoDroid.UrlImageViewHelper-master\MonoDroid.UrlImageViewHelper.csproj">
+      <Project>{57444E6A-23D9-443A-BA83-040CB9561E66}</Project>
+      <Name>MonoDroid.UrlImageViewHelper</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

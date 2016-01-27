@@ -1,15 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DDC39E"
-    android:minWidth="25px"
-    android:minHeight="25px">
-    <TextView
-        android:text="Text"
+    android:paddingBottom="4dip"
+    android:background="#555555">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/movie_detail_header"
+            android:text="@string/app_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:background="#CC2D2D2D"
+            android:textColor="#D39239"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:padding="8dip" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="11dip"
+            android:paddingTop="9dip">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_width="140dip"
+                    android:layout_height="220dip"
+                    android:background="#FFFFFF">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:background="@android:color/darker_gray"
+                        android:id="@+id/movie_detail_imgPoster"
+                        android:layout_margin="1dip" />
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dip">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"
+                        android:text="Title"
+                        android:textSize="16dip"
+                        android:id="@+id/movie_detail_txtTitle" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FFFFFF"
+                        android:text="Release Date: "
+                        android:id="@+id/movie_detail_txtReleaseDate"
+                        android:textSize="14dip" />
+                    <RatingBar
+                        android:layout_width="match_parent"
+                        android:id="@+id/movie_detail_ratingBar"
+                        android:layout_height="wrap_content"
+                        android:scaleY="0.5"
+                        android:scaleX="0.5" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12dip"
+                        android:text="from x votes"
+                        android:id="@+id/movie_detail_txtVoteCount" />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#A3C930"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"
+                        android:text="Play"
+                        android:id="@+id/movie_detail_btnPlay"
+                        android:paddingLeft="10dip"
+                        android:paddingRight="10dip"
+                        android:layout_marginTop="5dip" />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#D39239"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"
+                        android:text="Save to Favorites"
+                        android:id="@+id/movie_detail_btnFavorite"
+                        android:paddingLeft="10dip"
+                        android:paddingRight="10dip"
+                        android:layout_marginTop="5dip" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/movie_detail_txtOverview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="14dip"
+            android:text="Overview"
+            android:paddingTop="10dip"
+            android:paddingLeft="11dip" />
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#000000"
-        android:id="@+id/movie_detail_txtTitle" />
-</LinearLayout>
+        android:orientation="vertical"
+        android:padding="11dip"
+        android:id="@+id/movie_detail_vwSimilarMovies"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:id="@+id/movie_detail_txtSimilarMovies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:textStyle="bold"
+            android:paddingBottom="4dip"
+            android:text="Similar Movies" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/movie_detail_lstSimilarMovies"
+            android:scrollbars="horizontal"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="158dip" />
+    </LinearLayout>
+</RelativeLayout>

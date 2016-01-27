@@ -37,13 +37,13 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cVM-Y9-H9b" userLabel="lblCategoryName">
-                                                            <rect key="frame" x="8" y="4" width="584" height="20.5"/>
-                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                            <rect key="frame" x="8" y="4" width="584" height="19.5"/>
+                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="P4w-eh-XfM">
-                                                            <rect key="frame" x="8" y="25" width="584" height="171"/>
+                                                            <rect key="frame" x="8" y="24" width="584" height="172"/>
                                                             <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Eof-TB-4wQ">
                                                                 <size key="itemSize" width="110" height="165"/>
@@ -53,7 +53,7 @@
                                                             </collectionViewFlowLayout>
                                                             <cells>
                                                                 <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MovieCell" id="rgE-nz-gj2" customClass="MovieCollectionViewCell">
-                                                                    <rect key="frame" x="0.0" y="3" width="110" height="165"/>
+                                                                    <rect key="frame" x="0.0" y="3.5" width="110" height="165"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                                         <rect key="frame" x="0.0" y="0.0" width="110" height="165"/>
@@ -72,7 +72,7 @@
                                                                                     </view>
                                                                                     <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s5I-ii-EWj" userLabel="vwSelected">
                                                                                         <rect key="frame" x="0.0" y="0.0" width="110" height="165"/>
-                                                                                        <color key="backgroundColor" red="0.86134463549999996" green="0.68629521130000004" blue="0.032278742639999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                        <color key="backgroundColor" red="0.86274509803921573" green="0.68627450980392157" blue="0.031372549019607843" alpha="1" colorSpace="calibratedRGB"/>
                                                                                     </view>
                                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rs5-za-fNg">
                                                                                         <rect key="frame" x="1" y="154" width="109" height="10"/>
@@ -184,7 +184,7 @@
                                         </variation>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.17794650793075562" green="0.17793533205986023" blue="0.17794182896614075" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.1764705882352941" green="0.1764705882352941" blue="0.1764705882352941" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="3Am-iW-FjD"/>
                                     <constraint firstAttribute="trailing" secondItem="OzM-b6-TEg" secondAttribute="trailing" constant="10" id="YUW-9h-04b"/>

@@ -2,26 +2,29 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="#DDC39E"
-    android:padding="8dp">
+    android:background="#555555"
+    android:paddingLeft="8dip"
+    android:paddingTop="2dip"
+    android:paddingRight="8dip"
+    android:paddingBottom="7dip">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dip"
-        android:paddingTop="3dip"
-        android:paddingRight="10dip"
-        android:paddingBottom="3dip">
+        android:layout_height="wrap_content">
         <TextView
             android:id="@+id/movie_category_item_txtCategoryName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#000000"
+            android:textColor="#FFFFFF"
             android:textSize="15dip"
-            android:textStyle="bold" />
-        <Gallery
+            android:textStyle="bold"
+            android:paddingBottom="4dip"
+            android:text="Category Name" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/movie_category_item_lstMovies"
+            android:scrollbars="horizontal"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="200dip"
-            android:id="@+id/movie_category_item_gallery" />
+            android:layout_height="158dip" />
     </LinearLayout>
 </RelativeLayout>

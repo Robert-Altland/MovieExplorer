@@ -52,6 +52,9 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		public override void ViewWillAppear (bool animated) {
 			base.ViewWillAppear (animated);
 
+			if (this.collectionViewSource != null)
+				this.collectionViewSource.MovieSelected += this.collectionViewSource_MovieSelected;
+
 			this.updateLayout ();
 		}
 
@@ -211,13 +214,11 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 
 		#region Event handlers
 		private void collectionViewSource_MovieSelected (object sender, Movie e) {
-			if (this.collectionViewSource != null) {
-				this.collectionViewSource.MovieSelected -= this.collectionViewSource_MovieSelected;
-				this.collectionViewSource = null;
-			}
 			this.stopPulseBackground ();
-			this.MovieDetail = e;
-			this.updateLayout ();
+			MovieDetailViewController newDetail = UIStoryboard.FromName ("Main", null).InstantiateViewController ("MovieDetail") as MovieDetailViewController;
+			newDetail.MovieDetail = e;
+			newDetail.Configuration = this.Configuration;
+			this.NavigationController.PushViewController (newDetail, true);
 		}
 
 		partial void btnToggleSave_Click (NSObject sender) {

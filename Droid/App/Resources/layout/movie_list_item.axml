@@ -1,23 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="#DDC39E"
-    android:padding="8dp">
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dip"
-        android:paddingTop="3dip"
-        android:paddingRight="10dip"
-        android:paddingBottom="3dip">
-        <TextView
-            android:id="@+id/movie_list_item_txtTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:textSize="15dip"
-            android:textStyle="bold" />
-    </LinearLayout>
-</RelativeLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="114dip"
+    android:layout_height="158dip"
+    android:paddingRight="11dip">
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:padding="1dip">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:background="@android:color/darker_gray"
+            android:id="@+id/movie_list_item_imgPoster" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF"
+            android:id="@+id/movie_list_item_vwHighlight"
+            android:alpha="0" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#DCAF08"
+            android:id="@+id/movie_list_item_vwSelected"
+            android:alpha="0" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dip"
+            android:background="#DCAF08"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/movie_list_item_vwFavoriteIndicator" />
+    </RelativeLayout>
+</LinearLayout>

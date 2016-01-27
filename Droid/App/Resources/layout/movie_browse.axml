@@ -3,21 +3,28 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f9e4c7">
-    <TextView
-        android:id="@+id/movie_list_header"
-        android:text="@string/app_name"
+    android:paddingBottom="4dip"
+    android:background="#555555">
+    <RelativeLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16dp"
-        android:textColor="#000000"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:padding="8dp" />
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@null"
-        android:dividerHeight="0dp"
-        android:id="@+id/movie_list_listView" />
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/movie_category_recyclerView"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbarAlwaysDrawVerticalTrack="true" />
+        <TextView
+            android:id="@+id/movie_browse_header"
+            android:text="@string/app_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:background="#CC2D2D2D"
+            android:textColor="#D39239"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:padding="8dip" />
+    </RelativeLayout>
 </LinearLayout>

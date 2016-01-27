@@ -51,7 +51,9 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 		/// </summary>
 		/// <param name="movie">Movie.</param>
 		public void AddToFavorites (Movie movie) {
-			this.favorites.Add (movie);
+			var existing = this.favorites.FirstOrDefault (x => x.Id == movie.Id);
+			if (existing == null)
+				this.favorites.Add (movie);
 		}
 
 		/// <summary>
@@ -59,7 +61,9 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 		/// </summary>
 		/// <param name="movie">Movie.</param>
 		public void RemoveFromFavorites (Movie movie) {
-			this.favorites.Remove (movie);
+			var existing = this.favorites.FirstOrDefault (x => x.Id == movie.Id);
+			if (existing != null)
+				this.favorites.Remove (movie);
 		}
 
 		/// <summary>
