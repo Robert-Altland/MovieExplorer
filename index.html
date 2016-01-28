@@ -36,21 +36,16 @@
 <p>This solution demonstrates a simple movie explorer app, which lets you view a collection of movies, select one to view details, play trailers, view similar movies and optionally save movies to your favorites list. </p>
 
 <h3>
-<a id="highlights-of-this-solution" class="anchor" href="#highlights-of-this-solution" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Highlights of this solution:</h3>
+<a id="notes-about-this-solution" class="anchor" href="#notes-about-this-solution" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Notes about this solution:</h3>
 
 <ul>
 <li>PCL for common code</li>
 <li>Xamarin shared project for linked files that need to be shared across platforms but which don't work in a PCL</li>
 <li>Platform specific class libraries for unit-testable components</li>
-<li>Advanced customization of UI elements</li>
+<li>Task based asynchronous service which handles interaction with the TMDb API (<a href="https://www.themoviedb.org">https://www.themoviedb.org</a>)</li>
 <li>A cache service for limited offline capability</li>
-</ul>
-
-<h3>
-<a id="design" class="anchor" href="#design" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Design:</h3>
-
-<ul>
-<li>I paid some attention to writing a sample app that looks and works well across a variety of screen resolutions and dimensions, but focused primarily on phone </li>
+<li>A fairly simple Netflix style user interface</li>
+<li>iOS and Android apps (phone, not tested on tablet) </li>
 <li>I settled on a Netflix style UI, showing categories of movie lists which include a user defined list (favorites) as opposed to creating separate views to interact with your favorites</li>
 </ul>
 
