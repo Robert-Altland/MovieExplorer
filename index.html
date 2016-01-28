@@ -33,9 +33,10 @@
       <section id="main_content" class="inner">
         <p>Building cross platform mobile applications using Xamarin is a good way for a .NET developer to become familiar with the architecture and frameworks of the iOS and Android platforms without getting impeded by language syntax and development tools. </p>
 
-<p>This solution demonstrates a simple movie explorer app, which lets you view a collection of movies, select one to view details and optionally save it for later. </p>
+<p>This solution demonstrates a simple movie explorer app, which lets you view a collection of movies, select one to view details, play trailers, view similar movies and optionally save movies to your favorites list. </p>
 
-<p>Highlights of this solution:</p>
+<h1>
+<a id="highlights-of-this-solution" class="anchor" href="#highlights-of-this-solution" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Highlights of this solution:</h1>
 
 <ul>
 <li>PCL for common code</li>
@@ -45,14 +46,16 @@
 <li>A cache service for limited offline capability</li>
 </ul>
 
-<p>Design:</p>
+<h1>
+<a id="design" class="anchor" href="#design" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Design:</h1>
 
 <ul>
 <li>I paid some attention to writing a sample app that looks and works well across a variety of screen resolutions and dimensions, but focused primarily on phone </li>
 <li>I settled on a Netflix style UI, showing categories of movie lists which include a user defined list (favorites) as opposed to creating separate views to interact with your favorites</li>
 </ul>
 
-<p>Scope of development:</p>
+<h1>
+<a id="scope-of-development" class="anchor" href="#scope-of-development" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Scope of development:</h1>
 
 <ul>
 <li>I focused on simulators. At the last minute I tried to run on devices and found that the application doesn't function as expected. I'm working with Xamarin support to understand the cause of the error, but I suspect PCL targeting</li>
@@ -62,7 +65,8 @@
 <li>I purposely didn’t pull in any code I’ve written from other projects, so except for one third party library’s source, all code has been written especially for this</li>
 </ul>
 
-<p>Important notes:</p>
+<h1>
+<a id="important-notes" class="anchor" href="#important-notes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Important notes:</h1>
 
 <ul>
 <li>The impact of PCL targeting can’t be emphasized enough. I suspect this is the cause of my inability to debug this project on device at the present time, and the cause of the hang when running on a device. I expect this to be resolved shortly and will provide an overview of the changes</li>
