@@ -16,6 +16,5 @@
 /Components/*
 /packages/*
 
-/Tests/packages/
-
-Movie Explorer.userprefs
+**/packages/**
+**/*.userprefs/**
