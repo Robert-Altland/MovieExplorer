@@ -13,3 +13,7 @@ This solution demonstrates a simple movie explorer app, which lets you view a co
 * A fairly simple Netflix style user interface (favorites are presented as a category on the home screen)
 * iOS and Android apps (phone, not tested on tablet) 
 * Project artifacts like requirements, sketches, and comps (no prototype was needed because of the simple UI)
+
+###Critical Issues:
+* The image loading on Android makes it so that it's nearly unusable on my Android device. I made a bad third party component choice
+# but at least that's better than on device performance on iPhone, which hangs on the custom splash screen. 
