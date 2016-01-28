@@ -16,4 +16,6 @@ This solution demonstrates a simple movie explorer app, which lets you view a co
 
 ###Critical Issues:
 * The image loading performance on Android is close to unusable on device, emulator noticeably slow
-* The app hangs on the custom splash screen on iPhone device, simulator OK (primary development device)
+* The app hangs on the custom splash screen on iPhone device, simulator OK 
+
+iOS simulator and Genymotion HTC One emulator were the primary development devices.
