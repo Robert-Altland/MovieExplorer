@@ -101,13 +101,13 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\..\Shared\movieexplorer.shared.csproj">
-      <Project>{740D4B6D-DFAC-432A-AE95-987AC915444C}</Project>
-      <Name>movieexplorer.shared</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Lib\movieexplorer.droid.lib.csproj">
       <Project>{8FC1DA45-4B50-4181-A3E3-2659258D0144}</Project>
       <Name>movieexplorer.droid.lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\movieexplorer.shared\movieexplorer.shared.csproj">
+      <Project>{740D4B6D-DFAC-432A-AE95-987AC915444C}</Project>
+      <Name>movieexplorer.shared</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

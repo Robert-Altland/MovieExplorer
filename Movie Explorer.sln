@@ -15,9 +15,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieexplorer.droid.app", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{84D652A3-35A4-468E-85FD-75F8C2B0715B}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "movieexplorer.linked", "movieexplorer.linked\movieexplorer.linked.shproj", "{4205D58C-29D4-450F-8342-7C18E3196395}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "movieexplorer.linked", "Shared\movieexplorer.linked\movieexplorer.linked.shproj", "{4205D58C-29D4-450F-8342-7C18E3196395}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieexplorer.shared", "Shared\movieexplorer.shared.csproj", "{740D4B6D-DFAC-432A-AE95-987AC915444C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieexplorer.shared", "Shared\movieexplorer.shared\movieexplorer.shared.csproj", "{740D4B6D-DFAC-432A-AE95-987AC915444C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

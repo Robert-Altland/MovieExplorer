@@ -198,7 +198,7 @@
       <Project>{278E8448-C433-41E3-9080-38256039770F}</Project>
       <Name>movieexplorer.apple.lib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Shared\movieexplorer.shared.csproj">
+    <ProjectReference Include="..\..\Shared\movieexplorer.shared\movieexplorer.shared.csproj">
       <Project>{740D4B6D-DFAC-432A-AE95-987AC915444C}</Project>
       <Name>movieexplorer.shared</Name>
     </ProjectReference>
