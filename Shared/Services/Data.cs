@@ -45,6 +45,15 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 		}
 		#endregion
 
+		#region Private methods
+		private string getCacheKey (string urlString) {
+			var regex = new Regex ("[^a-z0-9]", RegexOptions.IgnoreCase);
+			var result = regex.Replace (urlString, "_");
+			result = result.ToLower ();
+			return result;
+		}
+		#endregion
+
 		#region Public methods
 		public Task<GetMoviesResponse> GetTopRatedMoviesAsync () {
 			var tcs = new TaskCompletionSource<GetMoviesResponse> ();
@@ -294,13 +303,6 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 			});
 			return tcs.Task;
 		}
-		#endregion
-
-		private string getCacheKey (string urlString) {
-			var regex = new Regex ("[^a-z0-9]", RegexOptions.IgnoreCase);
-			var result = regex.Replace (urlString, "_");
-			result = result.ToLower ();
-			return result;
-		}
+            		#endregion
 	}
 }
