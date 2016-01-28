@@ -7,7 +7,7 @@ This solution demonstrates a simple movie explorer app, which lets you view a co
 * Xamarin shared project for linked files that need to be shared across platforms but which don't work in a PCL
 * Platform specific class libraries for unit-testable components
 * Very light unit testing
-* Task based asynchronous service which handles interaction with the TMDb API (https://www.themoviedb.org)
+* Task based asynchronous data service which handles interaction with the TMDb API (https://www.themoviedb.org)
 * A simple cache service for limited offline capability (raw json for simplicity)
 * A simple dependency container
 * A fairly simple Netflix style user interface (favorites are presented as a category on the home screen)
