@@ -1,6 +1,6 @@
 ⚠️Important Note: work in progress
 
-This solution demonstrates a simple movie explorer app, which lets you view a collection of movies, select one to view details, play trailers, view similar movies and optionally save movies to your favorites list. 
+This solution demonstrates a simple movie explorer app, which lets you view a collection of movies, select a movie to view details, play trailers, view similar movies and optionally save movies to your favorites list. 
 
 ###Notes about this solution:
 * PCL for common code
