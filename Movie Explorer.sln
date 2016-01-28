@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieexplorer.shared", "Shared\movieexplorer.shared.csproj", "{740D4B6D-DFAC-432A-AE95-987AC915444C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apple", "Apple", "{D653C2F8-2F74-420C-BF63-31C50DFC5A59}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieexplorer.apple.app", "Apple\App\movieexplorer.apple.app.csproj", "{B5676F29-171C-45B8-8298-70B535207065}"
@@ -14,6 +12,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieexplorer.droid.lib", "Droid\Lib\movieexplorer.droid.lib.csproj", "{8FC1DA45-4B50-4181-A3E3-2659258D0144}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieexplorer.droid.app", "Droid\App\movieexplorer.droid.app.csproj", "{9F7E24FC-348E-4ECA-9C74-2100E94313A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{84D652A3-35A4-468E-85FD-75F8C2B0715B}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "movieexplorer.linked", "movieexplorer.linked\movieexplorer.linked.shproj", "{4205D58C-29D4-450F-8342-7C18E3196395}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieexplorer.shared", "Shared\movieexplorer.shared.csproj", "{740D4B6D-DFAC-432A-AE95-987AC915444C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +73,8 @@ Global
 		{278E8448-C433-41E3-9080-38256039770F} = {D653C2F8-2F74-420C-BF63-31C50DFC5A59}
 		{8FC1DA45-4B50-4181-A3E3-2659258D0144} = {1C0DBCD3-9273-4D7C-B75D-2FD085086D44}
 		{9F7E24FC-348E-4ECA-9C74-2100E94313A6} = {1C0DBCD3-9273-4D7C-B75D-2FD085086D44}
+		{4205D58C-29D4-450F-8342-7C18E3196395} = {84D652A3-35A4-468E-85FD-75F8C2B0715B}
+		{740D4B6D-DFAC-432A-AE95-987AC915444C} = {84D652A3-35A4-468E-85FD-75F8C2B0715B}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0

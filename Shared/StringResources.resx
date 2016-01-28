@@ -136,12 +136,18 @@
     <value>configuration?api_key={0}</value>
   </data>
   <data name="GetVidesoForMovieUriFormatString" xml:space="preserve">
-  	<value>movie/{0}/videos?api_key={1}</value>
+    <value>movie/{0}/videos?api_key={1}</value>
   </data>
   <data name="GetSimilarForMovieUriFormatString" xml:space="preserve">
-  	<value>movie/{0}/similar?api_key={1}</value>
+    <value>movie/{0}/similar?api_key={1}</value>
   </data>
   <data name="OpenInYouTubeFormatString" xml:space="preserve">
-  	<value>https://www.youtube.com/watch?v={0}</value>
+    <value>https://www.youtube.com/watch?v={0}</value>
+  </data>
+  <data name="SerializedFileExtension" xml:space="preserve">
+    <value>.json</value>
+  </data>
+  <data name="FavoritesCacheKey" xml:space="preserve">
+    <value>favorites</value>
   </data>
 </root>

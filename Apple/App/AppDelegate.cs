@@ -1,6 +1,7 @@
 ﻿using Foundation;
 using UIKit;
 using com.interactiverobert.prototypes.movieexplorer.shared;
+using com.interactiverobert.prototypes.movieexplorer.shared.services;
 
 namespace com.interactiverobert.prototypes.movieexplorer.apple
 {
@@ -22,6 +23,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 			// If not required for your application you can safely delete this method
 
 			DependencyManager.RegisterHttpClientFactory (new HttpClientFactory ());
+			DependencyManager.RegisterCache (new Cache ());
 
 			return true;
 		}

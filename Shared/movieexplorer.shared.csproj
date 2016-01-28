@@ -32,7 +32,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Contracts\IHttpClientFactory.cs" />
-    <Compile Include="Entities\Movie.cs" />
     <Compile Include="Http\HttpClientFactory.cs" />
     <Compile Include="Dependency\DependencyManager.cs" />
     <Compile Include="StringResources.Designer.cs">
@@ -40,13 +39,15 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Entities\ConfigurationResponse.cs" />
-    <Compile Include="Entities\GetMoviesResponse.cs" />
-    <Compile Include="Entities\ImageConfiguration.cs" />
-    <Compile Include="Entities\MovieCategory.cs" />
-    <Compile Include="Entities\Video.cs" />
-    <Compile Include="Entities\GetVideosForMovieResponse.cs" />
-    <Compile Include="Data.cs" />
+    <Compile Include="Services\Data.cs" />
+    <Compile Include="Entities\Configuration\ConfigurationResponse.cs" />
+    <Compile Include="Entities\Movie\GetMoviesResponse.cs" />
+    <Compile Include="Entities\Movie\Movie.cs" />
+    <Compile Include="Entities\Movie\MovieCategory.cs" />
+    <Compile Include="Entities\Configuration\ImageConfiguration.cs" />
+    <Compile Include="Entities\Video\Video.cs" />
+    <Compile Include="Entities\Video\GetVideosForMovieResponse.cs" />
+    <Compile Include="Contracts\ICache.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -70,8 +71,9 @@
   <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="StringResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>StringResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
 </Project>

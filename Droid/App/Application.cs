@@ -11,6 +11,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using com.interactiverobert.prototypes.movieexplorer.shared;
+using com.interactiverobert.prototypes.movieexplorer.shared.services;
 
 namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 {
@@ -29,6 +30,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 			// Create your application here
 
 			DependencyManager.RegisterHttpClientFactory (new HttpClientFactory ());
+			DependencyManager.RegisterCache (new Cache ());
 		}
 	}
 }
