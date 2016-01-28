@@ -16,4 +16,4 @@ This solution demonstrates a simple movie explorer app, which lets you view a co
 
 ###Critical Issues:
 * The image loading on Android makes it so that it's nearly unusable on my Android device. I made a bad third party component choice
-# but at least that's better than on device performance on iPhone, which hangs on the custom splash screen. 
+* but at least that's better than on device performance on iPhone, which hangs on the custom splash screen. 
