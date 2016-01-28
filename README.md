@@ -19,7 +19,7 @@ This solution demonstrates a simple movie explorer app, which lets you view a co
 
 ###Scope of development:
 * I focused on simulators. At the last minute I tried to run on devices and found that the application doesn't function as expected. I'm working with Xamarin support to understand the cause of the error, but I suspect PCL targeting
-* I tried to document this development as a real world evolution from envisioning a solution through to delivering it. This includes synthesizing the original requirements document into user stories, sketches and comps of possible UI/UI concepts, scrum reports and committing work to this repository
+* I tried to document this development as a real world evolution from envisioning a solution through to delivering it. This includes synthesizing the original requirements document into user stories, sketches and comps of possible UX/UI concepts, scrum reports and committing work to this repository
 * I started writing unit tests to show TDD in action, but because this isn't the focus of the demo, I opted to not continue in order to focus on other aspects of this app
 * I implemented a very simple cache service to cache the raw json responses from API calls. I leveraged this to persist favorite selections across app restarts. I could have used SQLite to be more efficient with offline storage, but I put a lot of time into the user experience and this became secondary
 * I purposely didn’t pull in any code I’ve written from other projects, so except for one third party library’s source, all code has been written especially for this
