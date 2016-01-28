@@ -17,7 +17,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 		private static ICache cacheSvc;
 		public static ICache Cache {
 			get {
-				if (httpClientFactory == null)
+				if (cacheSvc == null)
 					throw new InvalidOperationException ("An instance of ICache must be registered using the RegisterCache() method before accessing this property.");
 				return cacheSvc;
 			}
@@ -30,5 +30,10 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 		public static void RegisterCache (ICache cache) {
 			cacheSvc = cache;
 		}
-	}
+
+		public static void Reset () {
+			cacheSvc = null;
+			httpClientFactory = null;
+		}
+    }
 }

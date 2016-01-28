@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieexplorer.tests", "movieexplorer.tests.csproj", "{C3882D96-05E1-4D53-A3A0-EB592363E137}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieexplorer.shared", "..\Shared\movieexplorer.shared.csproj", "{740D4B6D-DFAC-432A-AE95-987AC915444C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieexplorer.shared", "..\Shared\movieexplorer.shared\movieexplorer.shared.csproj", "{740D4B6D-DFAC-432A-AE95-987AC915444C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using com.interactiverobert.prototypes.movieexplorer.shared;
+using System.Threading.Tasks;
+using com.interactiverobert.prototypes.movieexplorer.shared.contracts;
 
 namespace movieexplorer.tests
 {
@@ -15,27 +17,32 @@ namespace movieexplorer.tests
 		}
 
 		[TestMethod]
-		[ExpectedException (typeof(TypeInitializationException))]
+		[ExpectedException (typeof(InvalidOperationException))]
 		public void GetTopRatedMoviesAsync_NoHttpClientFactoryRegistered()
 		{
-			var result = Data.Current.GetTopRatedMoviesAsync().Result;
-		}
+			//Act
+			Data.Current.GetTopRatedMoviesAsync();
 
-		[TestMethod]
-		[ExpectedException(typeof(TypeInitializationException))]
-		public void GetTopRatedMoviesAsync_InvalidApiKey()
-		{
-			DependencyManager.RegisterHttpClientFactory(new HttpClientFactory());
-			var result = Data.Current.GetTopRatedMoviesAsync().Result;
-			Assert.IsNotNull(result);
-			Assert.IsTrue(result.TotalPages > 0);
+			//Assert
+			Assert.Fail("Expected exception not thrown");
 		}
 
 		[TestMethod]
 		public void GetTopRatedMoviesAsync_Test()
 		{
+			//Arrange
 			DependencyManager.RegisterHttpClientFactory(new HttpClientFactory());
-			var result = Data.Current.GetTopRatedMoviesAsync().Result;
+			DependencyManager.RegisterCache(new Moq.Mock<ICache>().Object);
+			GetMoviesResponse result = null;
+
+			Task.Run(async () =>
+			{
+				//Act
+				result = await Data.Current.GetTopRatedMoviesAsync();
+			}).GetAwaiter().GetResult();
+
+
+			//Assert
 			Assert.IsNotNull(result);
 			Assert.IsTrue(result.TotalPages > 0);
 		}
