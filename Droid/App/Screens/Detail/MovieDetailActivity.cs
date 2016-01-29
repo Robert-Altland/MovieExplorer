@@ -188,7 +188,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 
 		private void btnClose_Click (object sender, EventArgs e) {
 			Intent intent = new Intent(this, typeof (MovieBrowseActivity));
-			intent.SetFlags(ActivityFlags.ClearTop);   
+			intent.SetFlags(ActivityFlags.ClearTop|ActivityFlags.SingleTop);   
 			this.StartActivity(intent);
 		}
 		#endregion

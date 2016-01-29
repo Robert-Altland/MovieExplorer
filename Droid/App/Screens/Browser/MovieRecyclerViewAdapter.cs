@@ -20,7 +20,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 		#region Private fields
 		private INotifyDataSetChangedReceiver receiver;
 		private ConfigurationResponse configuration;
-		private List<Movie> movies;
+		private readonly List<Movie> movies;
 		private Activity context;
 		#endregion
 
@@ -42,6 +42,8 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 			//Inflate our CrewMemberItem Layout
 			View itemView = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.movie_list_item, parent, false);
 			var viewHolder = new MovieViewHolder(itemView);
+			viewHolder.PosterImage.Click += this.imgPoster_Click;
+			viewHolder.PosterImage.LongClick += this.imgPoster_LongClick;
 			return viewHolder;
 		}
 
@@ -52,15 +54,18 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 
 			ImageLoader.Instance.DisplayImage (String.Concat (this.configuration.Images.BaseUrl, this.configuration.Images.PosterSizes [0], this.movies[position].PosterPath), viewHolder.PosterImage);
 
-			viewHolder.PosterImage.Click += this.imgPoster_Click;
-			viewHolder.PosterImage.LongClick += this.imgPoster_LongClick;
-			viewHolder.FavoriteIndicator.Visibility = Data.Current.IsInFavorites (thisMovie) ? ViewStates.Visible : ViewStates.Gone;
+			viewHolder.FavoriteIndicator.Alpha = Data.Current.IsInFavorites (thisMovie) ? 1.0f : 0.0f;
+			viewHolder.SelectedIndicator.Alpha = 0.0f;
+			viewHolder.HighlightIndicator.Alpha = 0.0f;
 		}
+
+
 		#endregion
 
 		#region Public methods
-		public void Reload (List<Movie> movies) {
-			this.movies = movies;
+		public void Reload (List<Movie> newMovies) {
+//			this.movies.Clear ();
+//			this.movies.AddRange (newMovies.ToArray ());
 			this.NotifyDataSetChanged ();
 		}
 		#endregion
@@ -69,19 +74,25 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 		private void imgPoster_LongClick (object sender, View.LongClickEventArgs e) {
 			var typedSender = sender as ImageView;
 			var viewHolder = typedSender.Tag as MovieViewHolder;
-			viewHolder.HighlightIndicator.Alpha = 0.6f;
+			if (viewHolder.AdapterPosition >= 0) {
+				viewHolder.HighlightIndicator.Alpha = 0.6f;
 
-			var selectedMovie = this.movies [viewHolder.AdapterPosition];
-			if (Data.Current.IsInFavorites (selectedMovie)) 
-				Data.Current.RemoveFromFavorites (selectedMovie);
-			else 
-				Data.Current.AddToFavorites (selectedMovie);
+				var selectedMovie = this.movies [viewHolder.AdapterPosition];
+				if (Data.Current.IsInFavorites (selectedMovie))
+					Data.Current.RemoveFromFavorites (selectedMovie);
+				else
+					Data.Current.AddToFavorites (selectedMovie);
 
-			viewHolder.HighlightIndicator.StartAnimation (new AlphaAnimation (viewHolder.HighlightIndicator.Alpha, 0) { Duration = 300, StartOffset = 1000, FillAfter = true });
-			viewHolder.FavoriteIndicator.Alpha = Data.Current.IsInFavorites (selectedMovie) ? 1.0f : 0.0f;
+				viewHolder.HighlightIndicator.StartAnimation (new AlphaAnimation (viewHolder.HighlightIndicator.Alpha, 0) {
+					Duration = 300,
+					StartOffset = 1000,
+					FillAfter = true
+				});
+				viewHolder.FavoriteIndicator.Alpha = Data.Current.IsInFavorites (selectedMovie) ? 1.0f : 0.0f;
 
-			if (this.receiver != null)
-				this.receiver.NotifyDataSetChanged ();
+				if (this.receiver != null)
+					this.receiver.NotifyDataSetChanged ();
+			}
 		}
 
 		private void imgPoster_Click (object sender, EventArgs e) {

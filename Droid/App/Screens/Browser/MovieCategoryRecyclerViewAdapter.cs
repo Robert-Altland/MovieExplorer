@@ -17,7 +17,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 	public class MovieCategoryRecyclerViewAdapter : RecyclerView.Adapter, INotifyDataSetChangedReceiver
 	{
 		private ConfigurationResponse configuration;
-		private List<MovieCategory> categories;
+		private readonly List<MovieCategory> categories;
 		private Activity context;
 
 		public MovieCategoryRecyclerViewAdapter(Activity context, List<MovieCategory> items, ConfigurationResponse configuration) : base() {
@@ -40,9 +40,11 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 		public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 			var viewHolder = holder as MovieCategoryViewHolder;
 			var thisCategory = this.categories [position];
-			var movieLayoutManager = new LinearLayoutManager (context, LinearLayoutManager.Horizontal, false);
 			viewHolder.CategoryName.Text = thisCategory.CategoryName;
-			viewHolder.MovieList.SetLayoutManager (movieLayoutManager);
+			if (viewHolder.MovieList.GetLayoutManager () == null) {
+				var movieLayoutManager = new LinearLayoutManager (context, LinearLayoutManager.Horizontal, false);
+				viewHolder.MovieList.SetLayoutManager (movieLayoutManager);
+			}
 			var adapter = viewHolder.MovieList.GetAdapter() as MovieRecyclerViewAdapter;
 			if (adapter == null) {
 				var movieAdapter = new MovieRecyclerViewAdapter (this, this.context, thisCategory.Movies, this.configuration);
@@ -58,8 +60,10 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 
 			return 1;
 		}
-			
-		public void Reload (List<MovieCategory> movieCategories) {
+
+		public void Reload (List<MovieCategory> newCategories) {
+//			this.categories.Clear ();
+//			this.categories.AddRange (newCategories.ToArray ());
 			this.NotifyDataSetChanged();
 		}
 	}

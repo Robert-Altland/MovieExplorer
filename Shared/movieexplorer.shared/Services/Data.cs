@@ -278,7 +278,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 		public void RemoveFromFavorites (Movie movie) {
 			var existing = this.favorites.FirstOrDefault (x => x.Id == movie.Id);
 			if (existing != null) {
-				this.favorites.Remove (movie);
+				this.favorites.Remove (existing);
 				this.cache.Set <List<Movie>>(StringResources.FavoritesCacheKey, this.favorites);
 			}
 		}
@@ -303,6 +303,6 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 			});
 			return tcs.Task;
 		}
-            		#endregion
+        #endregion
 	}
 }
