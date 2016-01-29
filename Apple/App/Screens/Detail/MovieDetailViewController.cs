@@ -124,6 +124,8 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 				this.lblVoteCount.Text = String.Format ("(from {0} votes)", this.MovieDetail.VoteCount.ToString ());
 				this.tvOverview.Text = this.MovieDetail.Overview;
 
+				this.tvOverviewHeightConstraint.Constant = this.tvOverview.SizeThatFits (new CGSize (this.tvOverview.Frame.Width, float.MaxValue)).Height;
+
 				var posterUri = new Uri (String.Concat (this.Configuration.Images.BaseUrl, this.Configuration.Images.PosterSizes[1], this.MovieDetail.PosterPath));
 				this.imgPoster.Image = ImageLoader.DefaultRequestImage (posterUri, this);
 

@@ -59,6 +59,9 @@
     <Reference Include="Xamarin.Android.Support.v7.RecyclerView">
       <HintPath>..\..\packages\Xamarin.Android.Support.v7.RecyclerView.23.1.1.0\lib\MonoAndroid403\Xamarin.Android.Support.v7.RecyclerView.dll</HintPath>
     </Reference>
+    <Reference Include="UniversalImageLoader">
+      <HintPath>..\..\Components\UniversalImageLoader-1.9.4.1\lib\android\UniversalImageLoader.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -91,7 +94,7 @@
     <AndroidResource Include="Resources\drawable\splash.png" />
     <AndroidResource Include="Resources\layout\movie_browse.axml" />
     <AndroidResource Include="Resources\layout\movie_category_item.axml" />
-    <AndroidResource Include="Resources\drawable\DefaultUrlImage.png" />
+    <AndroidResource Include="Resources\drawable\btnClose.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
@@ -109,5 +112,11 @@
       <Project>{740D4B6D-DFAC-432A-AE95-987AC915444C}</Project>
       <Name>movieexplorer.shared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="UniversalImageLoader">
+      <Version>1.9.4.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
   </ItemGroup>
 </Project>

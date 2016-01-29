@@ -50,6 +50,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		#region Private methods
 		private async void startup () {
 			await Data.Current.GetConfigurationAsync ();
+			await Data.Current.GetMoviesByCategoryAsync ();
 			this.PerformSegue ("ShowMovieList", this);
 		}
 		#endregion

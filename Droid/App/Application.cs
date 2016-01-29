@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using com.interactiverobert.prototypes.movieexplorer.shared;
 using com.interactiverobert.prototypes.movieexplorer.shared.services;
+using UniversalImageLoader.Core;
 
 namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 {
@@ -28,6 +29,11 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 		public override void OnCreate () {
 			base.OnCreate ();
 			// Create your application here
+
+			// Use default options
+			var config = ImageLoaderConfiguration.CreateDefault(ApplicationContext);
+			// Initialize ImageLoader with configuration.
+			ImageLoader.Instance.Init(config);
 
 			DependencyManager.RegisterHttpClientFactory (new HttpClientFactory ());
 			DependencyManager.RegisterCache (new Cache ());

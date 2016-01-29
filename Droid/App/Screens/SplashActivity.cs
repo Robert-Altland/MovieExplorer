@@ -13,6 +13,7 @@ using Android.Widget;
 using com.interactiverobert.prototypes.movieexplorer.shared;
 using System.Threading.Tasks;
 using System.Threading;
+using Newtonsoft.Json;
 
 namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 {
@@ -31,17 +32,15 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 			this.startup ();
 		}
 
-		private void startup () {
-			this.simulateStartupDelay ();
-		}
-
-		private void simulateStartupDelay () {
-			Task.Factory.StartNew (() => {
-				Thread.Sleep ((int)TimeSpan.FromSeconds (3).TotalMilliseconds);
-				this.RunOnUiThread(() => {
-					this.StartActivity (typeof (MovieBrowseActivity));
-				});
-			});
+		private async void startup () {
+			var configuration = await Data.Current.GetConfigurationAsync ();
+			var categories = await Data.Current.GetMoviesByCategoryAsync ();
+			var activity = new Intent (this, typeof(MovieBrowseActivity));
+			var strConfig = JsonConvert.SerializeObject (configuration);
+			var strCategories = JsonConvert.SerializeObject (categories);
+			activity.PutExtra ("Configuration", strConfig);
+			activity.PutExtra ("Categories", strCategories);
+			this.StartActivity (activity);
 		}
 	}
 }

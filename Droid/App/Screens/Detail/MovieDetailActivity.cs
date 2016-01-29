@@ -13,13 +13,14 @@ using Android.Widget;
 using Android.Views.Animations;
 using Android.Support.V7.Widget;
 
-using UrlImageViewHelper;
 using com.interactiverobert.prototypes.movieexplorer.shared;
+using UniversalImageLoader.Core;
+using com.interactiverobert.prototypes.movieexplorer.droid.lib;
 
 namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 {
 	[Activity ()]			
-	public class MovieDetailActivity : Activity
+	public class MovieDetailActivity : Activity, INotifyDataSetChangedReceiver
 	{
 		#region Private fields
 		private List<Video> videos = new List<Video> ();
@@ -29,13 +30,14 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 
 		private Button btnPlay;
 		private Button btnFavorite;
+		private ImageButton btnClose;
 		private TextView txtTitle;
 		private TextView txtReleaseDate;
 		private RatingBar ratingBar;
 		private TextView txtVoteCount;
 		private TextView txtOverview;
 		private ImageView imgPoster;
-		private LinearLayout vwSimilarMovies;
+		private RelativeLayout vwSimilarMovies;
 		private RecyclerView movieList;
 		private LinearLayoutManager movieLayoutManager;
 		private MovieRecyclerViewAdapter movieAdapter;
@@ -49,29 +51,35 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 			this.SetContentView (Resource.Layout.movie_detail);
 
 			// Create your application here
-			var serializedList = this.Intent.Extras.GetString ("Data");
-			var list = JsonConvert.DeserializeObject<List<string>> (serializedList);
-			var movie = list[0];
-			var config = list[1];
-			this.movieDetail = JsonConvert.DeserializeObject<Movie> (movie);
-			this.configuration = JsonConvert.DeserializeObject<ConfigurationResponse> (config);
+			var strConfig = this.Intent.Extras.GetString ("Configuration");
+			var strSelectedMovie = this.Intent.Extras.GetString ("SelectedMovie");
+			this.configuration = JsonConvert.DeserializeObject<ConfigurationResponse> (strConfig);
+			this.movieDetail = JsonConvert.DeserializeObject<Movie> (strSelectedMovie);
 
 			this.btnPlay = this.FindViewById<Button> (Resource.Id.movie_detail_btnPlay);
 			this.btnPlay.Click += this.btnPlay_Click;
 			this.btnFavorite = this.FindViewById<Button> (Resource.Id.movie_detail_btnFavorite);
 			this.btnFavorite.Click += this.btnFavorite_Click;
+			this.btnClose = this.FindViewById<ImageButton> (Resource.Id.movie_detail_close);
+			this.btnClose.Click += this.btnClose_Click;
 			this.txtTitle = this.FindViewById<TextView> (Resource.Id.movie_detail_txtTitle);
 			this.txtReleaseDate = this.FindViewById<TextView> (Resource.Id.movie_detail_txtReleaseDate);
 			this.ratingBar = this.FindViewById<RatingBar> (Resource.Id.movie_detail_ratingBar);
 			this.txtVoteCount = this.FindViewById<TextView> (Resource.Id.movie_detail_txtVoteCount);
 			this.txtOverview = this.FindViewById<TextView> (Resource.Id.movie_detail_txtOverview);
 			this.imgPoster = this.FindViewById<ImageView> (Resource.Id.movie_detail_imgPoster);
-			this.vwSimilarMovies = this.FindViewById<LinearLayout> (Resource.Id.movie_detail_vwSimilarMovies);
+			this.vwSimilarMovies = this.FindViewById<RelativeLayout> (Resource.Id.movie_detail_vwSimilarMovies);
 			this.movieList = this.FindViewById<RecyclerView>(Resource.Id.movie_detail_lstSimilarMovies);
 			this.movieLayoutManager = new LinearLayoutManager (this, LinearLayoutManager.Horizontal, false);
 			this.movieList.SetLayoutManager (this.movieLayoutManager);
 
 			this.updateLayout ();
+		}
+		#endregion
+
+		#region INotifyDataSetChangedReceiver implementation
+		public void NotifyDataSetChanged () {
+			this.movieList.GetAdapter ().NotifyDataSetChanged();
 		}
 		#endregion
 
@@ -108,7 +116,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 //						this.vwSimilarMovies.StartAnimation (new AlphaAnimation (vwSimilarMovies.Alpha, 0.0f) { Duration = 300, FillAfter = true });
 					else {
 						if (this.movieAdapter == null) {
-							this.movieAdapter = new MovieRecyclerViewAdapter (this, this.similarMovies, this.configuration);
+							this.movieAdapter = new MovieRecyclerViewAdapter (this, this, this.similarMovies, this.configuration);
 							this.movieList.SetAdapter (this.movieAdapter);
 						} else {
 							this.movieAdapter.Reload (this.similarMovies);
@@ -124,7 +132,8 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 				this.ratingBar.Rating = (float) this.movieDetail.VoteAverage / 2;
 				this.txtVoteCount.Text = String.Format ("(from {0} votes)", this.movieDetail.VoteCount.ToString ());
 				this.txtOverview.Text = this.movieDetail.Overview;
-				this.imgPoster.SetUrlDrawable (String.Concat (this.configuration.Images.BaseUrl, this.configuration.Images.PosterSizes [1], this.movieDetail.PosterPath));
+
+				ImageLoader.Instance.DisplayImage (String.Concat (this.configuration.Images.BaseUrl, this.configuration.Images.PosterSizes [1], this.movieDetail.PosterPath), this.imgPoster);
 
 				this.startPulseBackground ();
 				this.updateSaveButtonState ();
@@ -175,6 +184,12 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 				Data.Current.AddToFavorites (this.movieDetail);
 
 			this.btnFavorite.Text = Data.Current.IsInFavorites (this.movieDetail) ? "Remove from Favorites" : "Add to Favorites";
+		}
+
+		private void btnClose_Click (object sender, EventArgs e) {
+			Intent intent = new Intent(this, typeof (MovieBrowseActivity));
+			intent.SetFlags(ActivityFlags.ClearTop);   
+			this.StartActivity(intent);
 		}
 		#endregion
 	}

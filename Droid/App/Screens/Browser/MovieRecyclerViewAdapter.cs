@@ -10,20 +10,23 @@ using Android.Content;
 using Android.Views.Animations;
 
 using com.interactiverobert.prototypes.movieexplorer.shared;
-using UrlImageViewHelper;
+using UniversalImageLoader.Core;
+using com.interactiverobert.prototypes.movieexplorer.droid.lib;
 
 namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 {
 	public class MovieRecyclerViewAdapter : RecyclerView.Adapter
 	{
 		#region Private fields
+		private INotifyDataSetChangedReceiver receiver;
 		private ConfigurationResponse configuration;
 		private List<Movie> movies;
 		private Activity context;
 		#endregion
 
 		#region Constructor
-		public MovieRecyclerViewAdapter(Activity context, List<Movie> items, ConfigurationResponse configuration) : base() {
+		public MovieRecyclerViewAdapter(INotifyDataSetChangedReceiver receiver, Activity context, List<Movie> items, ConfigurationResponse configuration) : base() {
+			this.receiver = receiver;
 			this.context = context;
 			this.configuration = configuration;
 			this.movies = items;
@@ -46,9 +49,11 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 			var viewHolder = holder as MovieViewHolder;
 			var thisMovie = this.movies [position];
 			viewHolder.PosterImage.Tag = viewHolder;
-			viewHolder.PosterImage.SetUrlDrawable (String.Concat (this.configuration.Images.BaseUrl, this.configuration.Images.PosterSizes [0], this.movies[position].PosterPath), Resource.Drawable.DefaultUrlImage);
-			viewHolder.PosterImage.Click += ImgBtn_Click;
-			viewHolder.PosterImage.LongClick += ImgBtn_LongClick;
+
+			ImageLoader.Instance.DisplayImage (String.Concat (this.configuration.Images.BaseUrl, this.configuration.Images.PosterSizes [0], this.movies[position].PosterPath), viewHolder.PosterImage);
+
+			viewHolder.PosterImage.Click += this.imgPoster_Click;
+			viewHolder.PosterImage.LongClick += this.imgPoster_LongClick;
 			viewHolder.FavoriteIndicator.Visibility = Data.Current.IsInFavorites (thisMovie) ? ViewStates.Visible : ViewStates.Gone;
 		}
 		#endregion
@@ -56,11 +61,12 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 		#region Public methods
 		public void Reload (List<Movie> movies) {
 			this.movies = movies;
+			this.NotifyDataSetChanged ();
 		}
 		#endregion
 
 		#region Event handlers
-		private void ImgBtn_LongClick (object sender, View.LongClickEventArgs e) {
+		private void imgPoster_LongClick (object sender, View.LongClickEventArgs e) {
 			var typedSender = sender as ImageView;
 			var viewHolder = typedSender.Tag as MovieViewHolder;
 			viewHolder.HighlightIndicator.Alpha = 0.6f;
@@ -73,22 +79,22 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 
 			viewHolder.HighlightIndicator.StartAnimation (new AlphaAnimation (viewHolder.HighlightIndicator.Alpha, 0) { Duration = 300, StartOffset = 1000, FillAfter = true });
 			viewHolder.FavoriteIndicator.Alpha = Data.Current.IsInFavorites (selectedMovie) ? 1.0f : 0.0f;
+
+			if (this.receiver != null)
+				this.receiver.NotifyDataSetChanged ();
 		}
 
-		private void ImgBtn_Click (object sender, EventArgs e) {
+		private void imgPoster_Click (object sender, EventArgs e) {
 			var typedSender = sender as ImageView;
 			var viewHolder = typedSender.Tag as MovieViewHolder;
 			viewHolder.SelectedIndicator.Alpha = 0.4f;
 
 			var selectedMovie = this.movies [viewHolder.AdapterPosition];
 			var detailActivity = new Intent (context, typeof(MovieDetailActivity));
-			var serializedMovie = JsonConvert.SerializeObject (selectedMovie);
-			var serializedConfig = JsonConvert.SerializeObject (this.configuration);
-			var list = new List<string> ();
-			list.Add (serializedMovie);
-			list.Add (serializedConfig);
-			var serializedList = JsonConvert.SerializeObject (list);
-			detailActivity.PutExtra ("Data", serializedList);
+			var strConfig = JsonConvert.SerializeObject (this.configuration);
+			var strMovie = JsonConvert.SerializeObject (selectedMovie);
+			detailActivity.PutExtra ("Configuration", strConfig);
+			detailActivity.PutExtra ("SelectedMovie", strMovie);
 			context.StartActivity (detailActivity);
 
 			viewHolder.SelectedIndicator.StartAnimation (new AlphaAnimation (viewHolder.SelectedIndicator.Alpha, 0f) { Duration = 300, FillAfter = true });

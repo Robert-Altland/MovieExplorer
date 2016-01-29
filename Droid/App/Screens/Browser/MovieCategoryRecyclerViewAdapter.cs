@@ -10,10 +10,11 @@ using Newtonsoft.Json;
 
 using com.interactiverobert.prototypes.movieexplorer.shared;
 using Android.Content.Res;
+using com.interactiverobert.prototypes.movieexplorer.droid.lib;
 
 namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 {
-	public class MovieCategoryRecyclerViewAdapter : RecyclerView.Adapter
+	public class MovieCategoryRecyclerViewAdapter : RecyclerView.Adapter, INotifyDataSetChangedReceiver
 	{
 		private ConfigurationResponse configuration;
 		private List<MovieCategory> categories;
@@ -39,16 +40,12 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 		public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 			var viewHolder = holder as MovieCategoryViewHolder;
 			var thisCategory = this.categories [position];
-			viewHolder.CategoryName.Text = thisCategory.CategoryName;
-
 			var movieLayoutManager = new LinearLayoutManager (context, LinearLayoutManager.Horizontal, false);
-
-			//Create a reference to our RecyclerView and set the layout manager;
+			viewHolder.CategoryName.Text = thisCategory.CategoryName;
 			viewHolder.MovieList.SetLayoutManager (movieLayoutManager);
-
 			var adapter = viewHolder.MovieList.GetAdapter() as MovieRecyclerViewAdapter;
 			if (adapter == null) {
-				var movieAdapter = new MovieRecyclerViewAdapter (this.context, thisCategory.Movies, this.configuration);
+				var movieAdapter = new MovieRecyclerViewAdapter (this, this.context, thisCategory.Movies, this.configuration);
 				viewHolder.MovieList.SetAdapter (movieAdapter);
 			} else {
 				adapter.Reload (thisCategory.Movies);
@@ -63,7 +60,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 		}
 			
 		public void Reload (List<MovieCategory> movieCategories) {
-			this.categories = movieCategories;
+			this.NotifyDataSetChanged();
 		}
 	}
 }

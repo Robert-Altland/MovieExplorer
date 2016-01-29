@@ -3,16 +3,23 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D39239"
-    android:minWidth="25px"
-    android:minHeight="25px">
+    android:gravity="center"
+    android:background="#D39239">
     <ImageView
         android:src="@drawable/splash"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/imgLogo"
-        android:paddingTop="75dp"
-        android:paddingRight="75dp"
-        android:paddingBottom="75dp"
-        android:paddingLeft="75dp" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:paddingRight="50dip"
+        android:paddingLeft="50dip" />
+    <ProgressBar
+        android:indeterminate="true"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="30dip"
+        android:layout_height="30dip"
+        android:paddingTop="10dip"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>

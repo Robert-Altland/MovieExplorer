@@ -43,6 +43,9 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		UIKit.UITextView tvOverview { get; set; }
 
 		[Outlet]
+		UIKit.NSLayoutConstraint tvOverviewHeightConstraint { get; set; }
+
+		[Outlet]
 		UIKit.UIView vwSimilarMovies { get; set; }
 
 		[Outlet]
@@ -62,6 +65,11 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnBack != null) {
+				btnBack.Dispose ();
+				btnBack = null;
+			}
+
 			if (btnPlay != null) {
 				btnPlay.Dispose ();
 				btnPlay = null;
@@ -70,11 +78,6 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 			if (btnToggleSave != null) {
 				btnToggleSave.Dispose ();
 				btnToggleSave = null;
-			}
-
-			if (btnBack != null) {
-				btnBack.Dispose ();
-				btnBack = null;
 			}
 
 			if (cvSimilarMovies != null) {
@@ -110,6 +113,11 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 			if (tvOverview != null) {
 				tvOverview.Dispose ();
 				tvOverview = null;
+			}
+
+			if (tvOverviewHeightConstraint != null) {
+				tvOverviewHeightConstraint.Dispose ();
+				tvOverviewHeightConstraint = null;
 			}
 
 			if (vwSimilarMovies != null) {
