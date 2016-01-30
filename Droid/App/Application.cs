@@ -19,7 +19,11 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 	/// <summary>
 	/// This is not recommended best practice.
 	/// </summary>
-	[Application ()]
+	#if DEBUG
+	[Application(Debuggable=true)]
+	#else
+	[Application(Debuggable=false)]
+	#endif
 	public class Application : global::Android.App.Application
 	{
 		protected Application (IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) {

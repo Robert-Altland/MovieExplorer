@@ -144,7 +144,23 @@ See above\
 T:\
 Fixed Android image loading performance\
 Completed styling detail view for both platforms\
-DataSetChange notification (causing a really bad flicker and resetting the scroll positions)\
+DataSetChange notification (still not notifying when favorite changed from detail view, also noticeable flicker on long tap)\
+\
+B:\
+None\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf2 01/29/2016\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+\cf2 Y:\
+See above\
+\
+T:\
+Fixed iOS hang on splash screen\
+Decided this is an MVP candidate, so I branched, archived and submitted the app for beta review in App Store and published to alpha channel in Google Play\
+	(still plenty that can be done to tighten it up, but technically I think this meets the requirements)\
 \
 B:\
 None\
@@ -152,6 +168,7 @@ None\
 \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
 \
 Parking lot:\
+Address layout manager crash when launching in landscape mode, give a good round of testing to orientation change and different device size/resolution\
 Finish styling android detail view\
 	pulsing background image\
 	landscape layouts\
@@ -164,8 +181,5 @@ Offline support\
 	network available indicator\
 Toast for save/unsave actions\
 Add spotlight carousel to top of movie browser which should contain the top movie in each of the 5 lists of movie category\
-\
-Unit test coverage for new classes\
-Comments for known compromises\
-Comments on all public members to describe their usage\
-Capture bad responses and implement mock HttpClientFactory (Moq?) to document negative response from TMDb API}
+More unit test coverage\
+More documentation (/// summary comments)}

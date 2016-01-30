@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.interactiverobert.prototypes.movieexplorer.droid">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.0.0" package="com.interactiverobert.prototypes.movieexplorer.droid" android:versionCode="2">
 	<uses-sdk android:minSdkVersion="14" android:targetSdkVersion="21" />
-	<application android:allowBackup="true"
-		android:theme="@android:style/Theme.NoTitleBar"
-		android:icon="@mipmap/icon" android:label="@string/app_name" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<application android:allowBackup="true" android:theme="@android:style/Theme.NoTitleBar" android:icon="@mipmap/icon" android:label="@string/app_name" />
 </manifest>
