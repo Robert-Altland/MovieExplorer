@@ -102,7 +102,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 			this.tblMovieCategories.ReloadData ();
 
 			if (this.spotlightSource == null) {
-				this.spotlightSource = new MovieCollectionViewSource (this.spotlight, this.configuration, true);
+				this.spotlightSource = new MovieCollectionViewSource (this.spotlight, this.configuration);
 				this.spotlightSource.MovieSelected += this.source_MovieSelected;
 				this.cvSpotlight.Source = this.spotlightSource;
 
