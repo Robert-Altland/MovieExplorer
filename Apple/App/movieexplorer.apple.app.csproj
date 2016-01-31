@@ -162,6 +162,10 @@
     </Compile>
     <Compile Include="Screens\Browser\MovieCategoryTableViewSource.cs" />
     <Compile Include="Screens\Browser\MovieCollectionViewSource.cs" />
+    <Compile Include="Screens\Browser\SpotlightMovieCollectionViewCell.cs" />
+    <Compile Include="Screens\Browser\SpotlightMovieCollectionViewCell.designer.cs">
+      <DependentUpon>SpotlightMovieCollectionViewCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -193,13 +197,13 @@
     <BundleResource Include="Resources\btnBack_Highlighted.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lib\movieexplorer.apple.lib.csproj">
-      <Project>{278E8448-C433-41E3-9080-38256039770F}</Project>
-      <Name>movieexplorer.apple.lib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Shared\movieexplorer.shared\movieexplorer.shared.csproj">
       <Project>{740D4B6D-DFAC-432A-AE95-987AC915444C}</Project>
       <Name>movieexplorer.shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lib\movieexplorer.apple.lib.csproj">
+      <Project>{278E8448-C433-41E3-9080-38256039770F}</Project>
+      <Name>movieexplorer.apple.lib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

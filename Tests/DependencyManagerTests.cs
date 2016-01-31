@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using com.interactiverobert.prototypes.movieexplorer.shared;
-using com.interactiverobert.prototypes.movieexplorer.shared.contracts;
+using com.interactiverobert.prototypes.movieexplorer.shared.Contracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace movieexplorer.tests

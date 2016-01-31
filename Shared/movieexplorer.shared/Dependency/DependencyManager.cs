@@ -1,5 +1,5 @@
 ﻿using System;
-using com.interactiverobert.prototypes.movieexplorer.shared.contracts;
+using com.interactiverobert.prototypes.movieexplorer.shared.Contracts;
 
 namespace com.interactiverobert.prototypes.movieexplorer.shared
 {

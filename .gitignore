@@ -20,3 +20,5 @@
 **/*.userprefs/**
 
 /Tests/.vs/
+
+/.vs/

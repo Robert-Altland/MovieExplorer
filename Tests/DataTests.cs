@@ -3,7 +3,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using com.interactiverobert.prototypes.movieexplorer.shared;
 using System.Threading.Tasks;
-using com.interactiverobert.prototypes.movieexplorer.shared.contracts;
+using com.interactiverobert.prototypes.movieexplorer.shared.Contracts;
+using com.interactiverobert.prototypes.movieexplorer.shared.Entities.Movie;
+using com.interactiverobert.prototypes.movieexplorer.shared.Services;
 
 namespace movieexplorer.tests
 {

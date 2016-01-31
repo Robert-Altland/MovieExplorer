@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace com.interactiverobert.prototypes.movieexplorer.shared
+namespace com.interactiverobert.prototypes.movieexplorer.shared.Entities.Movie
 {
 	public class GetMoviesResponse
 	{

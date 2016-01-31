@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace com.interactiverobert.prototypes.movieexplorer.shared
+namespace com.interactiverobert.prototypes.movieexplorer.shared.Entities.Video
 {
 	public class Video
 	{

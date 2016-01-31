@@ -95,6 +95,7 @@
     <AndroidResource Include="Resources\layout\movie_browse.axml" />
     <AndroidResource Include="Resources\layout\movie_category_item.axml" />
     <AndroidResource Include="Resources\drawable\btnClose.png" />
+    <AndroidResource Include="Resources\drawable\btnSearch.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

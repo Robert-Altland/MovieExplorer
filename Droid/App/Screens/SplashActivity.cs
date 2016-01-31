@@ -14,6 +14,7 @@ using com.interactiverobert.prototypes.movieexplorer.shared;
 using System.Threading.Tasks;
 using System.Threading;
 using Newtonsoft.Json;
+using com.interactiverobert.prototypes.movieexplorer.shared.Services;
 
 namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 {

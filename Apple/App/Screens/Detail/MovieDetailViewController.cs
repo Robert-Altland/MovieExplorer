@@ -12,9 +12,14 @@ using MonoTouch.Dialog.Utilities;
 using UIKit;
 using PatridgeDev;
 
-using com.interactiverobert.prototypes.movieexplorer.shared;
 using com.interactiverobert.prototypes.movieexplorer.apple.lib;
 using com.interactiverobert.prototypes.movieexplorer.apple.lib.Imaging;
+using com.interactiverobert.prototypes.movieexplorer.shared.Resources;
+using com.interactiverobert.prototypes.movieexplorer.shared.Entities.Video;
+using com.interactiverobert.prototypes.movieexplorer.shared.Entities.Movie;
+using com.interactiverobert.prototypes.movieexplorer.shared.Services;
+using com.interactiverobert.prototypes.movieexplorer.shared.Entities.Configuration;
+using com.interactiverobert.prototypes.movieexplorer.shared;
 
 namespace com.interactiverobert.prototypes.movieexplorer.apple
 {
@@ -30,6 +35,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		private List<Video> videos;
 		private List<Movie> similarMovies;
 		private MovieCollectionViewSource collectionViewSource;
+		private UILongPressGestureRecognizer longPressRecognizer;
 		#endregion
 
 		#region Public properties
@@ -47,6 +53,27 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		public override void ViewDidLoad () {
 			base.ViewDidLoad ();
 			this.imgBackground.Alpha = 0.3f;
+			this.longPressRecognizer = new UILongPressGestureRecognizer (() => {
+				if (this.longPressRecognizer.NumberOfTouches > 0) {
+					var point = this.longPressRecognizer.LocationOfTouch (0, this.cvSimilarMovies);
+					var indexPath = this.cvSimilarMovies.IndexPathForItemAtPoint (point);
+					if (indexPath != null) {
+						var cell = this.cvSimilarMovies.CellForItem (indexPath) as MovieCollectionViewCell;
+						if (this.longPressRecognizer.State == UIGestureRecognizerState.Began) {
+							cell.SetHighlighted (true, true);
+						} else if (this.longPressRecognizer.State == UIGestureRecognizerState.Ended) {
+							cell.SetHighlighted (false, true, () => {
+								var movie = this.similarMovies [indexPath.Row];
+								Data.Current.ToggleFavorite (movie);
+							});
+						}
+					} else {
+						foreach (MovieCollectionViewCell cell in this.cvSimilarMovies.VisibleCells)
+							cell.SetHighlighted (false, false);
+					}
+				} 
+			});
+			this.cvSimilarMovies.AddGestureRecognizer (this.longPressRecognizer);
 		}
 
 		public override void ViewWillAppear (bool animated) {
@@ -54,6 +81,8 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 
 			if (this.collectionViewSource != null)
 				this.collectionViewSource.MovieSelected += this.collectionViewSource_MovieSelected;
+
+			Data.Current.FavoriteChanged += this.favoriteChanged;
 
 			this.updateLayout ();
 		}
@@ -63,6 +92,8 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 
 			if (this.collectionViewSource != null)
 				this.collectionViewSource.MovieSelected -= this.collectionViewSource_MovieSelected;
+
+			Data.Current.FavoriteChanged -= this.favoriteChanged;
 		}
 		#endregion
 
@@ -175,18 +206,17 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 
 		private void pulseBackground () {
 			var randomAlpha = new Random ();
-			var alpha = this.nextDouble (randomAlpha, 0.2, 0.5);
+			var alpha = this.nextDouble (randomAlpha, 0.2, 0.4);
 			this.pulseBackground ((float)alpha, this.pulseBackground);
 		}
 
 		private void pulseBackground (float alpha, Action completionAction) {
-			var randomDuration = new Random();
-			var duration = randomDuration.Next (2, 5);
-			this.InvokeOnMainThread (() => 
-				UIView.Animate (duration, () => this.imgBackground.Alpha = alpha, () => {
+			UIView.Animate (3, 
+				() => this.imgBackground.Alpha = alpha, 
+				() => {
 					if (completionAction != null && !this.shouldStopPulseBackground)
 						completionAction.Invoke ();
-				}));
+				});
 		}
 
 		private void stopPulseBackground () {
@@ -209,13 +239,18 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 
 		private void updateSaveButtonState () {
 			if (Data.Current.IsInFavorites (this.MovieDetail)) 
-				this.btnToggleSave.SetTitle ("Remove from Favorites", UIControlState.Normal);
+				this.btnToggleSave.SetTitle (SharedConstants.RemoveFromFavoritesText, UIControlState.Normal);
 			else
-				this.btnToggleSave.SetTitle ("Save to Favorites", UIControlState.Normal);
+				this.btnToggleSave.SetTitle (SharedConstants.SaveToFavoritesText, UIControlState.Normal);
 		}
 		#endregion
 
 		#region Event handlers
+		private void favoriteChanged (object sender, FavoriteChangedEventArgs e) {
+			if (this.similarMovies.FirstOrDefault (x => x.Id == e.FavoriteMovie.Id) != null)
+				this.cvSimilarMovies.ReloadData ();
+		}
+			
 		private void collectionViewSource_MovieSelected (object sender, Movie e) {
 			this.stopPulseBackground ();
 			MovieDetailViewController newDetail = UIStoryboard.FromName ("Main", null).InstantiateViewController ("MovieDetail") as MovieDetailViewController;
@@ -225,11 +260,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		}
 
 		partial void btnToggleSave_Click (NSObject sender) {
-			if (Data.Current.IsInFavorites (this.MovieDetail))
-				Data.Current.RemoveFromFavorites (this.MovieDetail);
-			else
-				Data.Current.AddToFavorites (this.MovieDetail);
-			
+			Data.Current.ToggleFavorite (this.MovieDetail);
 			this.updateSaveButtonState ();
 		}
 

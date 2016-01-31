@@ -5,6 +5,9 @@ using Foundation;
 using UIKit;
 
 using com.interactiverobert.prototypes.movieexplorer.shared;
+using com.interactiverobert.prototypes.movieexplorer.shared.Entities.Movie;
+using com.interactiverobert.prototypes.movieexplorer.shared.Entities.Configuration;
+using com.interactiverobert.prototypes.movieexplorer.shared.Services;
 
 namespace com.interactiverobert.prototypes.movieexplorer.apple
 {
@@ -28,6 +31,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		public override void PrepareForReuse () {
 			if (this.collectionViewSource != null)
 				this.collectionViewSource.MovieSelected -= this.collectionViewSource_MovieSelected;
+			Data.Current.FavoriteChanged -= this.favoriteChanged;
 			this.collectionViewSource = null;
 			this.category = null;
 			this.configuration = null;
@@ -48,6 +52,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 			this.lblCategoryName.Text = this.category.CategoryName;
 			this.collectionViewSource = new MovieCollectionViewSource (this.category.Movies, this.configuration);
 			this.collectionViewSource.MovieSelected += this.collectionViewSource_MovieSelected;
+			Data.Current.FavoriteChanged += this.favoriteChanged;
 			this.longPressRecognizer = new UILongPressGestureRecognizer (() => {
 				if (this.longPressRecognizer.NumberOfTouches > 0) {
 					var point = this.longPressRecognizer.LocationOfTouch (0, this.cvMovies);
@@ -55,19 +60,12 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 					if (indexPath != null) {
 						var cell = this.cvMovies.CellForItem (indexPath) as MovieCollectionViewCell;
 						if (this.longPressRecognizer.State == UIGestureRecognizerState.Began) {
-							cell.SetHighlighted (true);
-						} else {
-							if (this.longPressRecognizer.State != UIGestureRecognizerState.Ended) 
-								return;
-		 
-							var movie = this.category.Movies [indexPath.Row];
-							if (Data.Current.IsInFavorites (movie))
-								Data.Current.RemoveFromFavorites (movie);
-							else
-								Data.Current.AddToFavorites (movie);
-
-							cell.SetHighlighted (false);
-							NSNotificationCenter.DefaultCenter.PostNotificationName ("FavoriteListChanged", this);
+							cell.SetHighlighted (true, true);
+						} else if (this.longPressRecognizer.State == UIGestureRecognizerState.Ended) {
+							cell.SetHighlighted (false, true, () => {
+								var movie = this.category.Movies [indexPath.Row];
+								Data.Current.ToggleFavorite (movie);
+							});
 						}
 					} else {
 						foreach (MovieCollectionViewCell cell in this.cvMovies.VisibleCells)
@@ -82,6 +80,15 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		#endregion
 
 		#region Event handlers
+		private void favoriteChanged (object sender, FavoriteChangedEventArgs e) {
+			if (this.category.CategoryName == "Your Favorites") {
+				this.cvMovies.ReloadData ();
+			} else {
+				if (this.category.Movies.Find (x => x.Id == e.FavoriteMovie.Id) != null)
+					this.cvMovies.ReloadData ();
+			}
+		}
+
 		private void collectionViewSource_MovieSelected (object sender, Movie e) {
 			if (this.selectionAction != null)
 				this.selectionAction (e);			

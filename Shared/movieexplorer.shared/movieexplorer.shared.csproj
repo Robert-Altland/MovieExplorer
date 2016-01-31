@@ -34,11 +34,6 @@
     <Compile Include="Contracts\IHttpClientFactory.cs" />
     <Compile Include="Http\HttpClientFactory.cs" />
     <Compile Include="Dependency\DependencyManager.cs" />
-    <Compile Include="StringResources.Designer.cs">
-      <DependentUpon>StringResources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Services\Data.cs" />
     <Compile Include="Entities\Configuration\ConfigurationResponse.cs" />
     <Compile Include="Entities\Movie\GetMoviesResponse.cs" />
@@ -48,6 +43,10 @@
     <Compile Include="Entities\Video\Video.cs" />
     <Compile Include="Entities\Video\GetVideosForMovieResponse.cs" />
     <Compile Include="Contracts\ICache.cs" />
+    <Compile Include="Resources\SharedConstants.Designer.cs">
+      <DependentUpon>SharedConstants.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\FavoriteChangedEventArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -73,10 +72,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="StringResources.resx">
+    <EmbeddedResource Include="Resources\SharedConstants.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>StringResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
 </Project>

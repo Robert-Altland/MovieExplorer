@@ -5,8 +5,8 @@ using System.Collections.Generic;
 
 using UIKit;
 
-using com.interactiverobert.prototypes.movieexplorer.apple.lib;
-using com.interactiverobert.prototypes.movieexplorer.shared;
+using com.interactiverobert.prototypes.movieexplorer.shared.Services;
+using com.interactiverobert.prototypes.movieexplorer.apple.lib.Resources;
 
 namespace com.interactiverobert.prototypes.movieexplorer.apple
 {
@@ -51,7 +51,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		private async void startup () {
 			await Data.Current.GetConfigurationAsync ();
 			await Data.Current.GetMoviesByCategoryAsync ();
-			this.PerformSegue ("ShowMovieList", this);
+			this.PerformSegue (AppleConstants.ShowMovieList_SegueName, this);
 		}
 		#endregion
 	}

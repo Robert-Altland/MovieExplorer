@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace com.interactiverobert.prototypes.movieexplorer.shared.contracts
+namespace com.interactiverobert.prototypes.movieexplorer.shared.Contracts
 {
 	/// <summary>
 	/// Contract for interacting with inexpensive, semi-durable device storage.

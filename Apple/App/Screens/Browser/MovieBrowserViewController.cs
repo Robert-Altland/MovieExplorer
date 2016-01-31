@@ -2,10 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using CoreGraphics;
 using Foundation;
 using UIKit;
 
-using com.interactiverobert.prototypes.movieexplorer.shared;
+using com.interactiverobert.prototypes.movieexplorer.shared.Entities.Configuration;
+using com.interactiverobert.prototypes.movieexplorer.shared.Entities.Movie;
+using com.interactiverobert.prototypes.movieexplorer.shared.Services;
+using com.interactiverobert.prototypes.movieexplorer.apple.lib.Resources;
+using com.interactiverobert.prototypes.movieexplorer.apple.lib.Contracts;
 
 namespace com.interactiverobert.prototypes.movieexplorer.apple
 {
@@ -13,10 +18,14 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 	{
 		#region Private fields
 		private MovieCategoryTableViewSource tableViewSource;
-		private List<MovieCategory> data;
+		private MovieCollectionViewSource spotlightSource;
+
 		private ConfigurationResponse configuration;
+		private List<MovieCategory> categories;
+		private List<Movie> spotlight;
 		private Movie selectedMovie;
-		private NSObject favoritesChangedNotification;
+
+		private UILongPressGestureRecognizer longPressRecognizer;
 		#endregion
 
 		#region Constructor
@@ -29,50 +38,90 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		public override void ViewDidLoad () {
 			base.ViewDidLoad ();
 
-			this.tblMovieCategories.ContentInset = this.tblMovieCategories.ScrollIndicatorInsets;
+			this.longPressRecognizer = new UILongPressGestureRecognizer (() => {
+				if (this.longPressRecognizer.NumberOfTouches > 0) {
+					var point = this.longPressRecognizer.LocationOfTouch (0, this.cvSpotlight);
+					var indexPath = this.cvSpotlight.IndexPathForItemAtPoint (point);
+					if (indexPath != null) {
+						var cell = this.cvSpotlight.CellForItem (indexPath) as IMovieCollectionViewCell;
+						if (this.longPressRecognizer.State == UIGestureRecognizerState.Began) {
+							cell.SetHighlighted (true, true);
+						} else if (this.longPressRecognizer.State == UIGestureRecognizerState.Ended) {
+							cell.SetHighlighted (false, true, () => {
+								var movie = this.spotlight [indexPath.Row];
+								Data.Current.ToggleFavorite (movie);
+							});
+						}
+					} else {
+						foreach (MovieCollectionViewCell cell in this.cvSpotlight.VisibleCells)
+							cell.SetHighlighted (false, false);
+					}
+				} 
+			});
+			this.cvSpotlight.AddGestureRecognizer (this.longPressRecognizer);
 		}
 
 		public override void ViewWillAppear (bool animated) {
 			base.ViewWillAppear (animated);
 
+			Data.Current.FavoriteChanged += this.favoriteChanged;
 			this.willAppear ();
 		}
 
 		public override void ViewWillDisappear (bool animated) {
 			base.ViewWillDisappear (animated);
 
-			if (this.tableViewSource != null)
-				this.tableViewSource.MovieSelected -= this.tableViewSource_MovieSelected;
-
-			if (this.favoritesChangedNotification != null) {
-				NSNotificationCenter.DefaultCenter.RemoveObserver (this.favoritesChangedNotification);
-				this.favoritesChangedNotification = null;
-			}
+			Data.Current.FavoriteChanged -= this.favoriteChanged;
 		}
+
 		#endregion
 
 		#region Private methods
+		private void updateSpotlightItemSize () {
+			this.cvSpotlightHeightConstraint.Constant = this.tblMovieCategories.Frame.Width*9/16;
+			if (UIDevice.CurrentDevice.Orientation.IsLandscape ())
+				this.cvSpotlightHeightConstraint.Constant = UIScreen.MainScreen.ApplicationFrame.Height / 1.75f;
+			var itemSize = new CGSize (this.tblMovieCategories.Frame.Width, this.cvSpotlightHeightConstraint.Constant);
+			var flowLayout = this.cvSpotlight.CollectionViewLayout as UICollectionViewFlowLayout;
+			flowLayout.ItemSize = itemSize;
+			flowLayout.InvalidateLayout ();
+		}
+
 		private async void willAppear() {
-			if (this.tableViewSource != null)
-				this.tableViewSource.MovieSelected += this.tableViewSource_MovieSelected;
-
-			if (this.favoritesChangedNotification == null) {
-				this.favoritesChangedNotification = NSNotificationCenter.DefaultCenter.AddObserver (new NSString ("FavoriteListChanged"), (notification) => {
-					this.tblMovieCategories.ReloadData();
-				});
-			}
-
 			this.configuration = await Data.Current.GetConfigurationAsync ();
-			this.data = await Data.Current.GetMoviesByCategoryAsync ();
+			this.categories = await Data.Current.GetMoviesByCategoryAsync ();
+			this.spotlight = await Data.Current.GetSpotlightMoviesAsync ();
+
 			if (this.tableViewSource == null) {
-				this.tableViewSource = new MovieCategoryTableViewSource (this.configuration, this.data);
-				this.tableViewSource.MovieSelected += this.tableViewSource_MovieSelected;
+				this.tableViewSource = new MovieCategoryTableViewSource (this.configuration, this.categories);
+				this.tableViewSource.MovieSelected += this.source_MovieSelected;
 				this.tblMovieCategories.Source = this.tableViewSource;
-				this.tblMovieCategories.ReloadData ();
 			} else {
-				this.tableViewSource.Reload (this.data);
-				this.tblMovieCategories.ReloadData ();
+				this.tableViewSource.Reload (this.categories);
 			}
+			this.tblMovieCategories.ReloadData ();
+
+			if (this.spotlightSource == null) {
+				this.spotlightSource = new MovieCollectionViewSource (this.spotlight, this.configuration, true);
+				this.spotlightSource.MovieSelected += this.source_MovieSelected;
+				this.cvSpotlight.Source = this.spotlightSource;
+
+			} else {
+				this.spotlightSource.Reload (this.spotlight);
+			}
+
+			this.tblMovieCategoriesHeightConstraint.Constant = this.tblMovieCategories.ContentSize.Height;
+			this.updateSpotlightItemSize ();
+			this.cvSpotlight.ReloadData ();
+		}
+		#endregion
+
+		#region Rotation handling
+		public override void DidRotate (UIInterfaceOrientation fromInterfaceOrientation) {
+			base.DidRotate (fromInterfaceOrientation);
+
+			this.updateSpotlightItemSize ();
+			this.cvSpotlight.ReloadData ();
 		}
 		#endregion
 
@@ -87,9 +136,14 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		#endregion
 
 		#region Event handlers
-		private void tableViewSource_MovieSelected (object sender, Movie e) {
+		private void favoriteChanged (object sender, com.interactiverobert.prototypes.movieexplorer.shared.FavoriteChangedEventArgs e) {
+			if (this.spotlight.Find (x => x.Id == e.FavoriteMovie.Id) != null)
+				this.cvSpotlight.ReloadData ();
+		}
+
+		private void source_MovieSelected (object sender, Movie e) {
 			this.selectedMovie = e;
-			this.PerformSegue ("ShowMovieDetail", this);
+			this.PerformSegue (AppleConstants.ShowMovieDetail_SegueName, this);
 		}
 
 		partial void btnSearch_Click (NSObject sender) {

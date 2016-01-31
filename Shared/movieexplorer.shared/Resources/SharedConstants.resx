@@ -150,4 +150,10 @@
   <data name="FavoritesCacheKey" xml:space="preserve">
     <value>favorites</value>
   </data>
+  <data name="SaveToFavoritesText" xml:space="preserve">
+    <value>Save to Favorites</value>
+  </data>
+  <data name="RemoveFromFavoritesText" xml:space="preserve">
+    <value>Remove from Favorites</value>
+  </data>
 </root>

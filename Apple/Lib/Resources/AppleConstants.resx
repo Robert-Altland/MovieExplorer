@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FavoriteListChanged_NotificationName" xml:space="preserve">
+  	<value>FavoriteListChanged</value>
+  </data>
+  <data name="ShowMovieDetail_SegueName" xml:space="preserve">
+  	<value>ShowMovieDetail</value>
+  </data>
+  <data name="ShowMovieList_SegueName" xml:space="preserve">
+  	<value>ShowMovieList</value>
+  </data>
   <data name="MovieCollectionViewCell_ReuseKey" xml:space="preserve">
     <value>MovieCell</value>
   </data>

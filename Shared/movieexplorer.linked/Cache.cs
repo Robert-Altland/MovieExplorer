@@ -6,7 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-using com.interactiverobert.prototypes.movieexplorer.shared.contracts;
+using com.interactiverobert.prototypes.movieexplorer.shared.Contracts;
+using com.interactiverobert.prototypes.movieexplorer.shared.Resources;
 
 namespace com.interactiverobert.prototypes.movieexplorer.shared.services
 {
@@ -60,7 +61,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared.services
 
 		#region Private methods
 		private string getFilePath(string directory, string key) {
-			return Path.Combine (directory, key + StringResources.SerializedFileExtension);
+			return Path.Combine (directory, key + SharedConstants.SerializedFileExtension);
 		}
 		#endregion
 	}

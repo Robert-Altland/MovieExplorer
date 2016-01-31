@@ -7,9 +7,13 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 
-using com.interactiverobert.prototypes.movieexplorer.shared.contracts;
+using com.interactiverobert.prototypes.movieexplorer.shared.Contracts;
+using com.interactiverobert.prototypes.movieexplorer.shared.Resources;
+using com.interactiverobert.prototypes.movieexplorer.shared.Entities.Configuration;
+using com.interactiverobert.prototypes.movieexplorer.shared.Entities.Movie;
+using com.interactiverobert.prototypes.movieexplorer.shared.Entities.Video;
 
-namespace com.interactiverobert.prototypes.movieexplorer.shared
+namespace com.interactiverobert.prototypes.movieexplorer.shared.Services
 {
 	public class Data
 	{
@@ -55,10 +59,70 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 		#endregion
 
 		#region Public methods
+		public Task<ConfigurationResponse> GetConfigurationAsync () {
+			var tcs = new TaskCompletionSource<ConfigurationResponse> ();
+			Task.Factory.StartNew (async () => {
+				var urlString = String.Format (SharedConstants.GetConfigurationUriFormatString, SharedConstants.ApiKey);
+				var cacheKey = this.getCacheKey (urlString);
+				if (this.configuration != null) {
+					tcs.TrySetResult (this.configuration);
+				} else {
+					if (cache.ContainsKey(cacheKey)) {
+						var response = cache.Get<ConfigurationResponse>(cacheKey);
+						this.configuration = response;
+						tcs.TrySetResult (this.configuration);
+					} else {
+						var client = this.httpClientFactory.Create ();
+						var response = await client.GetAsync (urlString);
+						var json = await response.Content.ReadAsStringAsync ();
+						var result = JsonConvert.DeserializeObject<ConfigurationResponse> (json);
+						this.configuration = result;
+						cache.Set<ConfigurationResponse> (cacheKey, this.configuration);
+						tcs.TrySetResult (this.configuration);
+					}
+				}
+			});
+			return tcs.Task;
+		}
+
+		public Task<List<Movie>> GetSpotlightMoviesAsync () {
+			var tcs = new TaskCompletionSource<List<Movie>> ();
+			Task.Factory.StartNew (async () => {
+				var categories = await Data.Current.GetMoviesByCategoryAsync ();
+				var result = new List<Movie> ();
+				foreach (var category in categories) {
+					var thisSpotlight = category.Spotlight;
+					if (thisSpotlight != null)
+						result.Add (thisSpotlight);
+				}
+				tcs.TrySetResult (result);
+			});
+			return tcs.Task;
+		}
+
+		public Task<List<MovieCategory>> GetMoviesByCategoryAsync () {
+			var tcs = new TaskCompletionSource<List<MovieCategory>> ();
+			Task.Factory.StartNew (async () => {
+				this.topRatedMovies = await Data.Current.GetTopRatedMoviesAsync ();
+				this.popularMovies = await Data.Current.GetPopularMoviesAsync ();
+				this.nowPlayingMovies = await Data.Current.GetNowPlayingMoviesAsync ();
+				this.upcomingMovies = await Data.Current.GetUpcomingMoviesAsync ();
+				this.favorites = await Data.Current.GetFavoritesAsync ();
+				var result = new List<MovieCategory> ();
+				result.Add (new MovieCategory ("Top Rated", this.topRatedMovies.Results)); 
+				result.Add (new MovieCategory ("Popular", this.popularMovies.Results));
+				result.Add (new MovieCategory ("Now Playing", this.nowPlayingMovies.Results));
+				result.Add (new MovieCategory ("Upcoming", this.upcomingMovies.Results));
+				result.Add (new MovieCategory ("Your Favorites", this.favorites));
+				tcs.TrySetResult (result);
+			});
+			return tcs.Task;
+		}
+
 		public Task<GetMoviesResponse> GetTopRatedMoviesAsync () {
 			var tcs = new TaskCompletionSource<GetMoviesResponse> ();
 			Task.Factory.StartNew (async () => {
-				var urlString = String.Format (StringResources.GetTopRatedMoviesUriFormatString, StringResources.ApiKey);
+				var urlString = String.Format (SharedConstants.GetTopRatedMoviesUriFormatString, SharedConstants.ApiKey);
 				var cacheKey = this.getCacheKey(urlString);
 				if (this.topRatedMovies != null) {
 					tcs.TrySetResult (this.topRatedMovies);
@@ -84,7 +148,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 		public Task<GetMoviesResponse> GetPopularMoviesAsync () {
 			var tcs = new TaskCompletionSource<GetMoviesResponse> ();
 			Task.Factory.StartNew (async () => {
-				var urlString = String.Format (StringResources.GetPopularMoviesUriFormatString, StringResources.ApiKey);
+				var urlString = String.Format (SharedConstants.GetPopularMoviesUriFormatString, SharedConstants.ApiKey);
 				var cacheKey = this.getCacheKey(urlString);
 				if (this.popularMovies != null) {
 					tcs.TrySetResult (this.popularMovies);
@@ -110,7 +174,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 		public Task<GetMoviesResponse> GetNowPlayingMoviesAsync () {
 			var tcs = new TaskCompletionSource<GetMoviesResponse> ();
 			Task.Factory.StartNew (async () => {
-				var urlString = String.Format (StringResources.GetNowPlayingMoviesUriFormatString, StringResources.ApiKey);
+				var urlString = String.Format (SharedConstants.GetNowPlayingMoviesUriFormatString, SharedConstants.ApiKey);
 				var cacheKey = this.getCacheKey (urlString);
 				if (this.nowPlayingMovies != null) {
 					tcs.TrySetResult (this.nowPlayingMovies);
@@ -136,7 +200,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 		public Task<GetMoviesResponse> GetUpcomingMoviesAsync () {
 			var tcs = new TaskCompletionSource<GetMoviesResponse> ();
 			Task.Factory.StartNew (async () => {
-				var urlString = String.Format (StringResources.GetUpcomingMoviesUriFormatString, StringResources.ApiKey);
+				var urlString = String.Format (SharedConstants.GetUpcomingMoviesUriFormatString, SharedConstants.ApiKey);
 				var cacheKey = this.getCacheKey (urlString);
 				if (this.upcomingMovies != null) {
 					tcs.TrySetResult (this.upcomingMovies);
@@ -159,36 +223,10 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 			return tcs.Task;
 		}
 
-		public Task<ConfigurationResponse> GetConfigurationAsync () {
-			var tcs = new TaskCompletionSource<ConfigurationResponse> ();
-			Task.Factory.StartNew (async () => {
-				var urlString = String.Format (StringResources.GetConfigurationUriFormatString, StringResources.ApiKey);
-				var cacheKey = this.getCacheKey (urlString);
-				if (this.configuration != null) {
-					tcs.TrySetResult (this.configuration);
-				} else {
-					if (cache.ContainsKey(cacheKey)) {
-						var response = cache.Get<ConfigurationResponse>(cacheKey);
-						this.configuration = response;
-						tcs.TrySetResult (this.configuration);
-					} else {
-						var client = this.httpClientFactory.Create ();
-						var response = await client.GetAsync (urlString);
-						var json = await response.Content.ReadAsStringAsync ();
-						var result = JsonConvert.DeserializeObject<ConfigurationResponse> (json);
-						this.configuration = result;
-						cache.Set<ConfigurationResponse> (cacheKey, this.configuration);
-						tcs.TrySetResult (this.configuration);
-					}
-				}
-			});
-			return tcs.Task;
-		}
-
 		public Task<GetVideosForMovieResponse> GetVideosForMovieAsync (int movieId) {
 			var tcs = new TaskCompletionSource<GetVideosForMovieResponse> ();
 			Task.Factory.StartNew (async () => {
-				var urlString = String.Format (StringResources.GetVidesoForMovieUriFormatString, movieId, StringResources.ApiKey);
+				var urlString = String.Format (SharedConstants.GetVidesoForMovieUriFormatString, movieId, SharedConstants.ApiKey);
 				var cacheKey = this.getCacheKey (urlString);
 				if (cache.ContainsKey(cacheKey)) {
 					var response = cache.Get<GetVideosForMovieResponse>(cacheKey);
@@ -208,7 +246,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 		public Task<GetMoviesResponse> GetSimilarForMovieAsync (int movieId) {
 			var tcs = new TaskCompletionSource<GetMoviesResponse> ();
 			Task.Factory.StartNew (async () => {
-				var urlString = String.Format (StringResources.GetSimilarForMovieUriFormatString, movieId, StringResources.ApiKey);
+				var urlString = String.Format (SharedConstants.GetSimilarForMovieUriFormatString, movieId, SharedConstants.ApiKey);
 				var cacheKey = this.getCacheKey (urlString);
 				if (cache.ContainsKey(cacheKey)) {
 					var response = cache.Get<GetMoviesResponse>(cacheKey);
@@ -225,27 +263,8 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 			return tcs.Task;
 		}
 
-		public Task<List<MovieCategory>> GetMoviesByCategoryAsync () {
-			var tcs = new TaskCompletionSource<List<MovieCategory>> ();
-			Task.Factory.StartNew (async () => {
-				this.topRatedMovies = await Data.Current.GetTopRatedMoviesAsync ();
-				this.popularMovies = await Data.Current.GetPopularMoviesAsync ();
-				this.nowPlayingMovies = await Data.Current.GetNowPlayingMoviesAsync ();
-				this.upcomingMovies = await Data.Current.GetUpcomingMoviesAsync ();
-				this.favorites = await Data.Current.GetFavoritesAsync ();
-				var result = new List<MovieCategory> ();
-				result.Add (new MovieCategory ("Top Rated", this.topRatedMovies.Results)); 
-				result.Add (new MovieCategory ("Popular", this.popularMovies.Results));
-				result.Add (new MovieCategory ("Now Playing", this.nowPlayingMovies.Results));
-				result.Add (new MovieCategory ("Upcoming", this.upcomingMovies.Results));
-				result.Add (new MovieCategory ("Your Favorites", this.favorites));
-				tcs.TrySetResult (result);
-			});
-			return tcs.Task;
-		}
-
 		public string GetOpenInYoutubeUri (string key) {
-			return String.Format (StringResources.OpenInYouTubeFormatString, key);
+			return String.Format (SharedConstants.OpenInYouTubeFormatString, key);
 		}
 			
 		/// <summary>
@@ -263,11 +282,12 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 		/// Adds this instance of <see cref="Movie"/> to favorites.
 		/// </summary>
 		/// <param name="movie">Movie.</param>
-		public void AddToFavorites (Movie movie) {
+		private void addToFavorites (Movie movie) {
 			var existing = this.favorites.FirstOrDefault (x => x.Id == movie.Id);
 			if (existing == null) {
 				this.favorites.Add (movie);
-				this.cache.Set <List<Movie>> (StringResources.FavoritesCacheKey, this.favorites);
+				this.cache.Set <List<Movie>> (SharedConstants.FavoritesCacheKey, this.favorites);
+				this.OnFavoriteChanged (new FavoriteChangedEventArgs(movie, true));
 			}
 		}
 
@@ -279,7 +299,8 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 			var existing = this.favorites.FirstOrDefault (x => x.Id == movie.Id);
 			if (existing != null) {
 				this.favorites.Remove (existing);
-				this.cache.Set <List<Movie>>(StringResources.FavoritesCacheKey, this.favorites);
+				this.cache.Set <List<Movie>>(SharedConstants.FavoritesCacheKey, this.favorites);
+				this.OnFavoriteChanged (new FavoriteChangedEventArgs(movie, false));
 			}
 		}
 
@@ -290,7 +311,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 		public Task<List<Movie>> GetFavoritesAsync () {
 			var tcs = new TaskCompletionSource<List<Movie>> ();
 			Task.Factory.StartNew (() => {
-				var cacheKey = StringResources.FavoritesCacheKey;
+				var cacheKey = SharedConstants.FavoritesCacheKey;
 				if (this.favorites != null){
 					tcs.TrySetResult(this.favorites);
 				} else if (cache.ContainsKey(cacheKey)) {
@@ -303,6 +324,23 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared
 			});
 			return tcs.Task;
 		}
+
+		/// <summary>
+		/// Adds to or removes the specified <see cref="Movie"/> from the user's Favorites list
+		/// </summary>
+		/// <param name="movie">Movie.</param>
+		public void ToggleFavorite (Movie movie) {
+			if (this.IsInFavorites (movie))
+				this.RemoveFromFavorites (movie);
+			else
+				this.addToFavorites (movie);
+		}
         #endregion
+
+		public event EventHandler<FavoriteChangedEventArgs> FavoriteChanged;
+		protected void OnFavoriteChanged (FavoriteChangedEventArgs args) {
+			if (this.FavoriteChanged != null)
+				this.FavoriteChanged (this, args);
+		}
 	}
 }

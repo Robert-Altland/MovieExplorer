@@ -12,24 +12,29 @@ using Android.Views.Animations;
 using com.interactiverobert.prototypes.movieexplorer.shared;
 using UniversalImageLoader.Core;
 using com.interactiverobert.prototypes.movieexplorer.droid.lib;
+using com.interactiverobert.prototypes.movieexplorer.shared.Entities.Configuration;
+using com.interactiverobert.prototypes.movieexplorer.shared.Entities.Movie;
+using com.interactiverobert.prototypes.movieexplorer.shared.Services;
+using System.Linq;
 
 namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 {
 	public class MovieRecyclerViewAdapter : RecyclerView.Adapter
 	{
 		#region Private fields
-		private INotifyDataSetChangedReceiver receiver;
 		private ConfigurationResponse configuration;
 		private readonly List<Movie> movies;
 		private Activity context;
+		private bool isFavorites;
 		#endregion
 
 		#region Constructor
-		public MovieRecyclerViewAdapter(INotifyDataSetChangedReceiver receiver, Activity context, List<Movie> items, ConfigurationResponse configuration) : base() {
-			this.receiver = receiver;
+		public MovieRecyclerViewAdapter(Activity context, List<Movie> items, ConfigurationResponse configuration, bool isFavorites) : base() {
+			this.isFavorites = isFavorites;
 			this.context = context;
 			this.configuration = configuration;
 			this.movies = items;
+
 		}
 		#endregion
 
@@ -58,19 +63,38 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 			viewHolder.SelectedIndicator.Alpha = 0.0f;
 			viewHolder.HighlightIndicator.Alpha = 0.0f;
 		}
+			
+		public override void OnAttachedToRecyclerView (RecyclerView recyclerView) {
+			base.OnAttachedToRecyclerView (recyclerView);
 
+			Data.Current.FavoriteChanged += this.favoriteChanged;
+		}
 
-		#endregion
+		public override void OnDetachedFromRecyclerView (RecyclerView recyclerView) {
+			base.OnDetachedFromRecyclerView (recyclerView);
 
-		#region Public methods
-		public void Reload (List<Movie> newMovies) {
-//			this.movies.Clear ();
-//			this.movies.AddRange (newMovies.ToArray ());
-			this.NotifyDataSetChanged ();
+			Data.Current.FavoriteChanged -= this.favoriteChanged;
 		}
 		#endregion
 
 		#region Event handlers
+		private int getIndexOfFavorite(int favoriteId) {
+			var existing = this.movies.FirstOrDefault (x => x.Id == favoriteId);
+			if (existing != null)
+				return this.movies.IndexOf (existing);
+			return -1;
+		}
+
+		private void favoriteChanged (object sender, FavoriteChangedEventArgs e) {
+			if (this.isFavorites) {
+				this.NotifyDataSetChanged ();
+			} else {
+				var idx = this.getIndexOfFavorite (e.FavoriteMovie.Id);
+				if (idx >= 0)
+					this.NotifyItemRangeChanged (idx, 1);
+			}
+		}
+
 		private void imgPoster_LongClick (object sender, View.LongClickEventArgs e) {
 			var typedSender = sender as ImageView;
 			var viewHolder = typedSender.Tag as MovieViewHolder;
@@ -78,10 +102,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 				viewHolder.HighlightIndicator.Alpha = 0.6f;
 
 				var selectedMovie = this.movies [viewHolder.AdapterPosition];
-				if (Data.Current.IsInFavorites (selectedMovie))
-					Data.Current.RemoveFromFavorites (selectedMovie);
-				else
-					Data.Current.AddToFavorites (selectedMovie);
+				Data.Current.ToggleFavorite (selectedMovie);
 
 				viewHolder.HighlightIndicator.StartAnimation (new AlphaAnimation (viewHolder.HighlightIndicator.Alpha, 0) {
 					Duration = 300,
@@ -89,9 +110,6 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 					FillAfter = true
 				});
 				viewHolder.FavoriteIndicator.Alpha = Data.Current.IsInFavorites (selectedMovie) ? 1.0f : 0.0f;
-
-				if (this.receiver != null)
-					this.receiver.NotifyDataSetChanged ();
 			}
 		}
 
