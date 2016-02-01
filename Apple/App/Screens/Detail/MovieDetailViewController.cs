@@ -102,18 +102,22 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		public override void WillRotate (UIInterfaceOrientation toInterfaceOrientation, double duration) {
 			base.WillRotate (toInterfaceOrientation, duration);
 
-			if (this.collectionViewSource.GetItemsCount (this.cvSimilarMovies, 0) > 0) {
-				this.scrollIndex = this.cvSimilarMovies.IndexPathsForVisibleItems.First ();
-				UIView.Animate (duration, () => this.cvSimilarMovies.Alpha = 0.0f, null);
+			if (this.collectionViewSource != null) {
+				if (this.collectionViewSource.GetItemsCount (this.cvSimilarMovies, 0) > 0) {
+					this.scrollIndex = this.cvSimilarMovies.IndexPathsForVisibleItems.First ();
+					UIView.Animate (duration, () => this.cvSimilarMovies.Alpha = 0.0f, null);
+				}
 			}
 		}
 
 		public override void DidRotate (UIInterfaceOrientation fromInterfaceOrientation) {
 			base.DidRotate (fromInterfaceOrientation);
 
-			this.updateSimilarMoviesLayout ();
-			this.cvSimilarMovies.ScrollToItem (this.scrollIndex, this.TraitCollection.VerticalSizeClass == UIUserInterfaceSizeClass.Compact ? UICollectionViewScrollPosition.Top : UICollectionViewScrollPosition.Left, false);
-			UIView.Animate (0.3f, () => this.cvSimilarMovies.Alpha = 1.0f, null);
+			if (this.collectionViewSource != null) {
+				this.updateSimilarMoviesLayout ();
+				this.cvSimilarMovies.ScrollToItem (this.scrollIndex, this.TraitCollection.VerticalSizeClass == UIUserInterfaceSizeClass.Compact ? UICollectionViewScrollPosition.Top : UICollectionViewScrollPosition.Left, false);
+				UIView.Animate (0.3f, () => this.cvSimilarMovies.Alpha = 1.0f, null);
+			}
 		}
 
 		#region IImageUpdated implementation
