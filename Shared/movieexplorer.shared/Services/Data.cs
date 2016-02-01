@@ -26,6 +26,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared.Services
 		private GetMoviesResponse nowPlayingMovies;
 		private GetMoviesResponse upcomingMovies;
 		private List<Movie> favorites;
+		private List<MovieCategory> categories;
 		#endregion
 
 		#region Singleton
@@ -334,6 +335,22 @@ namespace com.interactiverobert.prototypes.movieexplorer.shared.Services
 				this.RemoveFromFavorites (movie);
 			else
 				this.addToFavorites (movie);
+		}
+
+		public Task<List<Movie>> SearchAsync (string searchText) {
+			var tcs = new TaskCompletionSource<List<Movie>> ();
+			Task.Factory.StartNew (() => {
+				var result = new List<Movie>();
+				foreach (var category in this.categories) {
+					var matches = category.Movies.FindAll (x => x.Title.Contains (searchText)).ToList();
+					foreach (var match in matches) {
+						if (result.Find (x => x.Id == match.Id) == null)
+							result.Add (match);
+					}
+				}
+				tcs.TrySetResult (result);
+			});
+			return tcs.Task;
 		}
         #endregion
 

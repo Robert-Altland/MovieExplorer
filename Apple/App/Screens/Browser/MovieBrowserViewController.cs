@@ -11,12 +11,14 @@ using com.interactiverobert.prototypes.movieexplorer.shared.Entities.Movie;
 using com.interactiverobert.prototypes.movieexplorer.shared.Services;
 using com.interactiverobert.prototypes.movieexplorer.apple.lib.Resources;
 using com.interactiverobert.prototypes.movieexplorer.apple.lib.Contracts;
+using com.interactiverobert.prototypes.movieexplorer.apple.lib;
 
 namespace com.interactiverobert.prototypes.movieexplorer.apple
 {
-	public partial class MovieBrowserViewController : UIViewController
+	public partial class MovieBrowserViewController : UIViewController, IUISearchResultsUpdating
 	{
 		#region Private fields
+		private UISearchController search;
 		private MovieCategoryTableViewSource tableViewSource;
 		private MovieCollectionViewSource spotlightSource;
 
@@ -43,7 +45,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 					var point = this.longPressRecognizer.LocationOfTouch (0, this.cvSpotlight);
 					var indexPath = this.cvSpotlight.IndexPathForItemAtPoint (point);
 					if (indexPath != null) {
-						var cell = this.cvSpotlight.CellForItem (indexPath) as IMovieCollectionViewCell;
+						var cell = this.cvSpotlight.CellForItem (indexPath) as IMovieCell;
 						if (this.longPressRecognizer.State == UIGestureRecognizerState.Began) {
 							cell.SetHighlighted (true, true);
 						} else if (this.longPressRecognizer.State == UIGestureRecognizerState.Ended) {
@@ -59,6 +61,13 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 				} 
 			});
 			this.cvSpotlight.AddGestureRecognizer (this.longPressRecognizer);
+
+			var searchResults = PresentationUtility.CreateFromStoryboard<SearchResultsTableViewController> ("SearchResults");
+			this.search = new UISearchController (searchResults);
+			this.search.SearchResultsUpdater = this;
+			this.search.DimsBackgroundDuringPresentation = false;
+			this.search.DefinesPresentationContext = true;
+			searchResults.TableView.TableHeaderView = this.search.SearchBar;
 		}
 
 		public override void ViewWillAppear (bool animated) {
@@ -115,6 +124,14 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 			this.cvSpotlight.ReloadData ();
 		}
 		#endregion
+
+		public async void UpdateSearchResultsForSearchController (UISearchController searchController) {
+			var tableController = this.search.SearchResultsController as SearchResultsTableViewController;
+			tableController.Configuration = this.configuration;
+			var result = await Data.Current.SearchAsync (searchController.SearchBar.Text);
+			tableController.Reload (result);
+
+		}
 
 		#region Rotation handling
 		public override void DidRotate (UIInterfaceOrientation fromInterfaceOrientation) {

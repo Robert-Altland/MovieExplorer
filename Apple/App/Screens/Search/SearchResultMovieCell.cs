@@ -1,44 +1,35 @@
 using System;
 
-using MonoTouch.Dialog.Utilities;
+using PatridgeDev;
+using CoreGraphics;
 using Foundation;
 using UIKit;
+using MonoTouch.Dialog.Utilities;
 
-using com.interactiverobert.prototypes.movieexplorer.shared.Entities.Configuration;
-using com.interactiverobert.prototypes.movieexplorer.shared.Entities.Movie;
-using com.interactiverobert.prototypes.movieexplorer.shared.Services;
 using com.interactiverobert.prototypes.movieexplorer.apple.lib.Contracts;
+using com.interactiverobert.prototypes.movieexplorer.shared.Entities.Movie;
+using com.interactiverobert.prototypes.movieexplorer.shared.Entities.Configuration;
+using com.interactiverobert.prototypes.movieexplorer.shared.Services;
 
 namespace com.interactiverobert.prototypes.movieexplorer.apple
 {
-	public partial class MovieCollectionViewCell : UICollectionViewCell, IImageUpdated, IMovieCell
+	public partial class SearchResultMovieCell : UITableViewCell, IImageUpdated, IMovieCell
 	{
 		#region Private fields
 		private ConfigurationResponse configuration;
 		private Movie data;
+		private PDRatingView ratingView;
 		#endregion
 
-		#region Constructor
-		public MovieCollectionViewCell (IntPtr handle) : base (handle) {
+		public SearchResultMovieCell (IntPtr handle) : base (handle) {
 			
 		}
-		#endregion
-
-		#region UICollectionViewCell overrides
-		public override void PrepareForReuse () {
-			this.data = null;
-			this.configuration = null;
-			this.Selected = false;
-
-			base.PrepareForReuse ();
-		}
-		#endregion
 
 		#region IImageUpdated implementation
 		public void UpdatedImage (Uri uri) {
 			if (this.data != null && this.configuration != null) {
-				var imageUri = new Uri (String.Concat (this.configuration.Images.BaseUrl, this.configuration.Images.PosterSizes [0], this.data.PosterPath));
-				if (String.Compare(imageUri.AbsoluteUri.ToLower(), uri.AbsoluteUri.ToLower()) == 0)
+				var spotlightUri = new Uri (String.Concat (this.configuration.Images.BaseUrl, this.configuration.Images.BackdropSizes [0], this.data.BackdropPath));
+				if (String.Compare(spotlightUri.AbsoluteUri.ToLower(), uri.AbsoluteUri.ToLower()) == 0)
 					this.imgPoster.Image = ImageLoader.DefaultRequestImage (uri, this);
 			}
 		}
@@ -71,8 +62,16 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 			this.configuration = configuration;
 
 			this.vwFavoriteIndicator.Hidden = !Data.Current.IsInFavorites (this.data);
-			var imageUri = new Uri (String.Concat (this.configuration.Images.BaseUrl, this.configuration.Images.PosterSizes [0], this.data.PosterPath));
-			this.imgPoster.Image = ImageLoader.DefaultRequestImage (imageUri, this);
+			var spotlightUri = new Uri (String.Concat (this.configuration.Images.BaseUrl, this.configuration.Images.BackdropSizes [0], this.data.BackdropPath));
+			this.imgPoster.Image = ImageLoader.DefaultRequestImage (spotlightUri, this);
+
+			this.lblTitle.Text = this.data.Title;
+			this.lblReleaseDate.Text = String.Format ("Released in {0}", this.data.ReleaseDate.Year);
+
+			var ratingConfig = new RatingConfig(UIImage.FromBundle("star_empty"), UIImage.FromBundle("star_filled"), UIImage.FromBundle("star_filled"));
+			var averageRating = (decimal)this.data.VoteAverage / 2;
+			this.ratingView = new PDRatingView (new CGRect(0f, 0f, this.vwVoteAverageContainer.Frame.Width, this.vwVoteAverageContainer.Frame.Height), ratingConfig, averageRating);
+			this.vwVoteAverageContainer.Add(this.ratingView);
 		}
 		#endregion
 	}

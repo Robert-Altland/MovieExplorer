@@ -48,7 +48,8 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Imaging\ImageManipulation.cs" />
-    <Compile Include="Contracts\IMovieCollectionViewCell.cs" />
+    <Compile Include="Contracts\IMovieCell.cs" />
+    <Compile Include="PresentationUtility.cs" />
   </ItemGroup>
   <Import Project="..\..\Shared\movieexplorer.linked\movieexplorer.linked.projitems" Label="Shared" Condition="Exists('..\..\Shared\movieexplorer.linked\movieexplorer.linked.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
