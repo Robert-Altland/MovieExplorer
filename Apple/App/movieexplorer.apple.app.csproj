@@ -166,12 +166,21 @@
     <Compile Include="Screens\Browser\SpotlightMovieCollectionViewCell.designer.cs">
       <DependentUpon>SpotlightMovieCollectionViewCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Screens\Search\SearchResultMovieCell.cs" />
+    <Compile Include="Screens\Search\SearchResultMovieCell.designer.cs">
+      <DependentUpon>SearchResultMovieCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Search\SearchResultsTableViewController.cs" />
+    <Compile Include="Screens\Search\SearchResultsTableViewController.designer.cs">
+      <DependentUpon>SearchResultsTableViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Screens\" />
     <Folder Include="Screens\Detail\" />
     <Folder Include="Screens\Browser\" />
+    <Folder Include="Screens\Search\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Icon.png" />

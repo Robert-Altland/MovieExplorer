@@ -13,7 +13,7 @@ using com.interactiverobert.prototypes.movieexplorer.apple.lib.Contracts;
 
 namespace com.interactiverobert.prototypes.movieexplorer.apple
 {
-	public partial class SpotlightMovieCollectionViewCell : UICollectionViewCell, IImageUpdated, IMovieCollectionViewCell
+	public partial class SpotlightMovieCollectionViewCell : UICollectionViewCell, IImageUpdated, IMovieCell
 	{
 		#region Private fields
 		private ConfigurationResponse configuration;

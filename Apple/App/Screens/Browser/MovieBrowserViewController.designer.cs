@@ -24,6 +24,9 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		[Outlet]
 		UIKit.NSLayoutConstraint tblMovieCategoriesHeightConstraint { get; set; }
 
+		[Outlet]
+		UIKit.UIView vwSearchBar { get; set; }
+
 		[Action ("btnSearch_Click:")]
 		partial void btnSearch_Click (Foundation.NSObject sender);
 		
@@ -32,6 +35,11 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 			if (cvSpotlight != null) {
 				cvSpotlight.Dispose ();
 				cvSpotlight = null;
+			}
+
+			if (cvSpotlightHeightConstraint != null) {
+				cvSpotlightHeightConstraint.Dispose ();
+				cvSpotlightHeightConstraint = null;
 			}
 
 			if (tblMovieCategories != null) {
@@ -44,9 +52,9 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 				tblMovieCategoriesHeightConstraint = null;
 			}
 
-			if (cvSpotlightHeightConstraint != null) {
-				cvSpotlightHeightConstraint.Dispose ();
-				cvSpotlightHeightConstraint = null;
+			if (vwSearchBar != null) {
+				vwSearchBar.Dispose ();
+				vwSearchBar = null;
 			}
 		}
 	}

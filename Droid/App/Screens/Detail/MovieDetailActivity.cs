@@ -114,13 +114,17 @@ namespace com.interactiverobert.prototypes.movieexplorer.droid.app
 						this.vwSimilarMovies.Alpha = 0;
 //						this.vwSimilarMovies.StartAnimation (new AlphaAnimation (vwSimilarMovies.Alpha, 0.0f) { Duration = 300, FillAfter = true });
 					else {
+						var orientation = this.Resources.Configuration.Orientation; //.getResources().getConfiguration().orientation
+						this.movieList.SetLayoutManager (new LinearLayoutManager (this, orientation == Android.Content.Res.Orientation.Portrait ? LinearLayoutManager.Horizontal : LinearLayoutManager.Vertical, false));
+						if (orientation == Android.Content.Res.Orientation.Landscape)
+							this.vwSimilarMovies.SetBackgroundColor (Android.Graphics.Color.Argb (20, 0, 0, 0));
+						else
+							this.vwSimilarMovies.SetBackgroundColor (Android.Graphics.Color.Argb (0, 0, 0, 0));
+
 						if (this.movieAdapter == null) {
 							this.movieAdapter = new MovieRecyclerViewAdapter (this, this.similarMovies, this.configuration, false);
 							this.movieList.SetAdapter (this.movieAdapter);
-						} else {
-							Console.WriteLine ("MovieDetailActivity similar movies adapter != null");
-//							this.movieAdapter.Reload (this.similarMovies);
-						}
+						} 
 						this.vwSimilarMovies.Alpha = 1;
 //						this.vwSimilarMovies.StartAnimation (new AlphaAnimation (this.vwSimilarMovies.Alpha, 1.0f) { Duration = 300, FillAfter = true });
 					}

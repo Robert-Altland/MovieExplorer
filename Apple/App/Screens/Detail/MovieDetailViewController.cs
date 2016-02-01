@@ -27,6 +27,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 	{
 		#region Shared members
 		private static Dictionary<int, UIImage> backgroundImages = new Dictionary<int, UIImage>();
+		private static UIColor solidBlackTwentyPercentScreen = UIColor.FromRGBA (0, 0, 0, 0.2f);
 		#endregion
 
 		#region Private fields
@@ -97,6 +98,24 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		}
 		#endregion
 
+		private NSIndexPath scrollIndex;
+		public override void WillRotate (UIInterfaceOrientation toInterfaceOrientation, double duration) {
+			base.WillRotate (toInterfaceOrientation, duration);
+
+			if (this.collectionViewSource.GetItemsCount (this.cvSimilarMovies, 0) > 0) {
+				this.scrollIndex = this.cvSimilarMovies.IndexPathsForVisibleItems.First ();
+				UIView.Animate (duration, () => this.cvSimilarMovies.Alpha = 0.0f, null);
+			}
+		}
+
+		public override void DidRotate (UIInterfaceOrientation fromInterfaceOrientation) {
+			base.DidRotate (fromInterfaceOrientation);
+
+			this.updateSimilarMoviesLayout ();
+			this.cvSimilarMovies.ScrollToItem (this.scrollIndex, this.TraitCollection.VerticalSizeClass == UIUserInterfaceSizeClass.Compact ? UICollectionViewScrollPosition.Top : UICollectionViewScrollPosition.Left, false);
+			UIView.Animate (0.3f, () => this.cvSimilarMovies.Alpha = 1.0f, null);
+		}
+
 		#region IImageUpdated implementation
 		public void UpdatedImage (Uri uri) {
 			if (this.MovieDetail != null && this.Configuration != null) {
@@ -113,6 +132,22 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		#endregion
 
 		#region Private methods
+		private void updateSimilarMoviesLayout () {
+			var flowLayout = this.cvSimilarMovies.CollectionViewLayout as UICollectionViewFlowLayout;
+			if (this.TraitCollection.VerticalSizeClass == UIUserInterfaceSizeClass.Compact) {
+				if (this.InterfaceOrientation.IsLandscape ()) {
+					this.vwSimilarMovies.BackgroundColor = solidBlackTwentyPercentScreen;
+					flowLayout.ScrollDirection = UICollectionViewScrollDirection.Vertical;
+				} else {
+					this.vwSimilarMovies.BackgroundColor = UIColor.Clear;
+					flowLayout.ScrollDirection = UICollectionViewScrollDirection.Horizontal;
+				}
+			} else {
+				this.vwSimilarMovies.BackgroundColor = UIColor.Clear;
+				flowLayout.ScrollDirection = UICollectionViewScrollDirection.Horizontal;
+			}
+		}
+
 		private async void updateLayout () {
 			this.btnPlay.Alpha = 0;
 			this.vwSimilarMovies.Alpha = 0;
@@ -140,6 +175,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 							this.collectionViewSource.Reload (this.similarMovies);
 							this.cvSimilarMovies.ReloadData ();
 						}
+						this.updateSimilarMoviesLayout ();
 						UIView.Animate(0.3f, () => this.vwSimilarMovies.Alpha = 1.0f);
 					}
 				}
@@ -253,7 +289,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 			
 		private void collectionViewSource_MovieSelected (object sender, Movie e) {
 			this.stopPulseBackground ();
-			MovieDetailViewController newDetail = UIStoryboard.FromName ("Main", null).InstantiateViewController ("MovieDetail") as MovieDetailViewController;
+			var newDetail = PresentationUtility.CreateFromStoryboard<MovieDetailViewController> ("MovieDetail");
 			newDetail.MovieDetail = e;
 			newDetail.Configuration = this.Configuration;
 			this.NavigationController.PushViewController (newDetail, true);

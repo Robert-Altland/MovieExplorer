@@ -96,12 +96,15 @@
     <AndroidResource Include="Resources\layout\movie_category_item.axml" />
     <AndroidResource Include="Resources\drawable\btnClose.png" />
     <AndroidResource Include="Resources\drawable\btnSearch.png" />
+    <AndroidResource Include="Resources\layout-land\movie_detail.axml" />
+    <AndroidResource Include="Resources\layout-land\splash.axml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
     <Folder Include="Screens\" />
     <Folder Include="Screens\Detail\" />
     <Folder Include="Screens\Browser\" />
+    <Folder Include="Resources\layout-land\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ItemGroup>

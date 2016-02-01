@@ -43,7 +43,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 		#region UICollectionViewSource overrides
 		public override UICollectionViewCell GetCell (UICollectionView collectionView, NSIndexPath indexPath) {
 			var dataItem = this.movies [indexPath.Row];
-			var cell = collectionView.DequeueReusableCell (AppleConstants.MovieCollectionViewCell_ReuseKey, indexPath) as IMovieCollectionViewCell;
+			var cell = collectionView.DequeueReusableCell (AppleConstants.MovieCollectionViewCell_ReuseKey, indexPath) as IMovieCell;
 			cell.Bind (dataItem, this.configuration);
 			return cell as UICollectionViewCell;
 		}
@@ -60,7 +60,7 @@ namespace com.interactiverobert.prototypes.movieexplorer.apple
 
 		public override void ItemSelected (UICollectionView collectionView, NSIndexPath indexPath) {
 			if (this.movies != null && this.movies.Count > indexPath.Row) {
-				var cell = this.GetCell (collectionView, indexPath) as IMovieCollectionViewCell;
+				var cell = this.GetCell (collectionView, indexPath) as IMovieCell;
 				cell.SetSelected (true, true, () => {
 					collectionView.CollectionViewLayout.InvalidateLayout ();
 					this.OnMovieSelected (this.movies [indexPath.Row]);
