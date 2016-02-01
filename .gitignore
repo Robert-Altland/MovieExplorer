@@ -20,3 +20,6 @@
 **/*.userprefs/**
 
 /Tests/.vs/
+
+/Project Artifacts/Store Assets/Reference/
+/.vs/
